@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="plantilla/templateasignador::head">
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+
+<body class="body1">
+	<header th:replace="plantilla/templateasignador :: header"></header>
+
+	<main class="main">
+
+	<div class="container">
+	    <div class="row g-2">
+			<div class="col-11">
+				<div class="mb-0">
+				  <div class="col-sm-10">
+				     <h2 th:text="${titulo}"></h2> 		
+				  </div>
+				</div>								
+			</div>
+			<div class="col-1">
+				<div class="mb-3"> 
+				  <div class="col-sm-10">
+				    <img th:src="@{/img/escritorio.ico}">		
+				  </div>
+				</div>								
+			</div>
+		</div>
+		<div id="botones" class="container">
+		 <div class="row">
+			<div class="col-sm-3 ">
+	   				 <br>
+	     			 <a class="btn btn-outline-info" th:href="@{/views/asignador/equipoasignacion/create}" role="button"
+	     			    title="Añadir una nueva asignación a un equipo">Añadir Asignación a Equipo
+						<img class="img-responsive center-box" th:src="@{/img/equi3.ico}">
+					 </a>
+	   			 </div>
+	   			 <div class="col-sm-3 ">
+	   				 <br>
+	      			 <a id="excel" class="btn btn-outline-success" th:href="@{/views/admin/Equipoasignacion/(format=xlsx)}" 
+	      			 title="Generar archivo Excel">Descargar Reporte Gobal
+						<img class="img-responsive center-box" th:src="@{/img/equi3.ico}">
+					</a>
+	   			 </div>
+			</div>			
+		</div><br>
+		
+		<div class="table-responsive">
+		    <table id="" class="display table table-hover table-bordered" style="width: 100%">
+		 		<thead class="thead bg-info text-white">
+		 			<tr>
+		 				<th>ID</th>
+		 				<th>Nombre Equipo</th>
+		 				<th>Serie Equipo</th>
+		 				<th>Fecha de Asignación</th>
+		 				<th>Fecha Final de Asignación</th>
+		 				<th>Nombre Funcionario </th>
+		 				<th>Apellido Funcionario </th>
+		 				<th>Cédula Funcionario </th>
+		 				<th>Observaciones</th>
+		 				<th>Editar</th>
+		 				<th>Imprimir</th>
+		 				
+		 			</tr>
+		 		</thead>
+			 	<tbody class="tbody">		 	
+		 			<tr th:each="asignacion:${listadoasignacionequipo}"> 
+			 			<td th:text="${asignacion.idasignacionequipo}"></td>
+			 			<td th:text="${asignacion.idequipo.nombreequipo}"></td>
+			 			<td th:text="${asignacion.idequipo.serie}"></td>
+			 			<td th:text="${#dates.format(asignacion.fechainicio, 'dd/MM/yyyy')}"></td>
+			 			<td th:text="${#dates.format(asignacion.fechafin, 'dd/MM/yyyy')}"></td>
+			 			<td th:text="${asignacion.idusuario.nombres}"></td>
+			 			<td th:text="${asignacion.idusuario.apellidos}"></td>
+			 			<td th:text="${asignacion.idusuario.cedula}"></td>
+			 			<td th:text="${asignacion.observaciones}">
+			 			<td>
+			 			<a class="btn btn-success btn-sm" th:href="@{/views/asignador/equipoasignacion/edit/} + ${asignacion.idasignacionequipo}" th:text="'Editar'"></a>
+			 			</td>
+			 			<td>
+							<a class="btn" id="pdf"
+									th:href="@{'/views/admin/Equipoasignacion/filtrar1/'+ ${asignacion.idasignacionequipo}+'/?format=pdf'}"
+									title="Imprimir" target="_blank"> 
+									<img class="img-responsive center-box" th:src="@{/img/impresora.ico}">
+							</a>
+			 			</td>
+		 			</tr>
+			 			 	
+			 	</tbody>
+			 			 	
+			 </table>
+		
+		</div>
+		
+		<!-- SIN IMPORTANCIA -->
+			<input type="hidden" id="archivos" value="vacio_sdh.pdf">
+			<input type="hidden" id="idequipervalor" value="1">
+			<input type="hidden" id="vacio" value="vacio_sdh.pdf">
+			<input type="hidden" id="idequiper" value="vacio_sdh.pdf">
+			<input type="hidden" id="archivos1" value="vacio_sdh.pdf">
+	
+	
+		
+	</div>
+
+</main>
+
+	<footer th:replace="plantilla/templateasignador :: footer"> </footer>
+
+</body>
+</html>

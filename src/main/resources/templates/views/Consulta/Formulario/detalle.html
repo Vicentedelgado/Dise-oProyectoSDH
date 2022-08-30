@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="plantilla/templatedetalle :: head">
+<meta charset="UTF-8">
+</head>
+<body class="body1">
+	<header th:replace="plantilla/templatedetalle :: header"></header>
+	<main class="main">
+		<div class="container">
+		<!--FORMULARIO PÁGINA-->
+			<div class="card bg-light border-info">
+				<div class="card-header bg-info text-white" th:text="${titulo}"></div>
+				<div class="card-boby" id="cardeditarbody">
+					<div class="form-row">
+						<div class="form-group col-md-4">
+							<ul class="list-group">
+								<li class="list-group-item" th:text="'Bien/Servicio: ' + ${registrodelspi.idactivo.nombre}"></li>
+								<li class="list-group-item" th:text="'SPI: ' + ${registrodelspi.idspi.nombre}"></li>
+								<li class="list-group-item" th:text="'Pertenencia del Ben/Servicio:   ' + ${registrodelspi.idinstitucion.nombre}"></li>
+								<li class="list-group-item" th:text="'Cantidad existente: ' + ${registrodelspi.cantidad}"></li>
+								<li class="list-group-item" th:text="'Cantidad requerida: ' + ${registrodelspi.cantidadrequerida}"></li>
+								<li class="list-group-item" th:text="'Faltante: ' + ${registrodelspi.holguradecantidad}"></li>
+								<li class="list-group-item" th:text="'Estado: ' + ${registrodelspi.estado}"></li>
+								<li class="list-group-item" th:text="'Prioridad: ' + ${registrodelspi.prioridad}"></li> 
+								<li class="list-group-item" th:text="'Acción tomada:  ' + ${registrodelspi.accionrealizada}"></li> 
+								<li class="list-group-item" th:text="'Periodo: ' + ${registrodelspi.periodo}"></li>
+								<li class="list-group-item" th:text="'Fecha de acción: ' + ${#dates.format(registrodelspi.fechaaccion, 'dd/MM/yyyy')}"></li> 
+								<li class="list-group-item" th:text="'Observaciones: ' + ${registrodelspi.observaciones}"></li> 
+							</ul>
+						</div>
+						<div class="form-group col-md-8">
+							<iframe id="iframe" th:alt="${registrodelspi.archivo}" th:src="@{'/VerificableBienes/' + ${registrodelspi.archivo}}" style=" width: 100%; height: 100%;" ></iframe>
+						</div>
+					</div>	
+				</div>
+			</div>
+			
+			<img class="imagenpie" th:src="@{/images/logopie.png}" />
+		</div>	
+	</main>
+	
+	<footer th:replace="plantilla/templatedetalle :: footer"></footer>
+</body>
+</html>

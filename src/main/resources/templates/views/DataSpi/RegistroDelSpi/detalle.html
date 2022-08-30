@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/templatedetalle :: head">
+<meta charset="UTF-8">
+</head>
+<body class="body1">
+	<header th:replace="plantilla/templatedetalle :: header"></header>
+	<main class="main">
+		<div class="container">
+		<!--FORMULARIO PÁGINA-->
+			<div class="card bg-light border-info">
+				<div class="card-header bg-info text-white" th:text="${titulo}"></div>
+				<div class="card-boby" id="cardeditarbody">
+					<div class="form-row">
+						<div class="form-group col-md-4">
+							<ul class="list-group">
+								<li class="list-group-item" th:text="'Bien/Servicio: ' + ${registrodelspi.idactivo.nombre}"></li>
+								<li class="list-group-item" th:text="'SPI: ' + ${registrodelspi.idspi.nombre}"></li>
+								<li class="list-group-item" th:text="'Pertenencia del Ben/Servicio:   ' + ${registrodelspi.idinstitucion.nombre}"></li>
+								<li class="list-group-item" th:text="'Cantidad existente: ' + ${registrodelspi.cantidad}"></li>
+								<li class="list-group-item" th:text="'Cantidad requerida: ' + ${registrodelspi.cantidadrequerida}"></li>
+								<li class="list-group-item" th:text="'Faltante: ' + ${registrodelspi.holguradecantidad}"></li>
+								<li class="list-group-item" th:text="'Estado: ' + ${registrodelspi.estado}"></li>
+								<li class="list-group-item" th:text="'Prioridad: ' + ${registrodelspi.prioridad}"></li> 
+								<li class="list-group-item" th:text="'Acción tomada:  ' + ${registrodelspi.accionrealizada}"></li> 
+								<li class="list-group-item" th:text="'Periodo: ' + ${registrodelspi.periodo}"></li>
+								<li class="list-group-item" th:text="'Fecha de acción: ' + ${#dates.format(registrodelspi.fechaaccion, 'dd/MM/yyyy')}"></li>
+								<li class="list-group-item" th:text="'Verificable: ' + ${registrodelspi.archivo}"></li>  
+								<li class="list-group-item" th:text="'Observaciones: ' + ${registrodelspi.observaciones}"></li>  
+							</ul>
+						</div>
+						<div class="form-group col-md-8">
+							<iframe id="iframe" th:alt="${registrodelspi.archivo}" th:src="@{'/VerificableBienes/' + ${registrodelspi.archivo}}" style=" width: 100%; height: 100%;" ></iframe>
+						</div>
+					</div>	
+				</div>
+			</div><br>
+			<div class="card bg-light border-info" sec:authorize="hasRole('ROLE_ADMIN')">
+				<div class="card-header bg-info text-white" th:text="${titulo1}"></div>
+				<form id="cardeditarbody" th:action="@{/views/DataSpi/RegistroDelSpi/saveedit}" th:object="${registrodelspi}" method="post" enctype="multipart/form-data"
+				class="needs-validation" novalidate>
+				<div class="card-boby" >
+				    <!--FORMULARIO PÁGINA-->
+				    <div class="container" id="cardeditar">
+				    	<div class="form-row">
+						<div class="form-group col-md-6">
+							<div class="form-group row">
+								<input type="hidden" th:field="*{idregistro}"> 
+								<input type="hidden" th:field="*{idactivo}" id="idactivo" class="form-control form-control-sm col-md-7 shadow"> 
+								<input type="hidden" th:field="*{idspi}" id="idspi" class="form-control form-control-sm col-md-7 shadow"> 
+								<label class="col-md-4" for="idinstitucion">Pertenencia bien/servicio:</label> 
+								<select th:field="*{idinstitucion}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" id="idinstitucion" th:errorclass="'form-control alert-danger'" required>
+									<option selected disabled value="">Seleccionar Institución...</option>
+									<option th:each="institucion:${listainstitucion}" th:value="${institucion.idinstitucion}" th:text="${institucion.nombre}"></option>
+								</select>
+								<small class="invalid-feedback col-md-8">Seleccione una institución de pertenencia del bien/servicio!</small>
+								<small class="form-text text-danger col-md-8" th:if="${#fields.hasErrors('idinstitucion')}" th:errors="*{idinstitucion}"></small>
+							</div>
+						</div>
+						<div class="form-group col-md-6"> 
+							<div class="form-group row">
+								<label class="col-md-4" for="estado">Estado:</label>
+								<select th:field="*{estado}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" id="estado" th:errorclass="'form-control alert-danger'" required>
+									<option selected disabled value="">Seleccionar estado...</option>
+									<option th:value="Bueno" th:text="Bueno"></option>
+									<option th:value="Regular" th:text="Regular"></option>
+									<option th:value="Malo" th:text="Malo"></option>
+								</select>
+								<small class="invalid-feedback col-md-8">Seleccione un estado del bien/servicio!</small>
+								<small class="form-text text-danger col-md-8" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></small>
+							</div>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<div class="form-group row">
+								<label class="col-md-4" for="cantidad">Cantidad existente:</label> 
+								<input type="number" th:field="*{cantidad}" class="form-control form-control-sm col-md-7 shadow" id="cantidad"
+									placeholder="Ingrese la cantidad actual del bien" autocomplete="off" th:errorclass="'form-control alert-danger'" required> 
+								<small class="invalid-feedback col-md-8">Ingrese la cantidad actual del bien!</small>
+								<small class="form-text text-danger col-md-8" th:if="${#fields.hasErrors('cantidad')}" th:errors="*{cantidad}"></small>	
+							</div>
+						</div>
+						<div class="form-group col-md-6">
+							<div class="form-group row">
+								<label class="col-md-4" for="cantidadrequerida">Cantidad requerida:</label> 
+									<input type="number" th:field="*{cantidadrequerida}" class="form-control form-control-sm col-md-7 shadow" id="cantidadrequerida"
+									placeholder="Ingrese la cantidad requerida del bien" autocomplete="off"  th:errorclass="'form-control alert-danger'" required>
+								<small class="invalid-feedback col-md-8">Ingrese la cantidad requerida del bien!</small>
+								<small class="form-text text-danger col-md-8" th:if="${#fields.hasErrors('cantidadrequerida')}" th:errors="*{cantidadrequerida}"></small>	
+							</div>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<div class="form-group row">
+								<label class="col-md-4" for="holguradecantidad">Faltante:</label> 
+									<input type="number" th:field="*{holguradecantidad}" class="form-control form-control-sm col-md-7 shadow" id="holguradecantidad"
+									placeholder="Ingrese el desfaz de la cantidad requerida" autocomplete="off"  th:errorclass="'form-control alert-danger'" required>
+								<small class="invalid-feedback col-md-8">Ingrese el desfaz de la cantidad requerida!</small>
+								<small class="form-text text-danger col-md-8" th:if="${#fields.hasErrors('holguradecantidad')}" th:errors="*{holguradecantidad}"></small>	
+							</div>
+						</div>
+						<div class="form-group col-md-6">
+							<div class="form-group row">
+								<label class="col-md-4" for="prioridad">Prioridad:</label> 
+								<select th:field="*{prioridad}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" id="prioridad" th:errorclass="'form-control alert-danger'" required>
+									<option selected disabled value="">Seleccionar prioridad...</option>
+									<option th:value="Baja" th:text="Baja"></option>
+									<option th:value="Media" th:text="Media"></option>
+									<option th:value="Alta" th:text="Alta"></option>
+								</select>
+								<small class="invalid-feedback col-md-8">Seleccione una prioridad del bien/servicio!</small>
+								<small class="form-text text-danger col-md-8" th:if="${#fields.hasErrors('prioridad')}" th:errors="*{prioridad}"></small>	
+							</div>
+						</div>
+					</div>	
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<div class="form-group row">
+								<label class="col-md-4" for="accionrealizada">Avances (acción):</label> 
+								<input type="text" th:field="*{accionrealizada}" class="form-control form-control-sm col-md-7 shadow" id="accionrealizada" 
+								placeholder="Acción tomada sobre el bien o servicio" autocomplete="off" th:errorclass="'form-control alert-danger'" required>
+								<small class="invalid-feedback col-md-8">Acción tomada sobre el bien o servicio!</small>
+								<small class="form-text text-danger col-md-8" th:if="${#fields.hasErrors('accionrealizada')}" th:errors="*{accionrealizada}"></small>	
+							</div>
+						</div>
+						<div class="form-group col-md-6">
+							<div class="form-group row">
+								<label class="col-md-4" for="fechaaccion">Fecha de acción:</label> 
+								<input type="hidden" th:field="*{periodo}" id="periodo" class="form-control form-control-sm col-md-7 shadow"> 
+								<input type="date" th:field="*{fechaaccion}" class="form-control form-control-sm col-md-7 shadow"
+									id="fechaaccion" placeholder="Fecha de acción" th:errorclass="'form-control alert-danger'" required>
+								<small class="invalid-feedback col-md-8">Seleccione una fecha!</small>
+								<small class="form-text text-danger col-md-8" th:if="${#fields.hasErrors('fechaaccion')}" th:errors="*{fechaaccion}"></small>	
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-2" for="archivo">Verificable:</label>
+						<input type="hidden" th:field="*{archivo}" name="file" class="form-control form-control-sm col-md-7 shadow" id="archivo1" >
+						<input type="file" name="file" class="form-control-file-sm col-md-7 shadow" id="archivo" accept="image/gif,image/jpeg,image/jpg,image/png,.pdf" lang="es">
+						<small id="smalldetalleres" class="col-md-8">Archivos en formato pdf, jpg y png</small>
+					</div>
+				    <div class="form-group row">
+						<label class="col-md-2" for="observaciones">Observaciones:</label>
+						<textarea th:field="*{observaciones}" class="form-control form-control-sm col-md-7 shadow"
+								id="observaciones" placeholder="Ingrese observaciones sobre el SPI" autocomplete="off" required></textarea> 
+						<small class="invalid-feedback col-md-8">Ingrese Observacines ó "Sin Observaciones"!</small>
+					</div>
+				  </div>					
+			</div>
+				<div class="card-footer bg-info">
+					
+					<input type="submit" class="btn btn-success btn-sm rounded-pill shadow text-right"
+						value="Guardar Cambios" />
+	 		  </div>
+				</form>
+			</div>
+			<img class="imagenpie" th:src="@{/images/logopie.png}" />
+		</div>	
+	</main>
+	
+	<footer th:replace="plantilla/templatedetalle :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="plantilla/templatehome :: head">
+<meta charset="UTF-8">
+<title>Home</title>
+</head>
+<body class="body1">
+	<header th:replace="plantilla/templatehome :: header"></header>
+	<main class="main">
+	<div class="container">
+		<div class="container theme-showcase" role="main">
+			<hr class="featurette-divider">
+			<img th:src="@{/images/sdh1.png}" width="400" height="200" class="center">
+			<form class="form-signin" th:action="@{/login}" method="post">        
+				<h3 class="form-signin-heading text-center">Iniciar Session</h3> 
+				<div class="form-group">
+					<label for="username" class="sr-only">Usuario</label>
+					<input type="text" id="username" name="username" class="form-control form-control-sm col-md shadow" placeholder="Usuario" required autofocus>
+					<label for="password" class="sr-only">Contraseña</label>
+					
+					<input type="password" id="password" name="password"class="form-control form-control-sm col-md shadow" placeholder="Password" required>
+				</div >       
+				
+				<button id="bottonlogin" class="btn btn-info  btn-sm rounded-pill shadow" type="submit">Entrar</button>
+			</form>
+
+		</div> 
+		
+	</div>
+	</main>
+	<footer th:replace="plantilla/templatehome :: footer"></footer>
+</body>
+</html>

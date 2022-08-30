@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head">
+<meta charset="UTF-8">
+<title>Asignador</title>
+<!-- Bootstarp Básico -->
+<link rel="stylesheet" th:href="@{/css/bootstrap5.min.css}">
+
+<!-- Data table css -->
+<link rel="stylesheet" th:href="@{/datatable/DataTables-1.10.21/css/dataTables.bootstrap4.min.css}">
+<link rel="stylesheet" th:href="@{/datatable/DataTables-1.10.21/css/fixedColumns.dataTables.min.css}">
+
+<!-- CSS Básico Estilos-->
+<link rel="stylesheet" th:href="@{/css/estilos.css}">
+
+</head>
+<body>
+	<!-- NAVEGACION -->
+	<header th:fragment="header">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-info shadow-lg" >
+			<div class="container">
+				<a class="navbar-brand" th:href="@{/asignador}"><strong><img class="imagenlogo" th:src="@{/img/sdh.png}" /></strong></a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+					data-bs-target="#navbarNavDropdown"
+					aria-controls="navbarNavDropdown" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			<div class="collapse navbar-collapse" id="navbarNavDropdown">
+				<ul class="navbar-nav">
+					<li class="nav-item ">
+						<a class="nav-link active" th:href="@{/asignador}">INICIO</a>	
+					</li>
+				</ul>
+			</div>
+			</div>
+		</nav>
+		<!-- MENSAJES DE ALERTA -->
+		<div class="container">
+			<div class="alert alert-success alert-dismissible fade show text-success" role="alert" th:if="${success !=null}">
+				<label th:text="${success}"></label>
+			</div>
+			<div class="alert alert-danger alert-dismissible fade show text-danger" role="alert"th:if="${error !=null}">
+				<label th:text="${error}"></label>
+			</div>
+			<div class="alert alert-warning alert-dismissible fade show text-warning" role="alert"th:if="${warning !=null}">
+				<label th:text="${warning}"></label>
+			</div>
+			<div class="alert alert-info alert-dismissible fade show text-info" role="alert"th:if="${info !=null}">
+				<label th:text="${info}"></label>
+			</div>
+		</div>
+	</header>
+
+<!-- CONTENIDO -->
+	<div class="container">
+	
+	
+	
+	</div>
+
+		
+
+	<!-- PIE DE PAGINA -->
+
+	<footer th:fragment="footer">
+
+	<div class="pie">
+	<img th:src="@{/img/piedepagina.png}" width="800" height="120">
+	</div>
+ 
+
+		<!-- Jquery Básico -->
+		<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/bootstrap5.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/ayudaFormInventario.js}" src="../static/js/ayudaFormInventario.js"></script>
+		<!-- Data tabla js -->
+		<script type="text/javascript" th:src="@{/datatable/datatables.min.js}"></script>
+	    <script type="text/javascript" th:src="@{/datatable/main.js}"></script>
+
+	</footer>
+
+
+
+</body>
+</html>

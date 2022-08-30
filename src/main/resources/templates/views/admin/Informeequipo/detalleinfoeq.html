@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="plantilla/templateadmin :: head">
+<meta charset="UTF-8">
+</head>
+<body class="body1">
+	<header th:replace="plantilla/templateadmin :: header"></header>
+	<main class="main">
+		<div class="container">
+		   <!--FORMULARIO PÁGINA-->
+			<div class="card bg-light border-info" >
+					<div class="card-header bg-info text-white" th:text="${titulo}"></div>
+					<div class="card-boby" id="cardeditarbody" style=" width: 100%; height: 720px;">
+						<div class="row g-2">
+							<div class="col-3">
+								<ul class="list-group">
+									<li class="list-group-item" th:text="'ID del equipo: ' + ${informeequipo.idequipo.idequipo}"></li>
+									<li class="list-group-item" th:text="'Fecha Requerimiento: ' + ${#dates.format(informeequipo.fecharequerimiento, 'dd/MM/yyyy')}"></li>
+									<li class="list-group-item" th:text="'Fecha de atención:   ' + ${#dates.format(informeequipo.fechaatencion, 'dd/MM/yyyy')}"></li>
+									<li class="list-group-item" th:text="'Persona encargada: ' + ${informeequipo.personaencargada}"></li>
+									<li class="list-group-item" th:text="'Problemas presentados: ' + ${informeequipo.novedadessolicitud}"></li>
+									<li class="list-group-item" th:text="'Actividades a realizar: ' + ${informeequipo.actividades}"></li>									
+									<li class="list-group-item" th:text="'Conclusiones: ' + ${informeequipo.conclusiones}"></li>
+									<li class="list-group-item" th:text="'Archivo: ' + ${informeequipo.archivos}"></li>
+								</ul>
+							</div>
+						 	<div class="col-9">
+								<iframe id="iframe" th:alt="${informeequipo.archivos}" th:src="@{'/InformesEquipo/' + ${informeequipo.archivos}}" style=" width: 100%; height: 720px;" ></iframe>
+							</div> 
+					</div>
+				</div><br>
+			</div>	
+		</div>
+			
+	</main>
+	
+	<footer th:replace="plantilla/templateadmin :: footer"></footer>
+</body>
+</html>

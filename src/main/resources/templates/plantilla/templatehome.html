@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:frament="head">
+<meta charset="UTF-8">
+<title>SDH BD SPI</title>
+
+<!-- Bootstarp Básico -->
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+
+<!-- CSS Básico Estilos-->
+<link rel="stylesheet" th:href="@{/css/home.css}">
+<link rel="stylesheet" th:href="@{/css/signin.css}">
+</head>
+<body>
+	<!--  BARRA DE NAVEGACION-->
+	<header th:fragment="header">
+
+		<nav class="navbar navbar-expand-lg navbar-dark bg-info shadow-lg" >
+			<div class="container">
+				<a class="navbar-brand" th:href="@{/}"><img class="imagenlogo" th:src="@{/images/sdh.png}" /></a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarSupportedContent"
+					aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarSupportedContent" aria-label="breadcrumb">
+				
+					<ul class="navbar-nav mr-auto " >
+						<!-- <li class="nav-item active breadcrumb-item" aria-label="breadcrumb">
+						<a class="nav-link" th:href="@{/home}">INICIO<span class="sr-only">(current)</span>
+						</a></li> -->
+						<!-- <li class="nav-item breadcrumb-item" aria-label="breadcrumb"><a class="nav-link" th:href="@{/views/Formulario/}">FORMULARIO</a></li> -->
+					</ul>
+					<ul class="navbar-nav ml-auto " >
+						<li sec:authorize="!isAuthenticated()" class="nav-item breadcrumb-item" aria-label="breadcrumb">
+							<a class="btn btn-outline-dark shadow"  th:href="@{/login}">log in</a>
+						</li>
+						<li class="dropdown">
+						  <a class="btn btn-outline-dark dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+						    <span sec:authentication="name"></span >
+						  </a>
+						
+						  <div class="dropdown-menu" sec:authorize="isAuthenticated()">
+						    <a class="dropdown-item" href="#">Cambiar contraseña</a>
+						    <form th:action="@{/logout}" method="post">
+						    	<button class="dropdown-item" type="submit">Cerrar sesión</button >
+						    </form >
+						  </div>
+						</li>
+						
+					</ul>	
+				</div>	
+			</div>
+		</nav>
+		<!-- MENSAJES DE ALERTA -->
+		<div class="container">
+			<div class="alert alert-success alert-dismissible fade show text-success" role="alert" th:if="${success !=null}">
+				<label th:text="${success}"></label>
+			</div>
+			<div class="alert alert-danger alert-dismissible fade show text-danger" role="alert"th:if="${error !=null}">
+				<label th:text="${error}"></label>
+			</div>
+			<div class="alert alert-warning alert-dismissible fade show text-warning" role="alert"th:if="${warning !=null}">
+				<label th:text="${warning}"></label>
+			</div>
+			<div class="alert alert-info alert-dismissible fade show text-info" role="alert"th:if="${info !=null}">
+				<label th:text="${info}"></label>
+			</div>
+		</div>
+	</header>
+	<!-- CONTENIDO -->
+	<div class="container"></div>
+	<!-- PIE DE PAGINA -->
+	<footer th:fragment="footer" class="bg-info text-center text-dark fixed-bottom">
+
+		<div class="container">
+			<p>Base-DatosSPI &copy; -SDH-2020</p>
+		</div>
+		<!-- Jquery Básico -->
+		<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/home.js}" src="../static/js/home.js"></script>
+	</footer>
+
+</body>
+</html>

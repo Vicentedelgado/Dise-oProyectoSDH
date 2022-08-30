@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="plantilla/templateconsulta :: head">
+<meta charset="UTF-8">
+<title>Recurso Humano</title>
+</head>
+<body class="body1">
+	<header th:replace="plantilla/templateconsulta :: header"></header>
+	<main class="main">
+		<div class="container">
+			<h1 th:text="${titulo}"></h1>
+		</div>
+		<!--  BOTONES-->
+		<div id="botones" class="container" >
+			<!-- Button modal -->
+			<a class="btn btn-info btn-sm rounded-pill text-white shadow" th:href="@{/dataspi_consulta}"
+				th:text="'Home consulta'" title="Regresar página principal">
+			</a>
+			<a class="btn btn-primary btn-sm rounded-pill text-white shadow" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"
+			     th:text="'Filtrar por SPI'" title="Buscar Funcionarios por SPI">
+			  </a>
+			  
+			<div class="collapse" id="collapseExample">
+			  <div class="card card-body bg-transparent border-0">
+			    <form th:action="@{/views/Consulta/RRHH/listaporspi/}" method="get" id="filtrarform" class="needs-validation" novalidate>
+					<div class="form-row">
+						<div class="form-group col-md-3">
+							<div class="form-group row">
+								<label class="col-md-3" for="idzona1">Zona:</label> 
+								<select class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" required="required" th:value="${zona.idzona}" name="idzona1" id="idzona1">
+									<option selected disabled value="" > Seleccionar zona...</option>
+									<option th:each="zona:${listazona}" th:value="${zona.idzona}" th:text="${zona.nombre}"></option>
+								</select>
+								<small class="invalid-feedback col-md-8">Seleccionar una zona!</small>
+							</div>
+						</div>
+						<div class="form-group col-md-4">
+							<div class="form-group row">
+								<label class="col-md-2" for="idspi1">SPI:</label> 
+								<select class="custom-select custom-select-sm form-control form-control-sm col-md-8 shadow" name="idspi1" id="idspi1" required>
+									<option selected disabled value="" >Seleccionar SPI...</option>
+								</select>
+								<small id="invalidfiltrar" class="invalid-feedback col-md-10">No puede estar vacío Seleccionar un SPI!</small>
+							</div>			
+						</div>
+						<div class="form-group col-md-3">
+							<div class="form-group row">
+								<input type="hidden" id="baseURL" th:value="@{/views/Consulta/RRHH/listaporspi/}">
+								<input type="submit" id="filtrar" class="btn btn-info  btn-sm rounded-pill shadow"  title="Filtra información de un SPI" th:value="filtrar">
+							</div>
+						</div>		
+					</div>
+				</form>
+			  </div>
+			</div>
+			<!-- Button excel --> 
+			<a id="excel" class="float-right" th:href="@{/views/Consulta/RRHH/(format=xlsx)}" title="Generar archivo Excel"> 
+				<svg
+					width="2.3em" height="2.3em" viewBox="0 0 16 16" class="bi bi-file-earmark-spreadsheet-fill text-success" fill="currentColor">
+					<path fill-rule="evenodd" d="M2 3a2 2 0 0 1 2-2h5.293a1 1 0 0 1 .707.293L13.707 5a1 1 0 0 1 .293.707V13a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3zm7 2V2l4 4h-3a1 1 0 0 1-1-1zM3 8v1h2v2H3v1h2v2h1v-2h3v2h1v-2h3v-1h-3V9h3V8H3zm3 3V9h3v2H6z" />
+				</svg>
+			</a>
+			<!-- Button pdf -->
+			<a  id="pdf" class="float-right" th:href="@{/views/Consulta/RRHH/(format=pdf)}" title="Exportar a Pdf e Imprimir" target="black"> 
+				<svg width="2.3em" height="2.3em" viewBox="0 0 16 16" class="bi bi-file-earmark-text-fill text-danger" fill="currentColor">
+					<path fill-rule="evenodd" d="M2 3a2 2 0 0 1 2-2h5.293a1 1 0 0 1 .707.293L13.707 5a1 1 0 0 1 .293.707V13a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3zm7 2V2l4 4h-3a1 1 0 0 1-1-1zM4.5 8a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z" />
+				</svg>
+			</a>
+		</div>
+		<br>
+		<!-- TABLAS RRHH-->
+		<div class="container">
+			<div class="accordion" id="accordionExample">
+				<div class="card" >
+					<div class="card-header" id="headingOne">
+						<h2 class="mb-0">
+							<button class="btn btn-link btn-block" type="button" data-toggle="collapse" data-target="#collapseOne"
+								aria-expanded="true" aria-controls="collapseOne">
+								<h4 class="text-info text-center">Zona 1
+								<th:block th:with="elegirzona1=${listarrhh1[0]}">
+								 	<a id="pdf1" th:href="@{'/views/Consulta/RRHH/listaporzona/'+ ${elegirzona1.idzona.idzona} + '/?format=pdf'}" title="Exportar a Pdf e imprimir" target="black">
+										<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-file-earmark-fill float-right text-danger" viewBox="0 0 16 16">
+										   <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3z"/>
+										</svg>
+									</a>
+								</th:block>	
+								</h4>
+							</button>
+						</h2>
+					</div>
+					<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+						<div class="card-body bg-secondary">
+							<div class="table-responsive">
+								<table id="" class="display nowrap table table-bordered table-striped table-hover" style="width: 100%">
+									<thead class="thead bg-info text-white">
+										<tr>
+											<th class="ocultarcolunma" scope="col">ID</th>
+											<th scope="col">N° Funcionario</th>
+											<th scope="col">Nombres</th>
+											<th scope="col">Apellidos</th>
+											<th scope="col">Cédula</th>
+											<th scope="col">SPI</th>
+											<th scope="col">Cargo</th>
+											<th scope="col">Estado</th>
+											<th scope="col">Modalidad de trabajo</th>
+											<th scope="col">Unidad</th>
+											<th scope="col">Número telefónico</th>
+											<th scope="col">Email</th>
+											<th scope="col">Dirección de domicilio</th>
+										</tr>
+									</thead>
+									<tbody class="tbody">
+										<tr th:each="item:${listarrhh1}">
+											<th class="ocultarcolunma" scope="row" th:text="${item.idusuario}"></th>
+											<td>
+												<div align="center">
+													<a  class="btn btn-info btn-sm shadow" th:text="${item.idusuario}" title="ID" target="black"></a> 		
+												</div>
+											</td>
+											<td th:text="${item.nombres}"></td>
+											<td th:text="${item.apellidos}"></td>
+											<td th:text="${item.cedula}"></td>
+											<td th:text="${item.idspi.nombre}"></td>
+											<td th:text="${item.cargo}"></td>
+											<td th:text="${item.estado}"></td>
+											<td th:text="${item.idmodalidad.nombre}"></td>
+											<td th:text="${item.idunidad.nombre}"></td>
+											<td th:text="${item.telefono}"></td>
+											<td th:text="${item.email}"></td>
+											<td th:text="${item.direccion}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header" id="headingTwo">
+						<h2 class="mb-0">
+							<button class="btn btn-link btn-block collapsed" type="button" data-toggle="collapse"
+								data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+								<h4 class="text-info text-center">Zona 2
+								<th:block th:with="elegirzona2=${listarrhh2[0]}">
+								 	<a id="pdf1" th:href="@{'/views/Consulta/RRHH/listaporzona/'+ ${elegirzona2.idzona.idzona} + '/?format=pdf'}" title="Exportar a Pdf e imprimir" target="black">
+										<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-file-earmark-fill float-right text-danger" viewBox="0 0 16 16">
+										   <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3z"/>
+										</svg>
+									</a>
+								</th:block>		 
+								</h4>
+							</button>
+						</h2>
+					</div>
+					<div id="collapseTwo" class="collapse show"
+						aria-labelledby="headingTwo" data-parent="#accordionExample">
+						<div class="card-body bg-secondary">
+							<div class="table-responsive">
+								<table id="" class="display nowrap table table-bordered table-striped table-hover" style="width: 100%">
+									<thead class="thead bg-info text-white">
+										<tr>
+											<th class="ocultarcolunma" scope="col">ID</th>
+											<th scope="col">N° Funcionario</th>
+											<th scope="col">Nombres</th>
+											<th scope="col">Apellidos</th>
+											<th scope="col">Cédula</th>
+											<th scope="col">SPI</th>
+											<th scope="col">Cargo</th>
+											<th scope="col">Estado</th>
+											<th scope="col">Modalidad de trabajo</th>
+											<th scope="col">Unidad</th>
+											<th scope="col">Número telefónico</th>
+											<th scope="col">Email</th>
+											<th scope="col">Dirección de domicilio</th>
+										</tr>
+									</thead>
+									<tbody class="tbody">
+										<tr th:each="item:${listarrhh2}">
+											<th class="ocultarcolunma" scope="row"th:text="${item.idusuario}"></th>
+											<td>
+												<div align="center">
+													<a  class="btn btn-info btn-sm shadow" th:text="${item.idusuario}" title="ID" target="black"></a> 		
+												</div>
+											</td>
+											<td th:text="${item.nombres}"></td>
+											<td th:text="${item.apellidos}"></td>
+											<td th:text="${item.cedula}"></td>
+											<td th:text="${item.idspi.nombre}"></td>
+											<td th:text="${item.cargo}"></td>
+											<td th:text="${item.estado}"></td>
+											<td th:text="${item.idmodalidad.nombre}"></td>
+											<td th:text="${item.idunidad.nombre}"></td>
+											<td th:text="${item.telefono}"></td>
+											<td th:text="${item.email}"></td>
+											<td th:text="${item.direccion}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header" id="headingThree">
+						<h2 class="mb-0">
+							<button class="btn btn-link btn-block collapsed" type="button" data-toggle="collapse"
+								data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+								<h4 class="text-info text-center">Zona 3
+								<th:block th:with="elegirzona3=${listarrhh3[0]}">
+								 	<a id="pdf1" th:href="@{'/views/Consulta/RRHH/listaporzona/'+ ${elegirzona3.idzona.idzona} + '/?format=pdf'}" title="Exportar a Pdf e imprimir" target="black">
+										<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-file-earmark-fill float-right text-danger" viewBox="0 0 16 16">
+										   <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3z"/>
+										</svg>
+									</a>
+								</th:block>
+								</h4>
+							</button>
+						</h2>
+					</div>
+					<div id="collapseThree" class="collapse show"
+						aria-labelledby="headingThree" data-parent="#accordionExample">
+						<div class="card-body bg-secondary">
+							<div class="table-responsive">
+								<table id="" class="display nowrap table table-bordered table-striped table-hover" style="width: 100%">
+									<thead class="thead bg-info text-white">
+										<tr>
+											<th class="ocultarcolunma" scope="col">ID</th>
+											<th scope="col">N° Funcionario</th>
+											<th scope="col">Nombres</th>
+											<th scope="col">Apellidos</th>
+											<th scope="col">Cédula</th>
+											<th scope="col">SPI</th>
+											<th scope="col">Cargo</th>
+											<th scope="col">Estado</th>
+											<th scope="col">Modalidad de trabajo</th>
+											<th scope="col">Unidad</th>
+											<th scope="col">Número telefónico</th>
+											<th scope="col">Email</th>
+											<th scope="col">Dirección de domicilio</th>
+										</tr>
+									</thead>
+									<tbody class="tbody">
+										<tr th:each="item:${listarrhh3}">
+											<th class="ocultarcolunma" scope="row" th:text="${item.idusuario}"></th>
+											<td>
+												<div align="center">
+													<a  class="btn btn-info btn-sm shadow" th:text="${item.idusuario}" title="ID" target="black"></a> 		
+												</div>	
+											</td>
+											<td th:text="${item.nombres}"></td>
+											<td th:text="${item.apellidos}"></td>
+											<td th:text="${item.cedula}"></td>
+											<td th:text="${item.idspi.nombre}"></td>
+											<td th:text="${item.cargo}"></td>
+											<td th:text="${item.estado}"></td>
+											<td th:text="${item.idmodalidad.nombre}"></td>
+											<td th:text="${item.idunidad.nombre}"></td>
+											<td th:text="${item.telefono}"></td>
+											<td th:text="${item.email}"></td>
+											<td th:text="${item.direccion}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header" id="headingFour">
+						<h2 class="mb-0">
+							<button class="btn btn-link btn-block collapsed" type="button" data-toggle="collapse"
+								data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+								<h4 class="text-info text-center">Zona 4
+								<th:block th:with="elegirzona4=${listarrhh4[0]}">
+								 	<a id="pdf1" th:href="@{'/views/Consulta/RRHH/listaporzona/'+ ${elegirzona4.idzona.idzona} + '/?format=pdf'}" title="Exportar a Pdf e imprimir" target="black">
+										<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-file-earmark-fill float-right text-danger" viewBox="0 0 16 16">
+										   <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3z"/>
+										</svg>
+									</a>
+								</th:block>
+								</h4>
+							</button>
+						</h2>
+					</div>
+					<div id="collapseFour" class="collapse show"
+						aria-labelledby="headingFour" data-parent="#accordionExample">
+						<div class="card-body bg-secondary">
+							<div class="table-responsive">
+								<table id="" class="display nowrap table table-bordered table-striped table-hover" style="width: 100%">
+									<thead class="thead bg-info text-white">
+										<tr>
+											<th class="ocultarcolunma" scope="col">ID</th>
+											<th scope="col">N° Funcionario</th>
+											<th scope="col">Nombres</th>
+											<th scope="col">Apellidos</th>
+											<th scope="col">Cédula</th>
+											<th scope="col">SPI</th>
+											<th scope="col">Cargo</th>
+											<th scope="col">Estado</th>
+											<th scope="col">Modalidad de trabajo</th>
+											<th scope="col">Unidad</th>
+											<th scope="col">Número telefónico</th>
+											<th scope="col">Email</th>
+											<th scope="col">Dirección de domicilio</th>
+										</tr>
+									</thead>
+									<tbody class="tbody">
+										<tr th:each="item:${listarrhh4}">
+											<th class="ocultarcolunma" scope="row" th:text="${item.idusuario}"></th>
+											<td>
+												<div align="center">
+													<a  class="btn btn-info btn-sm shadow" th:text="${item.idusuario}" title="ID" target="black"></a> 		
+												</div>	
+											</td>
+											<td th:text="${item.nombres}"></td>
+											<td th:text="${item.apellidos}"></td>
+											<td th:text="${item.cedula}"></td>
+											<td th:text="${item.idspi.nombre}"></td>
+											<td th:text="${item.cargo}"></td>
+											<td th:text="${item.estado}"></td>
+											<td th:text="${item.idmodalidad.nombre}"></td>
+											<td th:text="${item.idunidad.nombre}"></td>
+											<td th:text="${item.telefono}"></td>
+											<td th:text="${item.email}"></td>
+											<td th:text="${item.direccion}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header" id="headingFive">
+						<h2 class="mb-0">
+							<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse"
+								data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+								<h4 class="text-info text-center">Zona 5
+								<th:block th:with="elegirzona5=${listarrhh5[0]}">
+								 	<a id="pdf1" th:href="@{'/views/Consulta/RRHH/listaporzona/'+ ${elegirzona5.idzona.idzona} + '/?format=pdf'}" title="Exportar a Pdf e imprimir" target="black">
+										<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-file-earmark-fill float-right text-danger" viewBox="0 0 16 16">
+										   <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3z"/>
+										</svg>
+									</a>
+								</th:block>
+								</h4>
+							</button>
+						</h2>
+					</div>
+					<div id="collapseFive" class="collapse show"
+						aria-labelledby="headingFive" data-parent="#accordionExample">
+						<div class="card-body bg-secondary">
+							<div class="table-responsive">
+								<table id="" class="display nowrap table table-bordered table-striped table-hover" style="width: 100%">
+									<thead class="thead bg-info text-white">
+										<tr>
+											<th class="ocultarcolunma" scope="col">ID</th>
+											<th scope="col">N° Funcionario</th>
+											<th scope="col">Nombres</th>
+											<th scope="col">Apellidos</th>
+											<th scope="col">Cédula</th>
+											<th scope="col">SPI</th>
+											<th scope="col">Cargo</th>
+											<th scope="col">Estado</th>
+											<th scope="col">Modalidad de trabajo</th>
+											<th scope="col">Unidad</th>
+											<th scope="col">Número telefónico</th>
+											<th scope="col">Email</th>
+											<th scope="col">Dirección de domicilio</th>
+										</tr>
+									</thead>
+									<tbody class="tbody">
+										<tr th:each="item:${listarrhh5}">
+											<th class="ocultarcolunma" scope="row" th:text="${item.idusuario}"></th>
+											<td>
+												<div align="center">
+													<a  class="btn btn-info btn-sm shadow" th:text="${item.idusuario}" title="ID" target="black"></a> 		
+												</div>	
+											</td>
+											<td th:text="${item.nombres}"></td>
+											<td th:text="${item.apellidos}"></td>
+											<td th:text="${item.cedula}"></td>
+											<td th:text="${item.idspi.nombre}"></td>
+											<td th:text="${item.cargo}"></td>
+											<td th:text="${item.estado}"></td>
+											<td th:text="${item.idmodalidad.nombre}"></td>
+											<td th:text="${item.idunidad.nombre}"></td>
+											<td th:text="${item.telefono}"></td>
+											<td th:text="${item.email}"></td>
+											<td th:text="${item.direccion}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header" id="headingSix">
+						<h2 class="mb-0">
+							<button class="btn btn-link btn-block collapsed" type="button" data-toggle="collapse"
+								data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+								<h4 class="text-info text-center">Zona 6
+								<th:block th:with="elegirzona6=${listarrhh6[0]}">
+								 	<a id="pdf1" th:href="@{'/views/Consulta/RRHH/listaporzona/'+ ${elegirzona6.idzona.idzona} + '/?format=pdf'}" title="Exportar a Pdf e imprimir" target="black">
+										<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-file-earmark-fill float-right text-danger" viewBox="0 0 16 16">
+										   <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3z"/>
+										</svg>
+									</a>
+								</th:block>
+								</h4>
+							</button>
+						</h2>
+					</div>
+					<div id="collapseSix" class="collapse show"
+						aria-labelledby="headingSix" data-parent="#accordionExample">
+						<div class="card-body bg-secondary">
+							<div class="table-responsive">
+								<table id="" class="display nowrap table table-bordered table-striped table-hover" style="width: 100%">
+									<thead class="thead bg-info text-white">
+										<tr>
+											<th class="ocultarcolunma" scope="col">ID</th>
+											<th scope="col">N° Funcionario</th>
+											<th scope="col">Nombres</th>
+											<th scope="col">Apellidos</th>
+											<th scope="col">Cédula</th>
+											<th scope="col">SPI</th>
+											<th scope="col">Cargo</th>
+											<th scope="col">Estado</th>
+											<th scope="col">Modalidad de trabajo</th>
+											<th scope="col">Unidad</th>
+											<th scope="col">Número telefónico</th>
+											<th scope="col">Email</th>
+											<th scope="col">Dirección de domicilio</th>
+										</tr>
+									</thead>
+									<tbody class="tbody">
+										<tr th:each="item:${listarrhh6}">
+											<th class="ocultarcolunma" scope="row" th:text="${item.idusuario}"></th>
+											<td>
+												<div align="center">
+													<a  class="btn btn-info btn-sm shadow" th:text="${item.idusuario}" title="ID" target="black"></a> 		
+												</div>	
+											</td>
+											<td th:text="${item.nombres}"></td>
+											<td th:text="${item.apellidos}"></td>
+											<td th:text="${item.cedula}"></td>
+											<td th:text="${item.idspi.nombre}"></td>
+											<td th:text="${item.cargo}"></td>
+											<td th:text="${item.estado}"></td>
+											<td th:text="${item.idmodalidad.nombre}"></td>
+											<td th:text="${item.idunidad.nombre}"></td>
+											<td th:text="${item.telefono}"></td>
+											<td th:text="${item.email}"></td>
+											<td th:text="${item.direccion}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header" id="headingSeven">
+						<h2 class="mb-0">
+							<button class="btn btn-link btn-block collapsed" type="button" data-toggle="collapse"
+								data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+								<h4 class="text-info text-center">Zona 7
+								<th:block th:with="elegirzona7=${listarrhh7[0]}">
+								 	<a id="pdf1" th:href="@{'/views/Consulta/RRHH/listaporzona/'+ ${elegirzona7.idzona.idzona} + '/?format=pdf'}" title="Exportar a Pdf e imprimir" target="black">
+										<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-file-earmark-fill float-right text-danger" viewBox="0 0 16 16">
+										   <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3z"/>
+										</svg>
+									</a>
+								</th:block>
+								</h4>
+							</button>
+						</h2>
+					</div>
+					<div id="collapseSeven" class="collapse show"
+						aria-labelledby="headingSeven" data-parent="#accordionExample">
+						<div class="card-body bg-secondary">
+							<div class="table-responsive">
+								<table id="" class="display nowrap table table-bordered table-striped table-hover" style="width: 100%">
+									<thead class="thead bg-info text-white">
+										<tr>
+											<th class="ocultarcolunma" scope="col">ID</th>
+											<th scope="col">N° Funcionario</th>
+											<th scope="col">Nombres</th>
+											<th scope="col">Apellidos</th>
+											<th scope="col">Cédula</th>
+											<th scope="col">SPI</th>
+											<th scope="col">Cargo</th>
+											<th scope="col">Estado</th>
+											<th scope="col">Modalidad de trabajo</th>
+											<th scope="col">Unidad</th>
+											<th scope="col">Número telefónico</th>
+											<th scope="col">Email</th>
+											<th scope="col">Dirección de domicilio</th>
+										</tr>
+									</thead>
+									<tbody class="tbody">
+										<tr th:each="item:${listarrhh7}">
+											<th class="ocultarcolunma" scope="row" th:text="${item.idusuario}"></th>
+											<td>
+												<div align="center">
+													<a  class="btn btn-info btn-sm shadow" th:text="${item.idusuario}" title="ID" target="black"></a> 		
+												</div>	
+											</td>
+											<td th:text="${item.nombres}"></td>
+											<td th:text="${item.apellidos}"></td>
+											<td th:text="${item.cedula}"></td>
+											<td th:text="${item.idspi.nombre}"></td>
+											<td th:text="${item.cargo}"></td>
+											<td th:text="${item.estado}"></td>
+											<td th:text="${item.idmodalidad.nombre}"></td>
+											<td th:text="${item.idunidad.nombre}"></td>
+											<td th:text="${item.telefono}"></td>
+											<td th:text="${item.email}"></td>
+											<td th:text="${item.direccion}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header" id="headingEight">
+						<h2 class="mb-0">
+							<button class="btn btn-link btn-block collapsed" type="button" data-toggle="collapse"
+								data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+								<h4 class="text-info text-center">Zona 8
+								<th:block th:with="elegirzona8=${listarrhh8[0]}">
+								 	<a id="pdf1" th:href="@{'/views/Consulta/RRHH/listaporzona/'+ ${elegirzona8.idzona.idzona} + '/?format=pdf'}" title="Exportar a Pdf e imprimir" target="black">
+										<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-file-earmark-fill float-right text-danger" viewBox="0 0 16 16">
+										   <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3z"/>
+										</svg>
+									</a>
+								</th:block>
+								</h4>
+							</button>
+						</h2>
+					</div>
+					<div id="collapseEight" class="collapse show"
+						aria-labelledby="headingEight" data-parent="#accordionExample">
+						<div class="card-body bg-secondary">
+							<div class="table-responsive">
+								<table id="" class="display nowrap table table-bordered table-striped table-hover" style="width: 100%">
+									<thead class="thead bg-info text-white">
+										<tr>
+											<th class="ocultarcolunma" scope="col">ID</th>
+											<th scope="col">N° Funcionario</th>
+											<th scope="col">Nombres</th>
+											<th scope="col">Apellidos</th>
+											<th scope="col">Cédula</th>
+											<th scope="col">SPI</th>
+											<th scope="col">Cargo</th>
+											<th scope="col">Estado</th>
+											<th scope="col">Modalidad de trabajo</th>
+											<th scope="col">Unidad</th>
+											<th scope="col">Número telefónico</th>
+											<th scope="col">Email</th>
+											<th scope="col">Dirección de domicilio</th>
+										</tr>
+									</thead>
+									<tbody class="tbody">
+										<tr th:each="item:${listarrhh8}">
+											<th class="ocultarcolunma" scope="row" th:text="${item.idusuario}"></th>
+											<td>
+												<div align="center">
+													<a  class="btn btn-info btn-sm shadow" th:text="${item.idusuario}" title="ID" target="black"></a> 		
+												</div>	
+											</td>
+											<td th:text="${item.nombres}"></td>
+											<td th:text="${item.apellidos}"></td>
+											<td th:text="${item.cedula}"></td>
+											<td th:text="${item.idspi.nombre}"></td>
+											<td th:text="${item.cargo}"></td>
+											<td th:text="${item.estado}"></td>
+											<td th:text="${item.idmodalidad.nombre}"></td>
+											<td th:text="${item.idunidad.nombre}"></td>
+											<td th:text="${item.telefono}"></td>
+											<td th:text="${item.email}"></td>
+											<td th:text="${item.direccion}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header" id="headingNine">
+						<h2 class="mb-0">
+							<button class="btn btn-link btn-block collapsed" type="button" data-toggle="collapse"
+								data-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+								<h4 class="text-info text-center">Zona 9
+								<th:block th:with="elegirzona9=${listarrhh9[0]}">
+								 	<a id="pdf1" th:href="@{'/views/Consulta/RRHH/listaporzona/'+ ${elegirzona9.idzona.idzona} + '/?format=pdf'}" title="Exportar a Pdf e imprimir" target="black">
+										<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-file-earmark-fill float-right text-danger" viewBox="0 0 16 16">
+										   <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3z"/>
+										</svg>
+									</a>
+								</th:block>
+								</h4>
+							</button>
+						</h2>
+					</div>
+					<div id="collapseNine" class="collapse show"
+						aria-labelledby="headingNine" data-parent="#accordionExample">
+						<div class="card-body bg-secondary">
+							<div class="table-responsive">
+								<table id="" class="display nowrap table table-bordered table-striped table-hover" style="width: 100%">
+									<thead class="thead bg-info text-white">
+										<tr>
+											<th class="ocultarcolunma" scope="col">ID</th>
+											<th scope="col">N° Funcionario</th>
+											<th scope="col">Nombres</th>
+											<th scope="col">Apellidos</th>
+											<th scope="col">Cédula</th>
+											<th scope="col">SPI</th>
+											<th scope="col">Cargo</th>
+											<th scope="col">Estado</th>
+											<th scope="col">Modalidad de trabajo</th>
+											<th scope="col">Unidad</th>
+											<th scope="col">Número telefónico</th>
+											<th scope="col">Email</th>
+											<th scope="col">Dirección de domicilio</th>
+										</tr>
+									</thead>
+									<tbody class="tbody">
+										<tr th:each="item:${listarrhh9}">
+											<th class="ocultarcolunma" scope="row" th:text="${item.idusuario}"></th>
+											<td>
+												<div align="center">
+													<a  class="btn btn-info btn-sm shadow" th:text="${item.idusuario}" title="ID" target="black"></a> 		
+												</div>	
+											</td>
+											<td th:text="${item.nombres}"></td>
+											<td th:text="${item.apellidos}"></td>
+											<td th:text="${item.cedula}"></td>
+											<td th:text="${item.idspi.nombre}"></td>
+											<td th:text="${item.cargo}"></td>
+											<td th:text="${item.estado}"></td>
+											<td th:text="${item.idmodalidad.nombre}"></td>
+											<td th:text="${item.idunidad.nombre}"></td>
+											<td th:text="${item.telefono}"></td>
+											<td th:text="${item.email}"></td>
+											<td th:text="${item.direccion}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<img class="imagenpie" th:src="@{/images/logopie.png}" />
+		</div>
+	</main>
+	<footer th:replace="plantilla/templateconsulta:: footer"></footer>
+
+</body>
+</html>

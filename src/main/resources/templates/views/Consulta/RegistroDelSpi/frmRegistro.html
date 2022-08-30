@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="plantilla/template :: head">
+<meta charset="UTF-8">
+</head>
+<body class="body1">
+	<header th:replace="plantilla/template :: header"></header>
+	<main class="main">
+		<div class="container">
+		<!--FORMULARIO PÁGINA-->
+			<div class="card bg-light border-info">
+				<div class="card-header bg-info text-white" th:text="${titulo}"></div>
+				<div class="card-boby">
+					<form th:action="@{/views/DataSpi/RegistroDelSpi/save}" th:object="${registrodelspi}" method="post" enctype="multipart/form-data">
+						<div class="form-group row">
+							<input type="hidden" th:field="*{idregistro}"> 
+							<label class="col-md-2" for="idactivo">Bien:</label> 
+								<select th:field="*{idactivo}" class="form-control form-control-sm col-md-6" id="idactivo">
+								<option th:each="activo:${listaactivo}"
+									th:value="${activo.idactivo}" th:text="${activo.nombre}">
+								</option>
+							</select>
+						</div>
+						<div class="form-group row">
+							<label class="col-md-2" for="idspi">Spi:</label> 
+							<select th:field="*{idspi}" class="form-control form-control-sm col-md-6" id="idspi">
+								<option th:each="spi:${listaspi}" th:value="${spi.idspi}"
+									th:text="${spi.nombre}"></option>
+							</select>
+						</div>
+						<div class="form-group row">
+							<label class="col-md-2" for="idinstitucion">Pertenencia del Bien:</label> 
+							<select th:field="*{idinstitucion}" class="form-control form-control-sm col-md-6" id="idinstitucion">
+								<option th:each="institucion:${listainstitucion}"
+									th:value="${institucion.idinstitucion}"
+									th:text="${institucion.nombre}"></option>
+							</select>
+						</div>
+						<div class="form-group row">
+							<label class="col-md-2" for="estado">Estado del Bien:</label> 
+							<select th:field="*{estado}" class="form-control form-control-sm col-md-6" id="estado">
+								<option th:value="Bueno" th:text="Bueno"></option>
+								<option th:value="Regular" th:text="Regular"></option>
+								<option th:value="Malo" th:text="Malo"></option>
+							</select>
+						</div>
+						<div class="form-group row">
+							<label class="col-md-2" for="cantidad">Cantidad:</label> 
+							<input th:field="*{cantidad}" class="form-control form-control-sm col-md-6" id="cantidad"
+								placeholder="Ingrese la cantidad actual del bien" th:errorclass="'form-control alert-danger'">
+								<small class="form-text text-danger" th:if="${#fields.hasErrors('cantidad')}" th:errors="*{cantidad}"></small>
+						</div>
+						<div class="form-group row">
+							<label class="col-md-2" for="cantidadrequerida">Cantidad Requerida:</label> 
+								<input type="text" th:field="*{cantidadrequerida}" class="form-control form-control-sm col-md-6" id="cantidadrequerida"
+								placeholder="Ingrese la cantidad requeridad del bien">
+								<small class="form-text text-danger" th:if="${#fields.hasErrors('cantidadrequerida')}" th:errors="*{cantidadrequerida}"></small>
+						</div>
+						<div class="form-group row">
+							<label class="col-md-2" for="holguradecantidad">Cantidad Faltante del Bien:</label> 
+								<input type="text" th:field="*{holguradecantidad}" class="form-control form-control-sm col-md-6" id="holguradecantidad"
+								placeholder="Ingrese el desfaz de la cantidad requerida">
+								<small class="form-text text-danger" th:if="${#fields.hasErrors('holguradecantidad')}" th:errors="*{holguradecantidad}"></small>
+						</div>
+	
+						<div class="form-group row">
+							<label class="col-md-2" for="prioridad">Prioridad:</label>
+							<select th:field="*{prioridad}" class="form-control form-control-sm col-md-6" id="prioridad">
+								<option th:value="Bajo" th:text="Bajo"></option>
+								<option th:value="Media" th:text="Media"></option>
+								<option th:value="Alta" th:text="Alta"></option>
+							</select>
+						</div>
+						<div class="form-group row">
+							<label class="col-md-2" for="accionrealizada">Acción Realizada:</label> 
+							<input type="text" th:field="*{accionrealizada}" class="form-control form-control-sm col-md-6" id="accionrealizada" 
+							placeholder="Acción tomada sobre el bien">
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('accionrealizada')}" th:errors="*{accionrealizada}"></small>
+						</div>
+						<div class="form-group row">
+							<label class="col-md-2" for="periodo">Periodo:</label> 
+							<input type="text" th:field="*{periodo}" class="form-control form-control-sm col-md-6" id="periodo"
+								placeholder="Periodo actual">
+								<small class="form-text text-danger" th:if="${#fields.hasErrors('periodo')}" th:errors="*{periodo}"></small>
+						</div>
+						<div class="form-group row">
+							<label class="col-md-2" for="fechaaccion">Fecha de Acción:</label> 
+								<input type="text" th:field="*{fechaaccion}" class="form-control form-control-sm col-md-6" id="fechaaccion"
+								placeholder="Fecha de Acción">
+						</div>
+						<div class="form-group row">
+							<label class="col-md-2" for="archivo">Prueba:</label>
+							<input type="file" name="file" class="form-control form-control-sm col-md-7 shadow" id="archivo" lang="es">
+						</div>
+						<div class="card-footer bg-info">
+							<input type="submit" class="btn btn-info btn-sm rounded-pill"
+								value="Guardar" />
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>	
+	</main>
+	
+	<footer th:replace="plantilla/template :: footer"></footer>
+</body>
+</html>

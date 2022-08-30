@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="plantilla/templateconsultaformulario :: head">
+<meta charset="UTF-8">
+</head>
+<body  class="body1">
+	<header th:replace="plantilla/templateconsultaformulario :: header"></header>
+	<main class="main">
+	<br>
+	<div class="container">
+		<h1 th:text="${titulo}"></h1>
+	</div>
+	<br>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<!-- DATOS GENERALES -->
+				<div class="card border-info mb-3" style="max-width: 40rem;">
+					<div class="card-header" th:text="${titulo1}" align="center"></div>
+					<div class="card-body text-info">
+						<!-- TABLA DE DATOS -->
+						<div class="table-responsive">
+							<table class="table table-bordered table-hover" id="tablaidspi">
+								<tbody class="tbody">
+									<tr th:each="item:${listaspi1}">
+										<th>SPI:</th>
+										<th th:text="${item.nombre}"></th>
+									</tr>
+									<tr th:each="item:${listaspi1}">
+										<th scope="row">Zona:</th>
+										<td th:text="${item.idzona.nombre}"></td>
+									</tr>
+									<tr th:each="item:${listaspi1}">
+										<th scope="row">Dirección:</th>
+										<td th:text="${item.direccion}"></td>
+									</tr>
+									<tr th:each="item:${listaspi1}">
+										<th scope="row">Inmueble propiedad de:</th>
+										<td th:text="${item.idinstitucion.nombre}"></td>
+									</tr>
+									<tr th:each="item:${listaspi1}">
+										<th scope="row">Número de teléfono:</th>
+										<td th:text="${item.telefono}"></td>
+									</tr>
+									<tr th:each="item:${listaspi1}">
+										<th scope="row">Número de oficina:</th>
+										<td th:text="${item.numerodeoficina}"></td>
+									</tr>
+									<tr th:each="item:${listaspi1}">
+										<th scope="row">Convenio:</th>
+										<td th:text="${item.convenio}"></td>
+									</tr>
+									<tr th:each="item:${listaspi1}">
+										<th scope="row">Da servicio a:</th>
+										<td th:text="${item.daservicioa}"></td>
+									</tr>
+									<tr th:each="item:${listaspi1}">
+										<th scope="row">Convenio hasta:</th>
+										<td th:text="${#dates.format(item.fechafinconvenio, 'dd/MM/yyyy')}"></td>
+									</tr>
+									<tr th:each="item:${listaspi1}">
+										<th scope="row">Observaciones:</th>
+										<td th:text="${item.observaciones}"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- BUSQUEDA -->
+			<div class="col-md-6">
+				<img class="formularioimagen" th:src="@{/images/sdh.png}" />
+				<div class="card border-info mb-3" style="max-width: 40rem;">
+					<div class="card-header" th:text="${titulo8}" align="center"></div>
+					<div class="card-body">
+						<!-- BUSQUEDA-->
+						<h4 class="card-title">Filtrar</h4>
+						<form th:action="@{/views/Consulta/Formulario/listaporspi/}" method="get" id="filtrarform" class="needs-validation" novalidate>
+						<div class="row">
+								<div class="col-xs-4">
+									<div class="form-group">
+										<label for="spiporzonaformulario">Zona:</label> 
+										<select class="custom-select custom-select-sm shadow" required="required" th:value="${zona.idzona}" name="spiporzonaformulario" id="spiporzonaformulario">
+											<option selected disabled value="" > Seleccionar zona...</option>
+											<option th:each="zona:${listazona}" th:value="${zona.idzona}" th:text="${zona.nombre}"></option>
+										</select>
+										<div id="invalidfiltrar" class="invalid-feedback col-md-8">Seleccionar una zona!</div>
+									</div>
+								</div>
+								<div class="col-xs-4">
+									<div class="form-row">
+										<div class="form-group col-md-4">
+											<label for="idspi">SPI:</label> 
+											<select class="custom-select custom-select-sm shadow" name="idspi" id="idspi" required>
+												<option selected disabled value="" >Seleccionar SPI...</option>
+											</select>
+											<div id="invalidfiltrar" class="invalid-feedback col-md-10">No puede estar vacío Seleccionar un SPI!</div>
+										</div>
+										<div class="form-group col-md-4">
+											<input type="hidden" id="baseURL" th:value="@{/views/Consulta/Formulario/listaporspi/}">
+										    <input type="submit" id="filtrar" class="btn btn-info  btn-sm rounded-pill shadow"  title="Filtra Consulta de un SPI" th:value="Filtrar">
+										</div>
+									</div>			
+								</div>		
+						</div>
+						</form>
+						<h4 class="card-title">Complementos</h4>
+				    		<div id="botones" th:each="item:${listaspi1}">
+								<a id="pdf" th:href="@{'/views/Consulta/Formulario/listaporspi/'+ ${item.idspi} + '/?format=pdf'}" title="Exportar a Pdf e imprimir" target="black">
+								 <svg width="2.3em" height="2.3em" viewBox="0 0 16 16" class="bi bi-file-earmark-text-fill text-danger" fill="currentColor">
+								  	<path fill-rule="evenodd" d="M2 3a2 2 0 0 1 2-2h5.293a1 1 0 0 1 .707.293L13.707 5a1 1 0 0 1 .293.707V13a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3zm7 2V2l4 4h-3a1 1 0 0 1-1-1zM4.5 8a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z" />
+								</svg>
+								</a> 
+								<a id="excel" th:href="@{'/views/Consulta/Formulario/listaporspi/'+ ${item.idspi} + '/?format=xlsx'}" title="Generar archivo excel">
+								 <svg width="2.3em" height="2.3em" viewBox="0 0 16 16" class="bi bi-file-earmark-spreadsheet-fill text-success" fill="currentColor">
+								  	<path fill-rule="evenodd" d="M2 3a2 2 0 0 1 2-2h5.293a1 1 0 0 1 .707.293L13.707 5a1 1 0 0 1 .293.707V13a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3zm7 2V2l4 4h-3a1 1 0 0 1-1-1zM3 8v1h2v2H3v1h2v2h1v-2h3v2h1v-2h3v-1h-3V9h3V8H3zm3 3V9h3v2H6z" />
+								</svg>
+								</a>
+							</div>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container">	
+		<!-- RECURSO HUMANO -->
+		<div class="card border-info mb-3" style="max-width: 100rem;">
+			<div class="card-header" th:text="${titulo2}" align="center"></div>
+			<div class="card-body text-info">
+				<!-- TABLA DE DATOS -->
+				<div class="table-responsive">
+					<table id="" class="display nowrap table table-bordered table-striped table-hover" style="width: 100%">
+						<thead class="thead table-primary">
+							<tr>
+								<th scope="row">Nombres</th>
+								<th scope="row">Apellidos</th>
+								<th scope="row">Cargo</th>
+								<th scope="row">Teléfonos</th>
+								<th scope="row">Correo electrónico</th>
+								<th scope="row">Dirección</th>
+								<th scope="row">Modalidad de trabajo</th>
+							</tr>
+						</thead>
+						<tbody class="tbody">
+							<tr  th:each="item:${listarrhh}">
+								<td th:text="${item.nombres}"></td>
+								<td th:text="${item.apellidos}"></td>
+								<td th:text="${item.cargo}"></td>
+								<td th:text="${item.telefono}"></td>
+								<td th:text="${item.email}"></td>
+								<td th:text="${item.direccion}"></td>
+								<td th:text="${item.idmodalidad.nombre}"></td>	
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		
+		<!-- CARACTETERISTICAS DEL INMUEBLE -->
+		<div class="card border-info mb-3" style="max-width: 100rem;">
+			<div class="card-header" th:text="${titulo3}" align="center"></div>
+			<div class="card-body text-info">
+				<!--FORMULARIO INSTALACIONES -->
+				<div class="table-responsive">
+						<table id="" class="display nowrap table table-bordered table-hover" style="width: 100%">
+							<thead class="thead table-primary">
+								<tr>
+									<th scope="col" class="ocultarcolunma"> #id</th>
+									<th scope="col" class="tiposactivos">INSTALACIONES</th>
+									<th scope="col">DETALLE</th>
+									<th scope="col">Cantidad Existente</th>
+									<th scope="col">Estado</th>
+									<th scope="col">Prioridad</th>
+									<th scope="col">Cantidad Requerida</th>
+									<th scope="col">Faltante</th>
+									<th scope="col">Avances (Acción)</th>
+									<th scope="col">Fecha</th>
+									<th scope="col">Observaciones</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<tr th:each="item:${listaregistrodelspiinstalaciones}">
+									<th class="ocultarcolunma" th:text="${item.idregistro}"></th>
+									<th scope="row" th:text="${item.idactivo.nombre}"></th>
+									<td>
+										<div align="center">
+											<a th:href="@{/views/Consulta/Formulario/spidetl/} + ${item.idregistro}" title="Ver datalle" target="black">
+												<svg width="1.3em" height="1.3em" viewBox="0 0 16 16" class="bi bi-file-earmark-post-fill text-info" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+												  <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zm-5-.5a.5.5 0 0 0 0 1H7a.5.5 0 0 0 0-1H4.5zm0 3a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.5-.5h-7z"/>
+												</svg>
+											</a> 		
+										</div>
+									</td>
+									<td th:text="${item.cantidad}"></td>
+									<td th:text="${item.estado}"></td>
+									<td th:text="${item.prioridad}"></td>
+									<td th:text="${item.cantidadrequerida}"></td>
+									<td th:text="${item.holguradecantidad}"></td>
+									<td th:text="${item.accionrealizada}"></td>
+									<td th:text="${#dates.format(item.fechaaccion, 'dd/MM/yyyy')}"></td>
+									<td th:text="${item.observaciones}"></td>
+								</tr>
+							</tbody>
+						</table>
+				</div>
+				<!--FORMULARIO INSTRUMENTOS  -->	
+			</div>
+		</div>
+		
+		<!-- REGISTRO DE BIENES-->
+		<div class="card border-info mb-3" style="max-width: 100rem;">
+			<div class="card-header" th:text="${titulo4}" align="center"></div>
+			<div class="card-body text-info">
+			<!--FORMULARIO BIENES -->
+			<div class="table-responsive">
+						<table id="" class="display nowrap table table-bordered table-hover" style="width: 100%">
+							<thead class="thead table-primary">
+								<tr>
+									<th scope="col" class="ocultarcolunma"> #id</th>
+									<th scope="col" class="tiposactivos">BIENES</th>
+									<th scope="col">DETALLE</th>
+									<th scope="col">Cantidad Existente</th>
+									<th scope="col">Estado</th>
+									<th scope="col">Prioridad</th>
+									<th scope="col">Cantidad Requerida</th>
+									<th scope="col">Faltante</th>
+									<th scope="col">Avances (Acción)</th>
+									<th scope="col">Fecha</th>
+									<th scope="col">Observaciones</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<tr th:each="item:${listaregistrodelspibienes}">
+									<td class="ocultarcolunma" th:text="${item.idregistro}"></td>
+									<th scope="row" th:text="${item.idactivo.nombre}"></th>
+									<td>
+										<div align="center">
+											<a th:href="@{/views/Consulta/Formulario/spidetl/} + ${item.idregistro}"  title="Ver datalle" target="black">
+												<svg width="1.3em" height="1.3em" viewBox="0 0 16 16" class="bi bi-file-earmark-post-fill text-info" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+												  <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zm-5-.5a.5.5 0 0 0 0 1H7a.5.5 0 0 0 0-1H4.5zm0 3a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.5-.5h-7z"/>
+												</svg>
+											</a> 		
+										</div>
+									</td>
+									<td th:text="${item.cantidad}"></td>
+									<td th:text="${item.estado}"></td>
+									<td th:text="${item.prioridad}"></td>
+									<td th:text="${item.cantidadrequerida}"></td>
+									<td th:text="${item.holguradecantidad}"></td>
+									<td th:text="${item.accionrealizada}"></td>
+									<td th:text="${#dates.format(item.fechaaccion, 'dd/MM/yyyy')}"></td>
+									<td th:text="${item.observaciones}"></td>
+								</tr>
+							</tbody>
+						</table>
+				</div>
+				<hr class="hr2">
+			<!--FORMULARIO EQUIPOS -->
+			<div class="table-responsive">
+						<table id="" class="display nowrap table table-bordered table-hover" style="width: 100%">
+							<thead class="thead table-primary">
+								<tr>
+									<th scope="col" class="ocultarcolunma"> #id</th>
+									<th scope="col" class="tiposactivos">EQUIPOS</th>
+									<th scope="col">DETALLE</th>
+									<th scope="col">Cantidad Existente</th>
+									<th scope="col">Estado</th>
+									<th scope="col">Prioridad</th>
+									<th scope="col">Cantidad Requerida</th>
+									<th scope="col">Faltante</th>
+									<th scope="col">Avances (Acción)</th>
+									<th scope="col">Fecha</th>
+									<th scope="col">Observaciones</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<tr th:each="item:${listaregistrodelspiequipos}">
+									<td class="ocultarcolunma" th:text="${item.idregistro}"></td>
+									<th scope="row" th:text="${item.idactivo.nombre}"></th>
+									<td>
+										<div align="center">
+											<a th:href="@{/views/Consulta/Formulario/spidetl/} + ${item.idregistro}"  title="Ver datalle" target="black">
+												<svg width="1.3em" height="1.3em" viewBox="0 0 16 16" class="bi bi-file-earmark-post-fill text-info" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+												  <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zm-5-.5a.5.5 0 0 0 0 1H7a.5.5 0 0 0 0-1H4.5zm0 3a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.5-.5h-7z"/>
+												</svg>
+											</a> 		
+										</div>
+									</td>
+									<td th:text="${item.cantidad}"></td>
+									<td th:text="${item.estado}"></td>
+									<td th:text="${item.prioridad}"></td>
+									<td th:text="${item.cantidadrequerida}"></td>
+									<td th:text="${item.holguradecantidad}"></td>
+									<td th:text="${item.accionrealizada}"></td>
+									<td th:text="${#dates.format(item.fechaaccion, 'dd/MM/yyyy')}"></td>
+									<td th:text="${item.observaciones}"></td>
+								</tr>
+							</tbody>
+						</table>
+				</div>
+				<hr class="hr2">		
+			<!--FORMULARIO OTROS -->
+			<div class="table-responsive">
+						<table id="" class="display nowrap table table-bordered table-hover" style="width: 100%">
+							<thead class="thead table-primary">
+								<tr>
+									<th scope="col" class="ocultarcolunma"> #id</th>
+									<th scope="col" class="tiposactivos">OTROS</th>
+									<th scope="col">DETALLE</th>
+									<th scope="col">Cantidad Existente</th>
+									<th scope="col">Estado</th>
+									<th scope="col">Prioridad</th>
+									<th scope="col">Cantidad Requerida</th>
+									<th scope="col">Faltante</th>
+									<th scope="col">Avances (Acción)</th>
+									<th scope="col">Fecha</th>
+									<th scope="col">Observaciones</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<tr th:each="item:${listaregistrodelspiotros}">
+									<td class="ocultarcolunma" th:text="${item.idregistro}"></td>
+									<th scope="row" th:text="${item.idactivo.nombre}"></th>
+									<td>
+										<div align="center">
+											<a th:href="@{/views/Consulta/Formulario/spidetl/} + ${item.idregistro}"  title="Ver datalle" target="black">
+												<svg width="1.3em" height="1.3em" viewBox="0 0 16 16" class="bi bi-file-earmark-post-fill text-info" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+												  <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zm-5-.5a.5.5 0 0 0 0 1H7a.5.5 0 0 0 0-1H4.5zm0 3a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.5-.5h-7z"/>
+												</svg>
+											</a>  		
+										</div>
+									</td>
+									<td th:text="${item.cantidad}"></td>
+									<td th:text="${item.estado}"></td>
+									<td th:text="${item.prioridad}"></td>
+									<td th:text="${item.cantidadrequerida}"></td>
+									<td th:text="${item.holguradecantidad}"></td>
+									<td th:text="${item.accionrealizada}"></td>
+									<td th:text="${#dates.format(item.fechaaccion, 'dd/MM/yyyy')}"></td>
+									<td th:text="${item.observaciones}"></td>
+								</tr>
+							</tbody>
+						</table>
+				</div>
+				<hr class="hr2">
+			<!--FORMULARIO MOVILIDAD -->
+			<div class="table-responsive">
+						<table id="" class="display nowrap table table-bordered table-hover" style="width: 100%">
+							<thead class="thead table-primary">
+								<tr>
+									<th scope="col" class="ocultarcolunma"> #id</th>
+									<th scope="col" class="tiposactivos">MOVILIDAD</th>
+									<th scope="col">DETALLE</th>
+									<th scope="col">Cantidad Existente</th>
+									<th scope="col">Estado</th>
+									<th scope="col">Prioridad</th>
+									<th scope="col">Cantidad Requerida</th>
+									<th scope="col">Faltante</th>
+									<th scope="col">Avances (Acción)</th>
+									<th scope="col">Fecha</th>
+									<th scope="col">Observaciones</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<tr th:each="item:${listaregistrodelspimovilidad}">
+									<td class="ocultarcolunma" th:text="${item.idregistro}"></td>
+									<th scope="row" th:text="${item.idactivo.nombre}"></th>
+									<td>
+										<div align="center">
+											<a th:href="@{/views/Consulta/Formulario/spidetl/} + ${item.idregistro}" title="Ver datalle" target="black">
+												<svg width="1.3em" height="1.3em" viewBox="0 0 16 16" class="bi bi-file-earmark-post-fill text-info" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+												  <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zm-5-.5a.5.5 0 0 0 0 1H7a.5.5 0 0 0 0-1H4.5zm0 3a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.5-.5h-7z"/>
+												</svg>
+											</a>  		
+										</div>
+									</td>
+									<td th:text="${item.cantidad}"></td>
+									<td th:text="${item.estado}"></td>
+									<td th:text="${item.prioridad}"></td>
+									<td th:text="${item.cantidadrequerida}"></td>
+									<td th:text="${item.holguradecantidad}"></td>
+									<td th:text="${item.accionrealizada}"></td>
+									<td th:text="${#dates.format(item.fechaaccion, 'dd/MM/yyyy')}"></td>
+									<td th:text="${item.observaciones}"></td>
+								</tr>
+							</tbody>
+						</table>
+				</div>
+			</div>
+		</div>
+		<!-- CONECTIVIDAD -->
+		<div class="card border-info mb-3" style="max-width: 100rem;">
+			<div class="card-header" th:text="${titulo5}" align="center"></div>
+			<div class="card-body text-info">
+				<!-- FORMULARIO DESCRIPCION -->
+				<div class="table-responsive">
+						<table id="" class="display nowrap table table-bordered table-hover" style="width: 100%">
+							<thead class="thead table-primary">
+								<tr>
+									<th scope="col" class="ocultarcolunma"> #id</th>
+									<th scope="col" class="tiposactivos">CONECTIVIDAD</th>
+									<th scope="col">DETALLE</th>
+									<th scope="col">Cantidad Existente</th>
+									<th scope="col">Estado</th>
+									<th scope="col">Prioridad</th>
+									<th scope="col">Cantidad Requerida</th>
+									<th scope="col">Faltante</th>
+									<th scope="col">Avances (Acción)</th>
+									<th scope="col">Fecha</th>
+									<th scope="col">Observaciones</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<tr th:each="item:${listaregistrodelspiconectividad}">
+									<td class="ocultarcolunma" th:text="${item.idregistro}"></td>
+									<th scope="row" th:text="${item.idactivo.nombre}"></th>
+									<td>
+										<div align="center">
+											<a th:href="@{/views/Consulta/Formulario/spidetl/} + ${item.idregistro}"  title="Ver datalle" target="black">
+												<svg width="1.3em" height="1.3em" viewBox="0 0 16 16" class="bi bi-file-earmark-post-fill text-info" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+												  <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zm-5-.5a.5.5 0 0 0 0 1H7a.5.5 0 0 0 0-1H4.5zm0 3a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.5-.5h-7z"/>
+												</svg>
+											</a>  		
+										</div>
+									</td>
+									<td th:text="${item.cantidad}"></td>
+									<td th:text="${item.estado}"></td>
+									<td th:text="${item.prioridad}"></td>
+									<td th:text="${item.cantidadrequerida}"></td>
+									<td th:text="${item.holguradecantidad}"></td>
+									<td th:text="${item.accionrealizada}"></td>
+									<td th:text="${#dates.format(item.fechaaccion, 'dd/MM/yyyy')}"></td>
+									<td th:text="${item.observaciones}"></td>
+								</tr>
+							</tbody>
+						</table>
+				</div>	
+			</div>
+		</div>
+		<!-- RELACIONAMIENTO CON ACTORES -->
+		<img class="imagenpie" th:src="@{/images/logopie.png}" />
+	</div>	
+	
+	</main>
+	<footer th:replace="plantilla/templateconsultaformulario :: footer"></footer>
+</body>
+</html>

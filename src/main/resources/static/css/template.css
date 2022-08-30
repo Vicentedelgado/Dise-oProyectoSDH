@@ -1,0 +1,174 @@
+@charset "ISO-8859-1";
+
+.body1{
+	font-family: times,serif;
+	margin: 0 auto;
+	background-color:#dbdfe2;
+	background-image: url("/images/color32.png");
+	/* background-image: url("/images/b31.png"); */
+	background-size: cover; 
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+header{
+	position:fixed;
+	left:0;
+	right:0;
+	top:0;
+	z-index:2;
+}
+
+#botones{
+	background-color: #dbdfe2;
+	border-radius: 10px;
+    padding: 1%;
+    position: sticky;
+    top: 56px;
+    z-index: 1;
+}
+.float-right{
+	margin-right: 1%;
+}
+.main{
+	padding-top:5rem;
+	margin-bottom: 100px;
+}
+
+.nav-item a:hover{
+	background:#5ab3c1;
+	transition:all 0.4s linear;	
+	border-radius:10px;
+}
+.alert{
+	text-align: center;
+    font-size: 150%;
+}
+.container{
+	width:100%;
+	max-width:1300px;
+	margin: 0 auto;
+}
+
+.imagenlogo{
+	width: 73px;
+	margin-right: 80px;
+}
+
+.Logoletra{
+	margin-top:50px;
+	margin-left:80px;
+	margin-bottom:10px;
+}
+
+.card-header{
+	background-color:#6cd4ff;
+}
+
+#cardeditar{
+	margin-top: 2%;
+}
+#cardeditarbody{
+	background-color:#D4E6F1;
+}
+.form-text{
+	margin-left: 32%;
+}
+/* //////////////TABLA */
+div.dataTables_wrapper {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.DTFC_LeftBodyWrapper{
+	top: -13px !important;
+}
+
+.DTFC_LeftBodyLiner{
+	overflow-y: hidden !important;
+	width: auto !important;
+}
+.table{
+	border-color:solid 1px #7abaff;
+}
+
+.tbody{
+	background-color:#E2F4FF;
+}
+th, td{
+	border: solid 1px #7abaff;
+}
+
+.modal-body{
+	background-color:#D4E6F1;
+}
+
+.modal-footer{
+	background-color:#d9efdc;
+}
+
+.ocultarcolunma{
+	visibility:collapse;
+	 display: none;
+}
+table .fija{
+	position: sticky;
+	left:0;
+}
+
+.hr2{
+	margin-top: -20px;
+}
+
+/* //////////////*/
+.footer{
+	padding-bottom: 0px;
+}
+
+
+.botonguardar{
+	margin-left:400px
+}
+
+.row .col-xs-4 {
+    margin-left: 10%;
+}
+
+.valid-feedback{
+	margin-left: 32%;
+}
+
+.invalid-feedback{
+	margin-left: 32%;
+}
+
+
+
+.imagenpie{
+	width: 100%;
+    margin-top: 4%;
+}
+
+.imagenmodalsave{
+	width: 100%;
+    margin-top: -20%;
+    margin-bottom: -23%;
+}
+
+#smalldetalleres{
+	margin-left: 16%;
+    color: #057ac1;
+}
+
+#smalldetalleres1{
+	margin-left: 32%;
+    color: #057ac1;
+}
+.page-link{
+	z-index:0 !important;
+}
+#institucionnuevo{
+	text-transform:uppercase;
+}
+
+

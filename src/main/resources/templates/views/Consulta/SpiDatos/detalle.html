@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="plantilla/templatedetalle :: head">
+<meta charset="UTF-8">
+</head>
+<body class="body1">
+	<header th:replace="plantilla/templatedetalle :: header"></header>
+	<main class="main">
+		<div class="container">
+		<!--FORMULARIO PÁGINA-->
+			<div class="card bg-light border-info">
+				<div class="card-header bg-info text-white" th:text="${titulo}"></div>
+				<div class="card-boby" id="cardeditarbody">
+					<div class="form-row">
+						<div class="form-group col-md-4">
+							<ul class="list-group">
+								<li class="list-group-item" th:text="'SPI: ' + ${spidatos.nombre}"></li>
+								<li class="list-group-item" th:text="'Zona: ' + ${spidatos.idzona.nombre}"></li>
+								<li class="list-group-item" th:text="'Institución donde funciona:   ' + ${spidatos.idinstitucion.nombre}"></li>
+								<li class="list-group-item" th:text="'Dirección: ' + ${spidatos.direccion}"></li>
+								<li class="list-group-item" th:text="'Teléfonos: ' + ${spidatos.telefono}"></li>
+								<li class="list-group-item" th:text="'Número de oficina: ' + ${spidatos.numerodeoficina}"></li>
+								<li class="list-group-item" th:text="'Convenio: ' + ${spidatos.convenio}"></li>
+								<li class="list-group-item" th:text="'Convenio hasta: ' + ${#dates.format(spidatos.fechafinconvenio, 'dd/MM/yyyy')}"></li>
+								<li class="list-group-item" th:text="'Da servicio a: ' + ${spidatos.daservicioa}"></li> 
+								<li class="list-group-item" th:text="'Observaciones:  ' + ${spidatos.observaciones}"></li>  
+							</ul>
+						</div>
+						<div class="form-group col-md-8">
+							<iframe id="iframe" th:alt="${spidatos.archivo}" th:src="@{'/VerificableSPI/' + ${spidatos.archivo}}" style=" width: 100%; height: 100%;" ></iframe>
+						</div>
+					</div>	
+				</div>
+			</div>
+			<img class="imagenpie" th:src="@{/images/logopie.png}" />
+		</div>	
+	</main>
+	
+	<footer th:replace="plantilla/templatedetalle :: footer"></footer>
+</body>
+</html>

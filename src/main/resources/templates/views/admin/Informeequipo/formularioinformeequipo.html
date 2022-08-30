@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="plantilla/templateadminForm::head">
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+
+<body class="body1">
+	<header th:replace="plantilla/templateadminForm :: header"></header>
+	<main class="main">
+
+
+		<div class="container">
+
+			<br>
+			<h2 th:text="${titulo}"></h2>
+
+			<br>
+			<div class="card">
+			  <div class="card-header bg-info text-white">
+			    <h4 th:text="'Ingrese aquí las especificaciones del informe del equipo con ID = '+${idequipo}"></h4>
+			  </div>
+			  <div id="cardcard" class="card-body">
+			      <form th:action="@{/views/admin/Informeequipo/save}" th:object="${informeequipo}" method="POST"
+						 enctype="multipart/form-data" class="needs-validation" novalidate>
+						 					 
+						 <div class="row g-3">
+							<div class="col-3">
+								<div class="mb-3">
+								  <label for="fecharequerimiento" class="col-sm-10 col-form-label">Fecha de Requerimiento</label> 
+								  <div class="col-sm-10">
+								   <input type="hidden" th:field="*{idinformeequipo}">
+								   <input type="date" class="form-control form-control-sm shadow" id="fecharequerimiento" th:field="*{fecharequerimiento}" required> 
+									<small class="invalid-feedback col-md-8">Seleccione fecha!</small>		
+								  </div>
+								</div>								
+							</div>
+							<div class="col-3">
+								<div class="mb-3">
+								  <label for="fechaatencion" class="col-sm-10 col-form-label">Fecha de Atención</label> 
+								  <div class="col-sm-10">
+								   <input type="date" class="form-control form-control-sm shadow" id="fechaatencion" th:field="*{fechaatencion}" required>
+								   <small class="invalid-feedback col-md-8">Seleccione fecha!</small>		
+								  </div>
+								</div>								
+							</div>
+							<div class="col-6">
+								<div class="mb-3"> 
+								  <label for="personaencargada" class="col-sm-10 col-form-label">Persona Encargada (técnico que reliza el informe)</label> 
+								  <div class="col-sm-10">
+								   <input type="text" class="form-control form-control-sm shadow" id="personaencargada" th:field="*{personaencargada}" placeholder="Ej. Nombre Apellido" required> 
+								   <small class="form-text text-danger col-md-8" th:if="${#fields.hasErrors('personaencargada')}"
+									   th:errors="*{personaencargada}"></small> 
+								   <small class="invalid-feedback col-md-8">Ingrese una persona a cargo Ej. Nombre Apellido!</small>
+								   
+								   <!-- Input obtener Idequipo -->
+								   <input type="hidden" class="form-control" id="idequipervalor" th:value="${idequipo}">
+								   <input type="hidden" class="form-control" id="idequiper" th:field="*{idequipo}">		
+								  </div>
+								</div>								
+							</div>
+						</div>
+						<div class="row g-3">
+							<div class="col-2"></div>
+							<div class="col-8">
+								<div class="mb-3">
+								  <label for="novedadessolicitud" class="col-sm-8 col-form-label">Problemas Presentados </label> 
+								  <div class="col-sm-10">
+								   <textarea class="form-control shadow" id="novedadessolicitud"
+										th:field="*{novedadessolicitud}" placeholder="Ej. No funciona el teclado" required></textarea> 
+									<small class="form-text text-danger col-md-8"
+										th:if="${#fields.hasErrors('novedadessolicitud')}"
+										th:errors="*{novedadessolicitud}"></small> 
+									<small class="invalid-feedback col-md-8">Ingrese los problemas presentados!</small>		
+								  </div>
+								</div>								
+							</div>
+							<div class="col-2"></div>
+						</div>
+						<div class="row g-3">
+							<div class="col-2"></div>
+							<div class="col-8">
+								<div class="mb-3">
+								  <label for="actividades" class="col-sm-8 col-form-label">Actividades a realizarse </label> 
+								  <div class="col-sm-10">
+								   <textarea class="form-control shadow" id="actividades"
+										th:field="*{actividades}" required placeholder="Ej. Se cambió el teclado"></textarea>
+									<small class="form-text text-danger col-md-8"
+										th:if="${#fields.hasErrors('actividades')}"
+										th:errors="*{actividades}"></small>
+									<small class="invalid-feedback col-md-8">Ingrese las actividades realizadas!</small>		
+								  </div>
+								</div>								
+							</div>
+							<div class="col-2"></div>
+						</div>
+						<div class="row g-3">
+							<div class="col-2"></div>
+							<div class="col-8">
+								<div class="mb-3">
+								  <label for="conclusiones" class="col-sm-8 col-form-label">Conclusiones y Recomendaciones</label> 
+								  <div class="col-sm-10">
+								   <textarea class="form-control shadow" id="conclusiones"
+									th:field="*{conclusiones}" placeholder="Ej. Cuide de no derramar bebidas equipo" required></textarea> 
+									<small class="form-text text-danger col-md-8"
+									th:if="${#fields.hasErrors('conclusiones')}"
+									th:errors="*{conclusiones}"></small>
+									<small class="invalid-feedback col-md-8">Ingrese conclusiones y recomendaciones!</small>		
+								  </div>
+								</div>								
+							</div>
+							<div class="col-2"></div>
+						</div>
+						<div class="row g-3">
+							<div class="col-2"></div>
+							<div class="col-8">
+								<div class="mb-3">
+								  <label for="archivos" class="col-sm-8 col-form-label">Verificable:</label> 
+								  <div class="col-sm-10">							   
+								   <div class="input-group mb-3">
+								      <input type="hidden" value="vacio_sdh.pdf" id="vacio">
+								      <input type="hidden" th:field="*{archivos}" value="vacio_sdh.pdf" name="archivos1" id="archivos1"> 
+									  <input type="file" name="file" class="form-control shadow" id="archivos" accept="image/gif,image/jpeg,image/jpg,image/png,.pdf" lang="es">
+									  <label class="input-group-text" for="archivos">Subir</label>
+									  <small id="smalldetalleres1" class="col-md-8">Archivos en formato pdf, jpg, png y no superior a 6MB</small>
+									</div>	
+								  </div>
+								</div>								
+							</div>
+							<div class="col-2"></div>
+						</div>
+						<div class="row g-3">
+							<div class="col-5"></div>
+							<div class="col-3">
+								<div class="mb-3">
+								  <div class="col-sm-12">
+								   <a class="btn btn-primary shadow" th:href="@{/views/admin/Equipo/}" role="button">Cancelar</a>
+								   &nbsp &nbsp &nbsp
+								   <input type="submit" class="btn btn-success shadow" th:value="Guardar">					   	
+								  </div>
+								</div>								
+							</div>
+							<div class="col-4"></div>
+						</div>							 
+					</form>		
+			  </div>
+			</div>			 				
+		</div>
+	</main>
+	<footer th:replace="plantilla/templateadminForm :: footer"> </footer>
+</body>
+</html>

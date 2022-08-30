@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/template :: head">
+<meta charset="UTF-8">
+</head>
+<body class="body1">
+	<header th:replace="plantilla/template :: header"></header>
+	<main class="main">
+		<div class="container">
+			<h1 th:text="${titulo}"></h1>
+		</div>
+		<div id="botones" class="container">
+			<a class="btn btn-primary btn-sm rounded-pill text-white shadow" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"
+			     th:text="'Zonas'" title="Zonas de los SPI">
+			 </a>
+			 <a class="btn btn-primary btn-sm rounded-pill text-white shadow" data-toggle="collapse" href="#cardinstitucion" role="button" aria-expanded="false" aria-controls="collapseExample"
+			     th:text="'Instituciones'" title="Instituciones Aliadas">
+			  </a>
+			  <a class="btn btn-primary btn-sm rounded-pill text-white shadow" data-toggle="collapse" href="#cardbienes" role="button" aria-expanded="false" aria-controls="collapseExample"
+			     th:text="'Bien/Servicio'" title="Lista de bienes y servicios">
+			  </a>
+			  <a class="btn btn-primary btn-sm rounded-pill text-white shadow" data-toggle="collapse" href="#cardtipos" role="button" aria-expanded="false" aria-controls="collapseExample"
+			     th:text="'Tipos'" title="Tipo de bien o servicio">
+			  </a>
+			  <a class="btn btn-primary btn-sm rounded-pill text-white shadow" data-toggle="collapse" href="#cardunidades" role="button" aria-expanded="false" aria-controls="collapseExample"
+			     th:text="'Unidad'" title="Areas de trabajo de un SPI">
+			  </a>
+			  <a class="btn btn-primary btn-sm rounded-pill text-white shadow" data-toggle="collapse" href="#cardmodalidades" role="button" aria-expanded="false" aria-controls="collapseExample"
+			     th:text="'Modalidad de trabajo'" title="Tipos de contratos de Trabajo">
+			  </a> 	  
+		</div >	
+		<div class="container">
+			
+			<div class="collapse show" id="collapseExample">
+			  <div class="card card-body bg-transparent border-0">
+			    	<h1 th:text="${titulo1}"></h1>
+			    	<div  class="container">
+						<a class="btn btn-info btn-sm rounded-pill text-white shadow"
+						data-toggle="modal" data-target="#savezonaModal"
+						th:text="'Crear nuevo registro de zona'" title="Crear nuevo registro de bien/servicio para un SPI">
+						</a> 
+					</div >
+			    	<div class="table-responsive">
+						<table id="" class="display nowrap table table-bordered table-striped table-hover" style="width: 100%">
+							<thead class="thead bg-info text-white">
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">EDITAR</th>
+									<th scope="col">ELININAR</th>
+									<th scope="col">Zonas</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<tr th:each="item:${listazonas}">
+									<th scope="row" th:text="${item.idzona}"></th> 
+									<td>
+										<div align="center">
+											<a th:href="@{editzona/(idzona=${item.idzona})}" class="editModal4 shadow" title="Editar" target="black">
+												<svg width="1.3em" height="1.3em" viewBox="0 0 16 16"class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+													<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+													<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+												</svg>
+											</a>
+										</div>
+									</td>
+									<td>
+										<a th:href="@{/views/DataSpi/Admin/deletezona/} + ${item.idzona}" title="Eliminar" target="black">
+											<svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16" title="Editar" target="black">
+											  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+											  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+											</svg>
+										</a >
+									</td>
+									<td th:text="${item.nombre}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+			  </div>
+			</div>
+		</div >
+		<div class="container">
+			<div class="collapse show" id="cardinstitucion">
+			  <div class="card card-body bg-transparent border-0">
+			    	<h1 th:text="Institucion"></h1>
+			    	<div  class="container">
+						<a class="btn btn-info btn-sm rounded-pill text-white shadow"
+						data-toggle="modal" data-target="#saveinstitucionModal"
+						th:text="'Crear nuevo registro de Institucion'" title="Crear nuevo registro de bien/servicio para un SPI">
+						</a> 
+					</div >
+			    	<div class="table-responsive">
+						<table id="" class="display nowrap table table-bordered table-striped table-hover" style="width: 100%">
+							<thead class="thead bg-info text-white">
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">EDITAR</th>
+									<th scope="col">ELININAR</th>
+									<th scope="col">Instituciones</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<tr th:each="item:${listainstituciones}">
+									<th scope="row" th:text="${item.idinstitucion}"></th> 
+									<td>
+										<div align="center">
+											<a th:href="@{editinstitucion/(idinstitucion=${item.idinstitucion})}" class="editModal5 shadow" title="Editar" target="black">
+												<svg width="1.3em" height="1.3em" viewBox="0 0 16 16"class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+													<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+													<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+												</svg>
+											</a>
+										</div>
+									</td>
+									<td>
+										<a th:href="@{/views/DataSpi/Admin/deleteinstitucion/} + ${item.idinstitucion}" title="Eliminar" target="black">
+											<svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16" title="Editar" target="black">
+											  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+											  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+											</svg>
+										</a >
+									</td>
+									<td th:text="${item.nombre}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+			  </div>
+			</div>
+		</div >
+		<div class="container">
+			<div class="collapse show" id="cardbienes">
+			  <div class="card card-body bg-transparent border-0">
+			    	<h1 th:text="Bienes"></h1>
+			    	<div  class="container">
+						<a class="btn btn-info btn-sm rounded-pill text-white shadow"
+						data-toggle="modal" data-target="#saveactivoModal"
+						th:text="'Crear nuevo registro Bien/Servicio'" title="Crear nuevo registro de bien/servicio para un SPI">
+						</a> 
+					</div >
+			    	<div class="table-responsive">
+						<table id="" class="display nowrap table table-bordered table-striped table-hover" style="width: 100%">
+							<thead class="thead bg-info text-white">
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">EDITAR</th>
+									<th scope="col">ELININAR</th>
+									<th scope="col">Bienes/servicios</th>
+									<th scope="col">Tipo</th>
+									<th scope="col">Descripción</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<tr th:each="item:${listaactivos}">
+									<th scope="row" th:text="${item.idactivo}"></th> 
+									<td>
+										<div align="center">
+											<a th:href="@{editactivo/(idactivo=${item.idactivo})}" class="editModal6 shadow" title="Editar" target="black">
+												<svg width="1.3em" height="1.3em" viewBox="0 0 16 16"class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+													<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+													<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+												</svg>
+											</a>
+										</div>
+									</td>
+									<td>
+										<a th:href="@{/views/DataSpi/Admin/deleteactivo/} + ${item.idactivo}" title="Eliminar" target="black">
+											<svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16" title="Editar" target="black">
+											  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+											  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+											</svg>
+										</a >
+									</td>
+									<td th:text="${item.nombre}"></td>
+									<td th:text="${item.idtipo.nombre}"></td>
+									<td th:text="${item.descripcion}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+			  </div>
+			</div>
+		</div >
+		<div class="container">
+			<div class="collapse show" id="cardtipos">
+			  <div class="card card-body bg-transparent border-0">
+			    	<h1 th:text="Tipos"></h1>
+			    	<div  class="container">
+						<a class="btn btn-info btn-sm rounded-pill text-white shadow"
+						data-toggle="modal" data-target="#savetipoModal"
+						th:text="'Crear nuevo registro de Tipo'" title="Crear nuevo registro de bien/servicio para un SPI">
+						</a> 
+					</div >
+			    	<div class="table-responsive">
+						<table id="" class="display nowrap table table-bordered table-striped table-hover" style="width: 100%">
+							<thead class="thead bg-info text-white">
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">EDITAR</th>
+									<th scope="col">ELININAR</th>
+									<th scope="col">Tipo de Bien</th>
+									<th scope="col">Descripción</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<tr th:each="item:${listatipos}">
+									<th scope="row" th:text="${item.idtipo}"></th> 
+									<td>
+										<div align="center">
+											<a th:href="@{edittipo/(idtipo=${item.idtipo})}" class="editModal7 shadow" title="Editar" target="black">
+												<svg width="1.3em" height="1.3em" viewBox="0 0 16 16"class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+													<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+													<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+												</svg>
+											</a>
+										</div>
+									</td>
+									<td>
+										<a th:href="@{/views/DataSpi/Admin/deletetipo/} + ${item.idtipo}" title="Eliminar" target="black">
+											<svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16" title="Editar" target="black">
+											  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+											  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+											</svg>
+										</a >
+									</td>
+									<td th:text="${item.nombre}"></td>
+									<td th:text="${item.descripcion}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+			  </div>
+			</div>
+		</div >
+		<div class="container">
+			<div class="collapse show" id="cardunidades">
+			  <div class="card card-body bg-transparent border-0">
+			    	<h1 th:text="Unidades"></h1>
+			    	<div  class="container">
+						<a class="btn btn-info btn-sm rounded-pill text-white shadow"
+						data-toggle="modal" data-target="#saveunidadModal"
+						th:text="'Crear nuevo registro de Unidad'" title="Crear nuevo registro de bien/servicio para un SPI">
+						</a> 
+					</div >
+			    	<div class="table-responsive">
+						<table id="" class="display nowrap table table-bordered table-striped table-hover" style="width: 100%">
+							<thead class="thead bg-info text-white">
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">EDITAR</th>
+									<th scope="col">ELININAR</th>
+									<th scope="col">Unidades</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<tr th:each="item:${listaunidades}">
+									<th scope="row" th:text="${item.idunidad}"></th> 
+									<td>
+										<div align="center">
+											<a th:href="@{editunidad/(idunidad=${item.idunidad})}" class="editModal8 shadow" title="Editar" target="black">
+												<svg width="1.3em" height="1.3em" viewBox="0 0 16 16"class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+													<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+													<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+												</svg>
+											</a>
+										</div>
+									</td>
+									<td>
+										<a th:href="@{/views/DataSpi/Admin/deleteunidad/} + ${item.idunidad}" title="Eliminar" target="black">
+											<svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16" title="Editar" target="black">
+											  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+											  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+											</svg>
+										</a>
+									</td>
+									<td th:text="${item.nombre}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+			  </div>
+			</div>
+		</div >
+		<div class="container">
+			<div class="collapse show" id="cardmodalidades">
+			  <div class="card card-body bg-transparent border-0">
+			    	<h1 th:text="Modalidades"></h1>
+			    	<div  class="container">
+						<a class="btn btn-info btn-sm rounded-pill text-white shadow"
+						data-toggle="modal" data-target="#savemodalidadModal"
+						th:text="'Crear nuevo registro de Modalidad'" title="Crear nuevo registro de bien/servicio para un SPI">
+						</a> 
+					</div >
+			    	<div class="table-responsive">
+						<table id="" class="display nowrap table table-bordered table-striped table-hover" style="width: 100%">
+							<thead class="thead bg-info text-white">
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">EDITAR</th>
+									<th scope="col">ELININAR</th>
+									<th scope="col">Modalidades</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<tr th:each="item:${listamodalidades}">
+									<th scope="row" th:text="${item.idmodalidad}"></th> 
+									<td>
+										<div align="center">
+											<a th:href="@{editmodalidad/(idmodalidad=${item.idmodalidad})}" class="editModal9 shadow" title="Editar" target="black">
+												<svg width="1.3em" height="1.3em" viewBox="0 0 16 16"class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+													<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+													<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+												</svg>
+											</a>
+										</div>
+									</td>
+									<td>
+										<a th:href="@{/views/DataSpi/Admin/deletemodalidad/} + ${item.idmodalidad}" title="Eliminar" target="black">
+											<svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16" title="Editar" target="black">
+											  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+											  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+											</svg>
+										</a >
+									</td>
+									<td th:text="${item.nombre}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+			  </div>
+			</div>
+		</div >
+		<!-- FORMULARIO MODALES GUARDAR-->
+		<div class="container">
+			<div class="guardar">
+				<form th:action="@{/views/DataSpi/Admin/savezona}" th:object="${zona}" method="post" 
+				class="needs-validation" novalidate>
+					<div class="modal fade" id="savezonaModal" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header bg-info  text-white">
+									<img class="imagenlogo" th:src="@{/images/sdh.png}" />
+									<h5 class="modal-title" th:text="'Formulario: Añadir Zona'" id="exampleModalLabel"></h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<!-- FORMULARIO MODAL-->
+									<div class="form-group row">
+										<label class="col-md-4" for="zonanombre1">Nombre:</label>
+										<input type="hidden" th:field="*{idzona}" id="idzona1"name="idzona1">
+										<input type="text" th:field="*{nombre}" id="zonanombre1" name="zonanombre1" class="form-control form-control-sm col-md-7 shadow" required>
+										<small class="invalid-feedback col-md-8">Agregue una zona!</small>
+									</div>
+									<div class="modal-footer bg-info">
+										<button type="button" class="btn btn-primary btn-sm rounded-pill shadow" data-dismiss="modal">Cancelar</button>
+										<input type="submit" class="btn btn-success btn-sm rounded-pill shadow" value="Guardar" />
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+				<form th:action="@{/views/DataSpi/Admin/saveinstitucion}" th:object="${institucion}" method="post" 
+				class="needs-validation" novalidate>
+					<div class="modal fade" id="saveinstitucionModal" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header bg-info  text-white">
+									<img class="imagenlogo" th:src="@{/images/sdh.png}" />
+									<h5 class="modal-title" th:text="'Formulario: Añadir Institución'" id="exampleModalLabel"></h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<!-- FORMULARIO MODAL-->
+									<div class="form-group row">
+										<label class="col-md-4" for="institucionnombre1">Nombre:</label>
+										<input type="hidden" th:field="*{idinstitucion}" id="idinstitucion1"name="idinstitucion1">
+										<input type="text" th:field="*{nombre}" id="institucionnombre1" class="form-control form-control-sm col-md-7 shadow" name="institucionnombre1" required>
+										<small class="invalid-feedback col-md-8">Agregue una institucion!</small>
+									</div>
+									<div class="modal-footer bg-info">
+										<button type="button" class="btn btn-primary btn-sm rounded-pill shadow" data-dismiss="modal">Cancelar</button>
+										<input type="submit" class="btn btn-success btn-sm rounded-pill shadow" value="Guardar cambios" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+				
+				<form th:action="@{/views/DataSpi/Admin/saveactivo}" th:object="${activo}" method="post" 
+				class="needs-validation" novalidate>
+					<div class="modal fade" id="saveactivoModal" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header bg-info  text-white">
+									<img class="imagenlogo" th:src="@{/images/sdh.png}" />
+									<h5 class="modal-title" th:text="'Formulario: Añadir Bien/Servicio'" id="exampleModalLabel"></h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<!-- FORMULARIO MODAL-->
+									<div class="form-group row">
+										<label class="col-md-4" for="activonombre1">Nombre:</label>
+										<input type="hidden" th:field="*{idactivo}" id="idactivo1"name="idactivo1">
+										<input type="text" th:field="*{nombre}" id="activonombre1" class="form-control form-control-sm col-md-7 shadow" name="activonombre1" required>
+										<small class="invalid-feedback col-md-8">Agregue un activo!</small>
+									</div>
+									<div class="form-group row col-md-4">
+										<labelclass="col-md-4" for="activotipo1">Tipo:</label>
+										<select th:field="*{idtipo}"class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow"  name="activotipo1" id="activotipo1" required >
+											<option selected disabled value="">Seleccionar tipo...</option>
+											<option th:each="tipo:${listatipos}" th:value="${tipo.idtipo}" th:text="${tipo.nombre}"></option>
+										</select>
+										<small class="invalid-feedback col-md-8">Agregue un activo!</small>
+									</div>
+									<div class="form-group row">
+										<label class="col-md-4" for="descripcion1">Descripcion:</label>
+										<input type="text" th:field="*{descripcion}" id="descripcion1" class="form-control form-control-sm col-md-7 shadow" name="descripcion1" required>
+										<small class="invalid-feedback col-md-8">Agregue una descipción!</small>
+									</div>
+									
+									<div class="modal-footer bg-info">
+										<button type="button" class="btn btn-primary btn-sm rounded-pill shadow" data-dismiss="modal">Cancelar</button>
+										<input type="submit" class="btn btn-success btn-sm rounded-pill shadow" value="Guardar cambios" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+				
+				<form th:action="@{/views/DataSpi/Admin/savetipo}" th:object="${tipo}" method="post" 
+				class="needs-validation" novalidate>
+					<div class="modal fade" id="savetipoModal" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header bg-info  text-white">
+									<img class="imagenlogo" th:src="@{/images/sdh.png}" />
+									<h5 class="modal-title" th:text="'Formulario: Añadir Tipo'" id="exampleModalLabel"></h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<!-- FORMULARIO MODAL-->
+									<div class="form-group row">
+										<label class="col-md-4" for="tiponombre1">Nombre:</label>
+										<input type="hidden" th:field="*{idtipo}" id="idtipo1"name="idtipo1">
+										<input type="text" th:field="*{nombre}" id="tiponombre1" class="form-control form-control-sm col-md-7 shadow" name="tiponombre1" required>
+										<small class="invalid-feedback col-md-8">Agregue una zona!</small>
+									</div>
+									<div class="form-group row">
+										<label class="col-md-4" for="descripciont1">Descripcion:</label>
+										<input type="text" th:field="*{descripcion}" id="descripciont1" class="form-control form-control-sm col-md-7 shadow" name="descripciont1" required>
+										<small class="invalid-feedback col-md-8">Agregue una descipción!</small>
+									</div>
+									<div class="modal-footer bg-info">
+										<button type="button" class="btn btn-primary btn-sm rounded-pill shadow" data-dismiss="modal">Cancelar</button>
+										<input type="submit" class="btn btn-success btn-sm rounded-pill shadow" value="Guardar cambios" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+				
+				<form th:action="@{/views/DataSpi/Admin/saveunidad}" th:object="${unidad}" method="post" 
+				class="needs-validation" novalidate>
+					<div class="modal fade" id="saveunidadModal" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header bg-info  text-white">
+									<img class="imagenlogo" th:src="@{/images/sdh.png}" />
+									<h5 class="modal-title" th:text="'Formulario: Añadir Unidad'" id="exampleModalLabel"></h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<!-- FORMULARIO MODAL-->
+									<div class="form-group row">
+										<label class="col-md-4" for="unidadnombre1">Nombre:</label>
+										<input type="hidden" th:field="*{idunidad}" id="idunidad1"name="idunidad1">
+										<input type="text" th:field="*{nombre}" id="unidadnombre1" class="form-control form-control-sm col-md-7 shadow" name="unidadnombre1" required>
+										<small class="invalid-feedback col-md-8">Agregue una unidad!</small>
+									</div>
+									<div class="modal-footer bg-info">
+										<button type="button" class="btn btn-primary btn-sm rounded-pill shadow" data-dismiss="modal">Cancelar</button>
+										<input type="submit" class="btn btn-success btn-sm rounded-pill shadow" value="Guardar cambios" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+				
+				<form th:action="@{/views/DataSpi/Admin/savemodalidad}" th:object="${modalidad}" method="post" 
+				class="needs-validation" novalidate>
+					<div class="modal fade" id="savemodalidadModal" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header bg-info  text-white">
+									<img class="imagenlogo" th:src="@{/images/sdh.png}" />
+									<h5 class="modal-title" th:text="'Formulario: Añadir Modalidad'" id="exampleModalLabel"></h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<!-- FORMULARIO MODAL-->
+									<div class="form-group row">
+										<label class="col-md-4" for="modalidadnombre1">Nombre:</label>
+										<input type="hidden" th:field="*{idmodalidad}" id="idmodalidad1"name="idmodalidad1">
+										<input type="text" th:field="*{nombre}" id="modalidadnombre1" class="form-control form-control-sm col-md-7 shadow" name="modalidadnombre1">
+										<small class="invalid-feedback col-md-8">Agregue una zona!</small>
+									</div>
+									<div class="modal-footer bg-info">
+										<button type="button" class="btn btn-primary btn-sm rounded-pill shadow" data-dismiss="modal">Cancelar</button>
+										<input type="submit" class="btn btn-success btn-sm rounded-pill shadow" value="Guardar cambios" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div >
+		</div >
+		<!-- FORMULARIO MODALES EDITAR-->
+		<div class="container">
+			<div class="editar">
+				<form th:action="@{/views/DataSpi/Admin/savezona}" th:object="${zona}" method="post" 
+				class="needs-validation" novalidate>
+					<div class="modal fade" id="editarModal4" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header bg-info  text-white">
+									<img class="imagenlogo" th:src="@{/images/sdh.png}" />
+									<h5 class="modal-title" th:text="'Formulario: Editar Zona'" id="exampleModalLabel"></h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<!-- FORMULARIO MODAL-->
+									<div class="form-group row">
+										<label class="col-md-4" for="zonanombre">Nombre:</label>
+										<input type="hidden" th:field="*{idzona}" id="idzona"name="idzona">
+										<input type="text" th:field="*{nombre}" id="zonanombre" name="zonanombre" class="form-control form-control-sm col-md-7 shadow" required>
+										<small class="invalid-feedback col-md-8">Agregue una zona!</small>
+									</div>
+									<div class="modal-footer bg-info">
+										<button type="button" class="btn btn-primary btn-sm rounded-pill shadow" data-dismiss="modal">Cancelar</button>
+										<input type="submit" class="btn btn-success btn-sm rounded-pill shadow" value="Guardar cambios" />
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+				<!-- FORMULARIO MODAL INSTITUCION-->
+				<form th:action="@{/views/DataSpi/Admin/saveinstitucion}" th:object="${institucion}" method="post" 
+				class="needs-validation" novalidate>
+					<div class="modal fade" id="editarModal5" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header bg-info  text-white">
+									<img class="imagenlogo" th:src="@{/images/sdh.png}" />
+									<h5 class="modal-title" th:text="'Formulario: Editar Institucion'" id="exampleModalLabel"></h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<!-- FORMULARIO MODAL-->
+									<div class="form-group row">
+										<label class="col-md-4" for="institucionnombre">Nombre:</label>
+										<input type="hidden" th:field="*{idinstitucion}" id="idinstitucion"name="idinstitucion">
+										<input type="text" th:field="*{nombre}" id="institucionnombre" class="form-control form-control-sm col-md-7 shadow" name="institucionnombre" required>
+										<small class="invalid-feedback col-md-8">Agregue una institucion!</small>
+									</div>
+									<div class="modal-footer bg-info">
+										<button type="button" class="btn btn-primary btn-sm rounded-pill shadow" data-dismiss="modal">Cancelar</button>
+										<input type="submit" class="btn btn-success btn-sm rounded-pill shadow" value="Guardar cambios" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+				
+				<form th:action="@{/views/DataSpi/Admin/saveactivo}" th:object="${activo}" method="post" 
+				class="needs-validation" novalidate>
+					<div class="modal fade" id="editarModal6" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header bg-info  text-white">
+									<img class="imagenlogo" th:src="@{/images/sdh.png}" />
+									<h5 class="modal-title" th:text="'Formulario: Editar Bien/Servicio'" id="exampleModalLabel"></h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<!-- FORMULARIO MODAL-->
+									<div class="form-group row">
+										<label class="col-md-4" for="activonombre">Nombre:</label>
+										<input type="hidden" th:field="*{idactivo}" id="idactivo"name="idactivo">
+										<input type="text" th:field="*{nombre}" id="activonombre" class="form-control form-control-sm col-md-7 shadow" name="activonombre" required>
+										<small class="invalid-feedback col-md-8">Agregue un activo!</small>
+									</div>
+									<div class="form-group row col-md-4">
+										<labelclass="col-md-4" for="activotipo">Tipo:</label>
+										<select th:field="*{idtipo}"class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow"  name="activotipo" id="activotipo" required >
+											<option selected disabled value="">Seleccionar tipo...</option>
+											<option th:each="tipo:${listatipos}" th:value="${tipo.idtipo}" th:text="${tipo.nombre}"></option>
+										</select>
+										<small class="invalid-feedback col-md-8">Agregue tipo!</small>
+									</div>
+									<div class="form-group row">
+										<label class="col-md-4" for="descripcion">Descripcion:</label>
+										<input type="text" th:field="*{descripcion}" id="descripcion" class="form-control form-control-sm col-md-7 shadow" name="descripcion" required>
+										<small class="invalid-feedback col-md-8">Agregue una descipción!</small>
+									</div>
+									
+									<div class="modal-footer bg-info">
+										<button type="button" class="btn btn-primary btn-sm rounded-pill shadow" data-dismiss="modal">Cancelar</button>
+										<input type="submit" class="btn btn-success btn-sm rounded-pill shadow" value="Guardar cambios" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+				
+				<form th:action="@{/views/DataSpi/Admin/savetipo}" th:object="${tipo}" method="post" 
+				class="needs-validation" novalidate>
+					<div class="modal fade" id="editarModal7" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header bg-info  text-white">
+									<img class="imagenlogo" th:src="@{/images/sdh.png}" />
+									<h5 class="modal-title" th:text="'Formulario: Editar Tipo'" id="exampleModalLabel"></h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<!-- FORMULARIO MODAL-->
+									<div class="form-group row">
+										<label class="col-md-4" for="tiponombre">Nombre:</label>
+										<input type="hidden" th:field="*{idtipo}" id="idtipo"name="idtipo">
+										<input type="text" th:field="*{nombre}" id="tiponombre" class="form-control form-control-sm col-md-7 shadow" name="tiponombre" required>
+										<small class="invalid-feedback col-md-8">Agregue una zona!</small>
+									</div>
+									<div class="form-group row">
+										<label class="col-md-4" for="descripciont">Descripcion:</label>
+										<input type="text" th:field="*{descripcion}" id="descripciont" class="form-control form-control-sm col-md-7 shadow" name="descripciont" required>
+										<small class="invalid-feedback col-md-8">Agregue una descipción!</small>
+									</div>
+									<div class="modal-footer bg-info">
+										<button type="button" class="btn btn-primary btn-sm rounded-pill shadow" data-dismiss="modal">Cancelar</button>
+										<input type="submit" class="btn btn-success btn-sm rounded-pill shadow" value="Guardar cambios" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+				
+				<form th:action="@{/views/DataSpi/Admin/saveunidad}" th:object="${unidad}" method="post" 
+				class="needs-validation" novalidate>
+					<div class="modal fade" id="editarModal8" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header bg-info  text-white">
+									<img class="imagenlogo" th:src="@{/images/sdh.png}" />
+									<h5 class="modal-title" th:text="'Formulario: Editar Unidad'" id="exampleModalLabel"></h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<!-- FORMULARIO MODAL-->
+									<div class="form-group row">
+										<label class="col-md-4" for="unidadnombre">Nombre:</label>
+										<input type="hidden" th:field="*{idunidad}" id="idunidad"name="idunidad">
+										<input type="text" th:field="*{nombre}" id="unidadnombre" class="form-control form-control-sm col-md-7 shadow" name="unidadnombre" required>
+										<small class="invalid-feedback col-md-8">Agregue una unidad!</small>
+									</div>
+									<div class="modal-footer bg-info">
+										<button type="button" class="btn btn-primary btn-sm rounded-pill shadow" data-dismiss="modal">Cancelar</button>
+										<input type="submit" class="btn btn-success btn-sm rounded-pill shadow" value="Guardar cambios" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+				
+				<form th:action="@{/views/DataSpi/Admin/savemodalidad}" th:object="${modalidad}" method="post" 
+				class="needs-validation" novalidate>
+					<div class="modal fade" id="editarModal9" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header bg-info  text-white">
+									<img class="imagenlogo" th:src="@{/images/sdh.png}" />
+									<h5 class="modal-title" th:text="'Formulario: Editar Modalidad'" id="exampleModalLabel"></h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<!-- FORMULARIO MODAL-->
+									<div class="form-group row">
+										<label class="col-md-4" for="modalidadnombre">Nombre:</label>
+										<input type="hidden" th:field="*{idmodalidad}" id="idmodalidad"name="idmodalidad">
+										<input type="text" th:field="*{nombre}" id="modalidadnombre" class="form-control form-control-sm col-md-7 shadow" name="modalidadnombre">
+										<small class="invalid-feedback col-md-8">Agregue una zona!</small>
+									</div>
+									<div class="modal-footer bg-info">
+										<button type="button" class="btn btn-primary btn-sm rounded-pill shadow" data-dismiss="modal">Cancelar</button>
+										<input type="submit" class="btn btn-success btn-sm rounded-pill shadow" value="Guardar cambios" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div >
+		</div >
+	</main>
+	
+	<footer th:replace="plantilla/template :: footer"></footer>
+</body>
+</html>

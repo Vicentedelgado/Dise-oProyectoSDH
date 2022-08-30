@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/templatedetalle :: head">
+<meta charset="UTF-8">
+</head>
+<body class="body1">
+	<header th:replace="plantilla/templatedetalle :: header"></header>
+	<main class="main">
+		<div class="container">
+		<!--FORMULARIO PÁGINA-->
+			<div class="card bg-light border-info">
+				<div class="card-header bg-info text-white" th:text="${titulo}"></div>
+				<div class="card-boby" id="cardeditarbody">
+					<div class="form-row">
+						<div class="form-group col-md-4">
+							<ul class="list-group">
+								<li class="list-group-item" th:text="'SPI: ' + ${spidatos.nombre}"></li>
+								<li class="list-group-item" th:text="'Zona: ' + ${spidatos.idzona.nombre}"></li>
+								<li class="list-group-item" th:text="'Institución donde funciona:   ' + ${spidatos.idinstitucion.nombre}"></li>
+								<li class="list-group-item" th:text="'Dirección: ' + ${spidatos.direccion}"></li>
+								<li class="list-group-item" th:text="'Teléfonos: ' + ${spidatos.telefono}"></li>
+								<li class="list-group-item" th:text="'Número de oficina: ' + ${spidatos.numerodeoficina}"></li>
+								<li class="list-group-item" th:text="'Convenio: ' + ${spidatos.convenio}"></li>
+								<li class="list-group-item" th:text="'Convenio hasta: ' + ${#dates.format(spidatos.fechafinconvenio, 'dd/MM/yyyy')}"></li>
+								<li class="list-group-item" th:text="'Da servicio a: ' + ${spidatos.daservicioa}"></li> 
+								<li class="list-group-item" th:text="'Verificable: ' + ${spidatos.archivo}"></li> 
+								<li class="list-group-item" th:text="'Observaciones:  ' + ${spidatos.observaciones}"></li>  
+							</ul>
+						</div>
+						<div class="form-group col-md-8">
+							<iframe id="iframe" th:alt="${spidatos.archivo}" th:src="@{'/VerificableSPI/' + ${spidatos.archivo}}" style=" width: 100%; height: 100%;" ></iframe>
+						</div>
+					</div>	
+				</div>
+			</div><br>
+			<div class="card bg-light border-info" sec:authorize="hasRole('ROLE_ADMIN')">
+				<div class="card-header bg-info text-white" th:text="${titulo1}"></div>
+				<form id="cardeditarbody" th:action="@{/views/DataSpi/SpiDatos/saveedit}" th:object="${spidatos}" method="post" enctype="multipart/form-data"
+				class="needs-validation" novalidate>
+				<div class="card-boby" >
+				    <!--FORMULARIO PÁGINA-->
+				    <div class="container" id="cardeditar">
+				    	<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="form-group row">
+									<input type="hidden" th:field="*{idspi}">
+									<label class="col-md-4" for="nombre">SPI:</label> 
+									<input type="text" th:field="*{nombre}" class="form-control form-control-sm col-md-7 shadow "
+										id="nombre" placeholder="Ingrese nombre del nuevo SPI" autocomplete="off" required>
+									<small class="invalid-feedback col-md-8">Ingrese nombre nuevo de SPI!</small>
+								</div>
+							</div>
+							<div class="form-group col-md-6">
+								<div class="form-group row">
+									<label class="col-md-4" for="idzona">Zona de ubicación:</label>
+									<select th:field="*{idzona}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow " id="idzona" required>
+										<option selected disabled value="">Seleccionar zona...</option>
+										<option th:each="zona:${listazona}" th:value="${zona.idzona}" th:text="${zona.nombre}"></option>
+									</select>
+									<small class="invalid-feedback col-md-8">Seleccione una zona!</small>
+								</div>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="form-group row">
+									<label class="col-md-4" for="idinstitucion">Institución donde funciona:</label> 
+									<select th:field="*{idinstitucion}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" id="idinstitucion" required>
+										<option selected disabled value="">Seleccionar institución...</option>
+										<option th:each="institucion:${listainstitucion}" th:value="${institucion.idinstitucion}" th:text="${institucion.nombre}"></option>
+									</select>
+									<small class="invalid-feedback col-md-8">Seleccione una institución!</small>
+								</div>
+							</div>
+							<div class="form-group col-md-6">
+								<div class="form-group row">
+									<label class="col-md-4" for="direccion">Dirección:</label> 
+									<textarea th:field="*{direccion}" class="form-control form-control-sm col-md-7 shadow" id="direccion"
+											placeholder="Ingrese la dirección actual del SPI" autocomplete="off" required></textarea>
+									<small class="invalid-feedback col-md-8">Ingrese dirección del SPI!</small>
+								</div>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="form-group row">
+									<label class="col-md-4" for="telefono">Número telefónico:</label> 
+										<input type="text" th:field="*{telefono}" class="form-control form-control-sm col-md-7 shadow"
+										id="telefono" placeholder="Ingrese número telefónico del SPI" autocomplete="off" required>
+									<small class="valid-feedback col-md-8">válido!</small>
+									<small class="invalid-feedback col-md-8">Ingrese número telefónico!</small>
+								</div>
+							</div>	
+							<div class="form-group col-md-6">
+								<div class="form-group row">
+									<label class="col-md-4" for="numerodeoficina">Número de oficina:</label>
+									<input type="text" th:field="*{numerodeoficina}" class="form-control form-control-sm col-md-7 shadow"
+										id="numerodeoficina" placeholder="Ingrese número de oficina del SPI" required>
+									<small class="valid-feedback col-md-8">válido!</small>
+								    <small class="invalid-feedback col-md-8">Ingrese un número ó "1" si no esta definido!</small>
+								</div>
+							</div>	
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="form-group row">
+									<label class="col-md-4" for="convenio">Convenio:</label> 
+									<select th:field="*{convenio}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" id="convenio" required>
+										<option selected disabled value="">Seleccionar...</option>
+										<option th:value="SI" th:text="SI"></option>
+										<option th:value="NO" th:text="NO"></option>
+										<option th:value="SD" th:text="SD"></option>
+									</select>
+									<small class="invalid-feedback col-md-8">Seleccione "SI","NO" ó "SD"!</small>
+								</div>
+							</div>	
+							<div class="form-group col-md-6">
+								<div class="form-group row">
+									<label class="col-md-4" for="daservicioa">Da servicio a:</label>
+									<textarea th:field="*{daservicioa}" class="form-control form-control-md col-md-7 shadow"
+											id="daservicioa" placeholder="Ingrese cantones/parroquias a los que da servicio" autocomplete="off" required></textarea>
+									<small class="invalid-feedback col-md-8">Ingrese cuidades,cantones,parroquias a los que da servicio!</small>
+							   </div>
+						   </div>	
+					   </div>
+						   <div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="form-group row">
+									<label class="col-md-4" for="archivo">Verificable:</label>
+									<input type="hidden" th:field="*{archivo}" name="file" class="form-control form-control-sm col-md-7 shadow" id="archivo1">
+									<input type="file" name="file" class="form-control-file-sm col-md-7 shadow" id="archivo" accept="image/gif,image/jpeg,image/jpg,image/png,.pdf" lang="es">
+									<small id="smalldetalleres1" class="col-md-8">Archivos en formato pdf, jpg y png</small>
+								</div>
+						    </div>
+							<div class="form-group col-md-6">
+								<div class="form-group row">
+									<label class="col-md-4" for="fechafinconvenio">Fecha fin de convenio:</label> 
+									<input type="date" th:field="*{fechafinconvenio}" class="form-control form-control-sm col-md-7 shadow"
+										id="fechafinconvenio" placeholder="Fecha tope de fin de convenio" required>
+									<small class="invalid-feedback col-md-8">Seleccione una fecha!</small>
+								</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-md-2" for="observaciones">Observaciones:</label>
+							<textarea th:field="*{observaciones}" class="form-control form-control-sm col-md-7 shadow"
+									id="observaciones" placeholder="Ingrese observaciones sobre el SPI" autocomplete="off" required></textarea> 
+							<small class="invalid-feedback col-md-8">Ingrese Observacines ó "Sin Observaciones"!</small>
+						</div>
+				    </div>					
+				</div>
+				<div class="card-footer bg-info">
+					
+					<input type="submit" class="btn btn-success btn-sm rounded-pill shadow text-right"
+						value="Guardar Cambios" />
+	 		  </div>
+				</form>
+			</div>
+			<img class="imagenpie" th:src="@{/images/logopie.png}" />
+		</div>	
+	</main>
+	
+	<footer th:replace="plantilla/templatedetalle :: footer"></footer>
+</body>
+</html>

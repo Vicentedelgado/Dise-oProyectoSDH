@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="plantilla/templateadminForm::head">
+
+<meta charset="UTF-8">
+<title>Software</title>
+
+</head>
+
+<body class="body1">
+	<header th:replace="plantilla/templateadminForm :: header"></header>
+
+	<main class="main">
+
+		<div class="container">
+
+			<br>		
+			<div class="row g-2">
+				<div class="col-11">
+					<div class="mb-0">
+					  <div class="col-sm-10">
+					     <h2 th:text="${titulo}"></h2> 		
+					  </div>
+					</div>								
+				</div>
+				<div class="col-1">
+					<div class="mb-3"> 
+					  <div class="col-sm-10">
+					    <img th:src="@{/img/sof1.ico}">		
+					  </div>
+					</div>								
+				</div>
+			</div>
+			
+			<div class="card border-info">
+				<div class="card-header bg-info text-white">
+				    <h4>Ingrese aquí las especificaciones del Software</h4> 
+				</div>
+				<div id="cardcard" class="card-boby">
+				   <div class="container">
+				      <form th:action="@{/views/admin/Software/save}" th:object="${software}" method="post" class="needs-validation" novalidate>
+							<div class="row g-2">
+								<div class="col">
+									<div class="mb-3">
+									  <label for="idequipo" class="col-sm-10 col-form-label">ID Equipo</label> 
+									  <div class="col-sm-10">
+									  	<input type="hidden" th:field="*{idsoftware}">					  	
+										<input class="form-control form-control-sm shadow" th:field="*{idequipo}" list="datalistOptions" id="idequipo" placeholder="Buscar Equipo..." required="required">
+										<datalist id="datalistOptions">
+										  <option class="form-control form-control-sm shadow" th:each="equipo:${listarequipo}" th:value="${equipo.idequipo}" th:text="${equipo.nombreequipo}">
+										</datalist> 
+										<small class="invalid-feedback col-md-8">Ingrese el ID del equipo!</small>		
+									  </div>
+									</div>								
+								</div>
+								<div class="col">
+									<div class="mb-3"> 
+									  <label for="funcionalidad" class="col-sm-10 col-form-label">Funcionalidad</label>
+									  <div class="col-sm-10">
+									   <input type="text" class="form-control form-control-sm shadow" id="funcionalidad" th:field="*{funcionalidad}" placeholder="Ej. Manejo de procesos" required="required"> 
+									   <small class="invalid-feedback col-md-8">Ingrese la funcionalidad! (Ej. Manejo de procesos)!</small>		
+									  </div>
+									</div>								
+								</div>
+							</div>
+							
+							<div class="row g-3">
+								<div class="col">
+									<div class="mb-3">
+									  <label for="so" class="col-sm-10 col-form-label">Sistema Operativo</label> 
+									  <div class="col-sm-10">				  	
+										<select th:field="*{so}" class="form-select form-select-sm shadow" id="so" required="required">
+											<option value="WINDOWS 7-32 bits">WINDOWS 7 - 32 bits</option>
+											<option value="WINDOWS 7-64 bits">WINDOWS 7- 64 bits</option>
+											<option value="WINDOWS 8-32 bits">WINDOWS 8 - 32 bits</option>
+											<option value="WINDOWS 8-64 bits">WINDOWS 8 - 64 bits</option>
+											<option value="WINDOWS 8.1-32 bits">WINDOWS 8.1 - 32 bits</option>
+											<option value="WINDOWS 8.1-64 bits">WINDOWS 8.1 - 64 bits</option>
+											<option value="WINDOWS 10-32 bits">WINDOWS 10 - 32 bits</option>
+											<option value="WINDOWS 10-64 bits">WINDOWS 10 - 64 bits</option>
+											<option value="Otro">Otro</option>
+										</select>
+										<small class="invalid-feedback col-md-8">Seleccione el Sistema Operativo!</small>		
+									  </div>
+									</div>								
+								</div>
+								<div class="col">
+									<div class="mb-3"> 
+									  <label for="licencia" class="col-sm-10 col-form-label">Licencia</label>
+									  <div class="col-sm-10">
+									   <select th:field="*{licencia}" class="form-select form-select-sm shadow" id="licencia" required="required">
+											<option th:value="SI">SI</option>
+											<option th:value="NO">NO</option>
+										</select>
+										<small class="invalid-feedback col-md-8">Seleccione tenencia de licencia!</small>		
+									  </div>
+									</div>								
+								</div>
+								<div class="col">
+									<div class="mb-3"> 
+									  <label for="ofimatica" class="col-sm-10 col-form-label">Ofimática</label>
+									  <div class="col-sm-10">
+									   <select th:field="*{ofimatica}" class="form-select form-select-sm shadow" id="ofimatica" required="required">
+											<option value="Microsoft Office 2003">Microsoft Office 2003</option>
+											<option value="Microsoft Office 2007">Microsoft Office 2007</option>
+											<option value="Microsoft Office 2010">Microsoft Office 2010</option>
+											<option value="Microsoft Office 2013">Microsoft Office 2013</option>
+											<option value="Microsoft Office 2016">Microsoft Office 2016</option>
+											<option value="Microsoft Office 2019">Microsoft Office 2019</option>
+											<option value="Microsoft Office 365">Microsoft Office 365</option>
+											<option value="Otro">Otro</option>
+										</select>
+										<small class="invalid-feedback col-md-8">Seleccione Ofimática!</small>		
+									  </div>
+									</div>								
+								</div>
+							</div>
+					
+							<div class="row g-3">
+								<div class="col-5"></div>
+								<div class="col-3">
+									<div class="mb-3">
+									  <div class="col-sm-12">
+									   <a class="btn btn-primary shadow" th:href="@{/views/admin/Software/}" role="button">Cancelar</a>
+									   &nbsp &nbsp &nbsp
+									   <input type="submit" class="btn btn-success shadow" th:value="${Guardar}">					   	
+									  </div>
+									</div>								
+								</div>
+								<div class="col-4"></div>
+							</div>
+						</form>
+				   </div>				
+				</div>
+			</div>
+			<!-- SIN IMPORTANCIA -->
+			<input type="hidden" id="archivos" value="vacio_sdh.pdf">
+			<input type="hidden" id="idequipervalor" value="1">
+			<input type="hidden" id="vacio" value="vacio_sdh.pdf">
+			<input type="hidden" id="idequiper" value="vacio_sdh.pdf">
+			<input type="hidden" id="archivos1" value="vacio_sdh.pdf">				
+		</div>
+
+	</main>
+
+	<footer th:replace="plantilla/templateadminForm :: footer">
+	</footer>
+</body>
+</html>

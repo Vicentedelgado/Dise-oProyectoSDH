@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="plantilla/templateadminForm::head">
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+
+<body class="body1">
+
+	<header th:replace="plantilla/templateadminForm :: header"></header>
+
+	<main class="main">
+
+		<div class="container">		
+			<br>		
+			<div class="row g-2">
+				<div class="col-11">
+					<div class="mb-0">
+					  <div class="col-sm-10">
+					     <h2 th:text="${titulo}"></h2> 		
+					  </div>
+					</div>								
+				</div>
+				<div class="col-1">
+					<div class="mb-3"> 
+					  <div class="col-sm-10">
+					    <img th:src="@{/img/per1.ico}">		
+					  </div>
+					</div>								
+				</div>
+			</div>
+			
+			
+			<div class="card border-info">
+				<div class="card-header bg-info text-white">
+				    <h4>Ingrese aquí las especificaciones del Periférico</h4> 
+				</div>
+				<div id="cardcard" class="card-boby">
+				     <div class="container"><br>
+							<form th:action="@{/views/admin/Periferico/save}" th:object="${periferico}" method="post" class="needs-validation" novalidate>
+							       <div class="row g-1">
+										<div class="col">
+											<div class="mb-3">
+											  <label for="idzona" class="col-sm-5 col-form-label">Zonal</label>  
+											  <div class="col-sm-5">
+											  <input type="hidden" th:field="*{idperiferico}">
+											   <select id="idzona" th:field="*{idzona}" class="form-select form-select-sm shadow" required="required">
+													<option selected disabled value="">Seleccionar zona...</option>
+													<option th:each="zona:${listazona}" th:value="${zona.idzona}" th:text="${zona.nombre}"></option>
+												</select> 
+												<small class="invalid-feedback col-md-8">Seleccione una zonal!</small>		
+											  </div>
+											</div>								
+										</div>
+									</div>															
+									<div class="row g-2">
+										<div class="col">
+											<div class="mb-3">
+											  <label for="nombre" class="col-sm-10 col-form-label">Nombre del Periférico</label> 
+											  <div class="col-sm-10">
+											  	<select id="nombre" th:field="*{nombreperiferico}" class="form-select form-select-sm shadow" required="required">
+													<option selected disabled value="">Seleccionar Periférico...</option>
+													<option th:value="IMPRESORA">IMPRESORA</option>
+													<option th:value="MOUSE">MOUSE</option>
+													<option th:value="TECLADO">TECLADO</option>
+													<option th:value="PARLANTES">PARLANTES</option>
+													<option value="DISCO DURO">DISCO DURO</option>
+													<option th:value="CPU">CPU</option>
+													<option th:value="MONITOR">MONITOR</option>
+													<option th:value="CAMARA">CAMARA WEB</option>
+													<option th:value="MICROFONO">MICROFONO</option>
+													<option th:value="CABLES">CABLES</option>
+													<option th:value="OTROS">OTROS</option>
+												</select> 
+												<small class="invalid-feedback col-md-8">Seleccione nombre del periférico!</small>		
+											  </div>
+											</div>								
+										</div>
+										<div class="col">
+											<div class="mb-3"> 
+											  <label for="serie" class="col-sm-10 col-form-label">Serie</label>
+											  <div class="col-sm-10">
+											   <input type="text" class="form-control form-control-sm shadow" id="serie" th:field="*{serie}" placeholder="Ej. 00011KK" required="required"> 
+											   <small class="invalid-feedback col-md-8">Ingrese la serie (Ej. 00011KK)!</small>		
+											  </div>
+											</div>								
+										</div>
+									</div>
+									
+									<div class="row g-2">
+										<div class="col">
+											<div class="mb-3"> 
+											  <label for="marca" class="col-sm-10 col-form-label">Marca</label>
+											  <div class="col-sm-10">
+											   <select th:field="*{marca}" class="form-select form-select-sm shadow" required="required">
+													<option selected disabled value="">Seleccionar Marca...</option>
+													<option value="ASUS">ASUS</option>
+													<option value="BROTHER">BROTHER</option>
+													<option value="CLON">CLON</option>
+													<option value="COMPAQ">COMPAQ</option>
+													<option value="DELL">DELL</option>
+													<option value="HIBRIDO">HIBRIDO</option>
+													<option value="HP">HP</option>
+													<option value="LENOVO">LENOVO</option>
+													<option value="LEXMARK">LEXMARK</option>
+													<option value="LEXMARK 35P85K1">LEXMARK 35P85K1</option>
+													<option value="MAC">MAC</option>
+													<option value="PROBOOK">PROBOOK</option>
+													<option value="SAMSUNG SCX-4X28">SAMSUNG SCX-4X28</option>
+													<option value="SHARP">SHARP</option>
+													<option value="SONY">SONY</option>
+													<option value="XTRATECH">XTRATECH</option>
+													<option value="Otro">Otro</option>
+												</select> 
+												<small class="invalid-feedback col-md-8">Seleccione la marca!</small>		
+											  </div>
+											</div>								
+										</div>
+										<div class="col">
+											<div class="mb-3">
+											  <label for="modelo" class="col-sm-10 col-form-label">Modelo</label> 
+											  <div class="col-sm-10">
+											   <input type="text" class="form-control form-control-sm shadow" id="modelo" th:field="*{modelo}" placeholder="Ej. Hp mouse l12la" required="required"> 
+											   <small class="invalid-feedback col-md-8">Ingrese el modelo (Ej. Hp mouse l12la)!</small>		
+											  </div>
+											</div>								
+										</div>
+									</div>
+									
+									<div class="row g-2">
+										<div class="col">
+											<div class="mb-3"> 
+											  <label for="observaciones" class="col-sm-10 col-form-label">Observaciones</label>
+											  <div class="col-sm-10">
+											   <textarea class="form-control form-control-sm shadow" id="o" th:field="*{observaciones}" placeholder="Ej. No funciona el click izquierdo" required="required"></textarea> 
+											   <small class="invalid-feedback col-md-8">Ingrese observaciones (Ej. No funciona el click izquierdo)!</small>		
+											  </div>
+											</div>								
+										</div>
+										<div class="col">
+											<div class="mb-3">
+											  <label for="Estado" class="col-sm-10 col-form-label">Estado</label> 
+											  <div class="col-sm-10">
+											   <select th:field="*{estado}" class="form-select form-select-sm shadow" required="required">
+											        <option selected disabled value="">Seleccionar Estado...</option>
+													<option th:value="Bueno">Bueno</option>
+													<option th:value="Regular">Regular</option>
+													<option th:value="Malo">Malo</option>
+												</select> 
+												<small class="invalid-feedback col-md-8">Seleccione el estado!</small>		
+											  </div>
+											</div>								
+										</div>
+									</div>
+									<div class="row g-3">
+										<div class="col-5"></div>
+										<div class="col-3">
+											<div class="mb-3">
+											  <div class="col-sm-12">
+											   <a class="btn btn-primary shadow" th:href="@{/views/admin/Periferico/}" role="button">Cancelar</a>
+											   &nbsp &nbsp &nbsp
+											   <input type="submit" class="btn btn-success shadow" th:value="${Guardar}">					   	
+											  </div>
+											</div>								
+										</div>
+										<div class="col-4"></div>
+									</div>	
+							</form>								
+					</div>
+				</div>
+			</div>
+			<!-- SIN IMPORTANCIA -->
+			<input type="hidden" id="archivos" value="vacio_sdh.pdf">
+			<input type="hidden" id="idequipervalor" value="1">
+			<input type="hidden" id="vacio" value="vacio_sdh.pdf">
+			<input type="hidden" id="idequiper" value="vacio_sdh.pdf">
+			<input type="hidden" id="archivos1" value="vacio_sdh.pdf">		
+		 </div>
+	</main>
+
+	<footer th:replace="plantilla/templateadminForm :: footer"> </footer>
+</body>
+</html>

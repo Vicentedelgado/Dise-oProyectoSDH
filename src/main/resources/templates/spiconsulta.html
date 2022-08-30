@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="plantilla/templateconsultahome :: head">
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body class="body1">
+	<header th:replace="plantilla/templateconsultahome :: header"></header>
+	<main class="main">
+	<div class="container">
+		
+		<br> <br>
+
+		<div class="row">
+			<div class="col-8">
+				<h1>Secretaría de Derechos Humanos</h1>
+				<hr class="hr2">
+				<h3>Dirección Administrativa</h3>
+				<h4>Coordinación General Administrativa Financiera</h4>
+				<h5>Base de Datos SPI</h5>
+				<img class="imagenhome" th:src="@{/images/todaunavida.png}" />
+			</div>
+
+			<div class="col-4">
+				 <!-- CAMBIO POR AJAX JQuery THYMEMEAF -->
+				<div class="card border-info shadow-lg">
+					<div class="card-header" ><h3>Filtrar Consulta</h3></div>
+					<div class="card-body ">
+						<h4 class="card-title">SPI DATA</h4>
+							<form th:action="@{/views/Consulta/Formulario/listaporspi/}" method="get" id="filtrarform" class="needs-validation" novalidate>	
+								<div class="form-group">
+									<label for="spiporzona">Zona:</label>
+									<select class="custom-select custom-select-sm shadow" th:value="${zona.idzona}" name="spiporzona" id="spiporzona" required>
+											<option selected disabled value="">Seleccionar zona...</option>
+										    <option th:each="zona:${listazona}" th:value="${zona.idzona}" th:text="${zona.nombre}"></option>
+									</select>
+									<div class="invalid-feedback col-md-8">Seleccionar una Zona!</div>
+								</div>					
+								<div class="form-group">
+									<label for="idspi">SPI:</label> 
+									<select class="custom-select custom-select-sm shadow"  name="idspi" id="idspi" required>
+										<option selected disabled value="">Seleccionar SPI...</option>
+									</select>
+									<div class="invalid-feedback col-md-10">No puede estar vacío Seleccionar un SPI!</div>
+								</div>
+								<input type="hidden" id="baseURL" th:value="@{/views/Consulta/Formulario/listaporspi/}">
+	                            <input type="submit" id="filtrar" class="btn btn-info  btn-sm rounded-pill shadow"  title="Filtra consulta de un SPI" value="Filtrar">
+								
+							</form>
+					</div>
+				</div>
+								
+			</div>
+		</div>
+	</div>
+	</main>
+	<footer th:replace="plantilla/templateconsultahome :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="plantilla/templateadmin::head">
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+
+<body class="body1">
+
+	<header th:replace="plantilla/templateadmin :: header"></header>
+	<main class="main">
+		<div class="container">
+		  <div class="row g-2">
+			<div class="col-11">
+				<div class="mb-0">
+				  <div class="col-sm-10">
+				     <h2 th:text="${titulo}"></h2> 		
+				  </div>
+				</div>								
+			</div>
+			<div class="col-1">
+				<div class="mb-3"> 
+				  <div class="col-sm-10">
+				    <img th:src="@{/img/escritorio.ico}">		
+				  </div>
+				</div>								
+			</div>
+		</div>
+		  <div class="table-responsive">
+			<table id="" class="display table table-hover table-bordered" cellspacing="0" width="100%">
+				<thead class="thead bg-info text-white">
+					<tr>
+						<th>ID</th>
+						<th>Nombres Funcionario</th>
+						<th>Apellidos Funcionario</th>
+						<th>Cédula Funcionario</th>
+						<th>Zona</th>
+						<th>Cargo</th>
+						<th>Dirección</th>
+						<th>Modalidad de trabajo</th>
+						<th>Teléfono</th>
+						<th>Email</th>
+
+					</tr>
+				</thead>
+				<tbody class="tbody">
+					<tr th:each="fun:${funcionario}">
+						<td th:text="${fun.idusuario}"></td>
+						<td th:text="${fun.nombres}"></td>
+						<td th:text="${fun.apellidos}"></td>
+						<td th:text="${fun.cedula}"></td>
+						<td th:text="${fun.idzona.nombre}"></td>
+						<td th:text="${fun.cargo}"></td>
+						<td th:text="${fun.direccion}"></td>
+						<td th:text="${fun.idmodalidad.nombre}"></td>
+						<td th:text="${fun.telefono}"></td>
+						<td th:text="${fun.email}"></td>
+					</tr>
+				</tbody>
+			</table>
+		 </div>
+		</div>
+	</main>
+
+	<footer th:replace="plantilla/templateadmin :: footer"> </footer>
+</body>
+</html>

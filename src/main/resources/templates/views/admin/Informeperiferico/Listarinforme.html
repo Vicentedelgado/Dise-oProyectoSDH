@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="plantilla/templateadmin::head">
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+
+<body class="body1">
+
+
+
+<header th:replace="plantilla/templateadmin :: header"></header>
+
+<main class="main">
+
+<div class="container">
+  <br>		
+		<div class="row g-2">
+			<div class="col-11">
+				<div class="mb-0">
+				  <div class="col-sm-10">
+				     <h2 th:text="${titulo}"></h2> 		
+				  </div>
+				</div>								
+			</div>
+			<div class="col-1">
+				<div class="mb-3"> 
+				  <div class="col-sm-10">
+				    <img th:src="@{/img/per1.ico}">		
+				  </div>
+				</div>								
+			</div>
+		</div>
+		<div id="botones" class="container">
+		 <div class="row">
+   			 <div class="col-sm-3 ">
+   				 <br>
+      			 <a id="excel" class="btn btn-outline-success" th:href="@{/views/admin/Informeperiferico/(format=xlsx)}" 
+      			 title="Generar archivo Excel">Descargar Reporte Gobal
+					<img class="img-responsive center-box" th:src="@{/img/equi1.ico}">
+				</a>
+   			 </div>
+			</div>			
+		</div><br>
+
+ <div class="table-responsive">
+     <table id="" class=" display table table-hover table-bordered" cellspacing="0" width="100%">
+ 		<thead class="thead bg-info text-white">
+ 			<tr>
+ 				<th>ID</th>
+ 				<th>Nombre Periferico</th>
+ 				<th>Fecha de Requerimiento</th>
+ 				<th>Fecha de Atencion</th>
+ 				<th>Persona Encargada</th>
+ 				<th>Novedades de Solicitud</th>
+ 				<th>Actividades</th>
+ 				<th>Conclusiones</th>
+ 				<th>Serie Periferico</th>
+ 				<th>Editar</th>
+ 				<th>Imprimir</th>
+ 
+ 			</tr>
+ 	    </thead>
+ 	    <tbody class="tbody">
+ 	
+ 			<tr th:each="informe:${informe}"> 
+	 			<td scope="row">
+						<a class= "btn btn-info btn-xs"
+							th:href="@{/views/admin/Informeperiferico/detalle/}+${informe.idinforme}"
+							th:text="${informe.idinforme}" title="Detalle del informe del periférico" target="_blank">
+						</a>
+				</td>
+				<td th:text="${informe.idperiferico.nombreperiferico}"></td>
+	 			<td th:text="${#dates.format(informe.fecharequerimiento, 'dd/MM/yyyy')}"></td>
+	 			<td th:text="${#dates.format(informe.fechaatencion, 'dd/MM/yyyy')}"></td>
+	 			<td th:text="${informe.personaencargada}"></td>
+	 			<td th:text="${informe.novedadessolicitud}"></td>
+	 			<td th:text="${informe.actividades}"></td>
+	 			<td th:text="${informe.conclusiones}"></td>
+	 			<td th:text="${informe.idperiferico.serie}"></td>
+	 			<td>
+					<a class="btn btn-success btn-sm"
+						th:href="@{/views/admin/Informeperiferico/edit/} + ${informe.idinforme}"
+						th:text="'Editar'" title="Editar informe del periférico">
+					</a>
+				</td>
+	 			<td>	 			
+					<a class="btn" id="pdf"
+						th:href="@{'/views/admin/Informeperiferico/filtrar1/'+ ${informe.idinforme}+'/?format=pdf'}"
+						title="Imprimir informe" target="_blank"> 
+						<img class="img-responsive center-box" th:src="@{/img/impresora.ico}">
+					</a>
+	 			</td>					
+ 		    </tr>	
+ 	   </tbody>	
+    </table>
+ 
+ </div>
+	
+	
+</div>
+
+</main>
+
+
+<footer th:replace="plantilla/templateadmin :: footer">
+</footer>
+
+</body>
+</html>

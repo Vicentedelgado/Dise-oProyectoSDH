@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/template :: head">
+<meta charset="UTF-8">
+<title>Registro</title>
+</head>
+<body class="body1">
+	<header th:replace="plantilla/template :: header"></header>
+	<main class="main">
+		<div class="container">
+			<h1 th:text="${titulo}"></h1>	
+		</div>
+		<!--  BOTONES-->
+		<div id="botones" class="container">
+			<!-- Button modal -->
+			<a  sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-info btn-sm rounded-pill text-white shadow"
+				data-toggle="modal" data-target="#saveModal"
+				th:text="'Crear nuevo registro'" title="Crear nuevo registro de bien/servicio para un SPI">
+			</a>
+			
+			<!-- Button excel --> 
+			<a id="excel" class="float-right" th:href="@{/views/DataSpi/RegistroDelSpi/(format=xlsx)}" title="Generar archivo Excel"> 
+				<svg
+					width="2.3em" height="2.3em" viewBox="0 0 16 16" class="bi bi-file-earmark-spreadsheet-fill text-success" fill="currentColor">
+					<path fill-rule="evenodd" d="M2 3a2 2 0 0 1 2-2h5.293a1 1 0 0 1 .707.293L13.707 5a1 1 0 0 1 .293.707V13a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3zm7 2V2l4 4h-3a1 1 0 0 1-1-1zM3 8v1h2v2H3v1h2v2h1v-2h3v2h1v-2h3v-1h-3V9h3V8H3zm3 3V9h3v2H6z" />
+				</svg>
+			</a>
+			<!-- Button pdf -->
+			<a  id="pdf" class="float-right" th:href="@{/views/DataSpi/RegistroDelSpi/(format=pdf)}" title="Exportar a Pdf e Imprimir" target="black"> 
+				<svg width="2.3em" height="2.3em" viewBox="0 0 16 16" class="bi bi-file-earmark-text-fill text-danger" fill="currentColor">
+					<path fill-rule="evenodd" d="M2 3a2 2 0 0 1 2-2h5.293a1 1 0 0 1 .707.293L13.707 5a1 1 0 0 1 .293.707V13a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3zm7 2V2l4 4h-3a1 1 0 0 1-1-1zM4.5 8a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z" />
+				</svg>
+			</a>
+			<!-- Button nueva institucion --> 
+			<a sec:authorize="hasRole('ROLE_ADMIN')" href="@{}" class="float-right" data-toggle="modal" data-target="#saveModalInstitucion" title="Agregar una institución a la lista" target="black">
+				<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" fill="currentColor" class="bi bi-file-earmark-plus text-info" viewBox="0 0 16 16">
+				  <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z"/>
+				  <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+				</svg>
+			</a>
+			<!-- Button nuevo activo -->  
+			<a sec:authorize="hasRole('ROLE_ADMIN')" href="@{}" class="float-right" data-toggle="modal" data-target="#saveModalActivo" title="Agregar un bien/servicio a la lista" target="black">
+				<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" fill="currentColor" class="bi bi-journal-plus" viewBox="0 0 16 16">
+				  <path fill-rule="evenodd" d="M8 5.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 .5-.5z"/>
+				  <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
+				  <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
+				</svg>
+			</a>
+		</div>
+		<br>
+		<!-- TABLA DE REGISTRO-->
+		<div class="container">
+			<div class="table-responsive">
+				<table id="" class="display nowrap table table-bordered table-hover" style="width: 100%">
+					<thead class="thead bg-info text-white">
+						<tr>
+							<th class="ocultarcolunma" scope="col">ID</th>
+							<th scope="col">DETALLE</th>
+							<th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">EDITAR</th>
+							<th scope="col">Bien/Servicio</th>
+							<th scope="col">Zona</th>
+							<th scope="col">SPI</th>
+							<th scope="col">Pertenencia bien/servicio</th>
+							<th scope="col">Estado</th>
+							<th scope="col">Cantidad existente</th>
+							<th scope="col">Cantidad requerida</th>
+							<th scope="col">Faltante</th>
+							<th scope="col">Prioridad</th>
+							<th scope="col">Avances (acción)</th>
+							<th scope="col">Periodo</th>
+							<th scope="col">Fecha</th>
+							<th scope="col">Observaciones</th>
+						</tr>
+					</thead>
+					<tbody class="tbody">
+						<tr th:each="item:${listaregistrodelspi}">
+							<th  class="ocultarcolunma" scope="row" th:text="${item.idregistro}"></th>
+							<td>
+								<div align="center">
+									<a th:href="@{/views/DataSpi/RegistroDelSpi/spidetl/} + ${item.idregistro}" 
+										class="btn btn-info btn-sm shadow" th:text="${item.idregistro}" title="Ver datalle" target="black">
+										
+									</a> 		
+								</div>
+							</td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')">
+								<div align="center">
+									<a th:href="@{edit/(idregistro=${item.idregistro})}" class=" editModal2 shadow" title="Editar" target="black">
+										<svg width="1.3em" height="1.3em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+											<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+											<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+										</svg>
+									</a> 		
+								</div>
+								
+							</td >
+							<td th:text="${item.idactivo.nombre}"></td>
+							<td th:text="${item.idspi.idzona.nombre}"></td>
+							<td th:text="${item.idspi.nombre}"></td>
+							<td th:text="${item.idinstitucion.nombre}"></td>
+							<td th:text="${item.estado}"></td>
+							<td th:text="${item.cantidad}"></td>
+							<td th:text="${item.cantidadrequerida}"></td>
+							<td th:text="${item.holguradecantidad}"></td>
+							<td th:text="${item.prioridad}"></td>
+							<td th:text="${item.accionrealizada}"></td>
+							<td th:text="${item.periodo}"></td>
+							<td th:text="${#dates.format(item.fechaaccion, 'dd/MM/yyyy')}"></td>
+							<td th:text="${item.observaciones}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<img class="imagenpie" th:src="@{/images/logopie.png}" />
+		</div>
+		<div class="container">
+			<!-- MODAL DE VENTANA  FORMULARIO GUARDAR -->
+			<form th:action="@{/views/DataSpi/RegistroDelSpi/save}" th:object="${registrodelspi}" method="post" enctype="multipart/form-data"
+			 class="needs-validation" novalidate>
+				<div class="modal fade" id="saveModal" tabindex="-1" role="dialog"
+					aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-xl">
+						<div class="modal-content">
+							<div class="modal-header bg-info  text-white">
+								<img class="imagenlogo" th:src="@{/images/sdh.png}" />
+								<h5 class="modal-title" th:text="${titulo1}"
+									id="exampleModalLabel"></h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<!-- FORMULARIO MODAL-->
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="filtrarportipo">Tipo:</label>
+											<select class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" th:value="${tipo.idtipo}" name="filtrarportipo" id="filtrarportipo" required >
+												<option selected disabled value="">Seleccionar tipo...</option>
+												<option th:each="tipo:${listatipo}" th:value="${tipo.idtipo}" th:text="${tipo.nombre}"></option>
+											</select>
+											<small class="invalid-feedback col-md-8">Seleccione un tipo de bien/servicio!</small> 
+										</div>
+									</div>
+									<div class="form-group col-md-6"><img class="imagenmodalsave" th:src="@{/images/logosecretaria.png}" />	 </div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="idactivo">Bien/Servicio:</label> 
+											<select th:field="*{idactivo}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" name="idactivo" id="idactivo" required>
+												<option selected disabled value="">Seleccionar bien/servicio...</option>
+											</select>
+											<small class="invalid-feedback col-md-8">Seleccione un bien/servicio!</small> 
+										</div>
+									</div>
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="idinstitucion">Pertenencia bien/servicio:</label> 
+											<select th:field="*{idinstitucion}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" id="idinstitucion" required>
+												<option selected disabled value="">Seleccionar Institución...</option>
+												<option th:each="institucion:${listainstitucion}" th:value="${institucion.idinstitucion}" th:text="${institucion.nombre}"></option>
+											</select>
+											<small class="invalid-feedback col-md-8">Seleccione una institución de pertenencia del bien/servicio!</small>
+										</div>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="spiporzona">Zona:</label>
+											<select class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" th:value="${zona.idzona}" name="spiporzona" id="spiporzona" required >
+												<option selected disabled value="">Seleccionar zona...</option>
+												<option th:each="zona:${listazona}" th:value="${zona.idzona}" th:text="${zona.nombre}"></option>
+											</select>
+											<small class="invalid-feedback col-md-8">Seleccione una zona!</small> 
+										</div>
+									</div>
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="spiid">SPI:</label> 
+											<select th:field="*{idspi}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" name="spiid" id="spiid" required>
+												<option selected disabled value="">Seleccionar SPI...</option>
+											</select>
+											<small class="invalid-feedback col-md-8">Seleccione un SPI!</small> 
+										</div>
+									</div>
+								</div>	
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="estado">Estado:</label>
+											<select th:field="*{estado}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" id="estado" required>
+												<option selected disabled value="">Seleccionar estado...</option>
+												<option th:value="Bueno" th:text="Bueno"></option>
+												<option th:value="Regular" th:text="Regular"></option>
+												<option th:value="Malo" th:text="Malo"></option>
+											</select>
+											<small class="invalid-feedback col-md-8">Seleccione un estado del bien/servicio!</small>
+										</div>
+									</div>
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="cantidad1">Cantidad existente:</label> 
+											<input type="number" th:field="*{cantidad}" class="form-control form-control-sm col-md-7 shadow" id="cantidad1"
+												name="cantidad1" placeholder="Ingrese la cantidad actual del bien" autocomplete="off" required> 
+											<small class="invalid-feedback col-md-8">Ingrese la cantidad actual del bien!</small>	
+										</div>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="cantidadrequerida1">Cantidad requerida:</label> 
+												<input type="number" th:field="*{cantidadrequerida}" class="form-control form-control-sm col-md-7 shadow" id="cantidadrequerida1"
+												name="cantidadrequerida1" placeholder="Ingrese la cantidad requerida del bien" autocomplete="off" required>
+											<small class="invalid-feedback col-md-8">Ingrese la cantidad requerida del bien!</small>
+										</div>
+									</div>
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="holguradecantidad1">Faltante:</label> 
+												<input type="number" th:field="*{holguradecantidad}" class="form-control form-control-sm col-md-7 shadow" id="holguradecantidad1"
+												name="holguradecantidad1" placeholder="Ingrese el desfaz de la cantidad requerida" autocomplete="off" required>
+											<small class="invalid-feedback col-md-8">Ingrese el desfaz de la cantidad requerida!</small>
+										</div>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="prioridad">Prioridad:</label> 
+											<select th:field="*{prioridad}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" id="prioridad" required>
+												<option selected disabled value="">Seleccionar prioridad...</option>
+												<option th:value="Baja" th:text="Baja"></option>
+												<option th:value="Media" th:text="Media"></option>
+												<option th:value="Alta" th:text="Alta"></option>
+											</select>
+											<small class="invalid-feedback col-md-8">Seleccione una prioridad del bien/servicio!</small>
+										</div>
+									</div>
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="accionrealizada">Avances (acción):</label> 
+											<input type="text" th:field="*{accionrealizada}" class="form-control form-control-sm col-md-7 shadow" id="accionrealizada" 
+											placeholder="Acción tomada sobre el bien o servicio" autocomplete="off" required>
+											<small class="invalid-feedback col-md-8">Acción tomada sobre el bien o servicio!</small>
+										</div>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="periodo">Periodo:</label> 
+											<input type="text" th:field="*{periodo}" class="form-control form-control-sm col-md-7 shadow"
+												id="periodo" placeholder="año en curso" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" required> 
+											<small class="invalid-feedback col-md-8">Año en curso!</small>
+										</div>
+									</div>
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="fechaaccion">Fecha de acción:</label> 
+											<input type="date" th:field="*{fechaaccion}" class="form-control form-control-sm col-md-7 shadow"
+												id="fechaaccion" placeholder="Fecha de acción" required>
+											<small class="invalid-feedback col-md-8">Seleccione una fecha!</small>
+										</div>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-md-2" for="archivo">Verificable:</label>
+									<input type="hidden" th:field="*{archivo}" name="archivo2" class="form-control form-control-sm col-md-7 shadow" value="vacio_sdh.pdf" id="archivo2">
+									<input type="file" name="file" class="form-control-file-sm col-md-7 shadow" id="archivo" accept="image/gif,image/jpeg,image/jpg,image/png,.pdf" lang="es">
+									<small id="smalldetalleres" class="col-md-8">Archivos en formato pdf, jpg y png</small>
+								</div>
+								<div class="form-group row">
+									<label class="col-md-2" for="observaciones">Observaciones:</label>
+									<textarea th:field="*{observaciones}" class="form-control form-control-sm col-md-7 shadow"
+											id="observaciones" placeholder="Ingrese observaciones sobre el SPI" autocomplete="off" required></textarea> 
+									<small class="invalid-feedback col-md-8">Ingrese Observacines ó "Sin Observaciones"!</small>
+								</div>
+								<div class="modal-footer bg-info">
+									<button type="button" class="btn btn-primary btn-sm rounded-pill shadow" data-dismiss="modal">Cancelar</button>
+									<input type="submit" id="Guardar" class="btn btn-success btn-sm rounded-pill shadow" value="Guardar" />
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+			<!-- MODAL DE VENTANA  FORMULARIO EDITAR -->
+			<div class="editar">
+				<form th:action="@{/views/DataSpi/RegistroDelSpi/save}" th:object="${registrodelspi}" method="post" enctype="multipart/form-data"
+				class="needs-validation" novalidate>
+					<div class="modal fade" id="editarModal2" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-xl">
+							<div class="modal-content">
+								<div class="modal-header bg-info  text-white">
+									<img class="imagenlogo" th:src="@{/images/sdh.png}" />
+									<h5 class="modal-title" th:text="${titulo2}"
+										id="exampleModalLabel"></h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+								<!-- FORMULARIO MODAL-->
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<input type="hidden" th:field="*{idregistro}">
+											<label class="col-md-4" for="idactivonombre">Bien/Servicio:</label> 
+											<label class="text-primary" id="idactivonombre" ></label>
+											<input type="hidden" th:field="*{idactivo}" id="idactivo1" class="form-control form-control-sm col-md-7 shadow"> 
+										</div>
+									</div>
+									<div class="form-group col-md-6"><img class="imagenmodalsave" th:src="@{/images/logosecretaria.png}" />	 </div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="idspinombre">SPI:</label> 
+											<label class="text-primary" id="idspinombre" ></label>
+											<input type="hidden" th:field="*{idspi}" id="idspi1" class="form-control form-control-sm col-md-7 shadow">
+											<small class="invalid-feedback col-md-8">Seleccione un SPI!</small> 
+										</div>
+									</div>
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="periodo">Periodo:</label> 
+											<label class="text-primary" id="periodoano" ></label>
+											<input type="hidden" th:field="*{periodo}" id="periodo1" class="form-control form-control-sm col-md-7 shadow"> 
+											<small class="invalid-feedback col-md-8">Año en curso!</small>
+										</div>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="estado1">Estado:</label>
+											<select th:field="*{estado}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" id="estado1" name="estado1" required>
+												<option selected disabled value="">Seleccionar estado...</option>
+												<option th:value="Bueno" th:text="Bueno"></option>
+												<option th:value="Regular" th:text="Regular"></option>
+												<option th:value="Malo" th:text="Malo"></option>
+											</select>
+											<small class="invalid-feedback col-md-8">Seleccione un estado del bien/servicio!</small>
+										</div>
+									</div>
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="prioridad1">Prioridad:</label> 
+											<select th:field="*{prioridad}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" id="prioridad1" name="prioridad1" required>
+												<option selected disabled value="">Seleccionar prioridad...</option>
+												<option th:value="Baja" th:text="Baja"></option>
+												<option th:value="Media" th:text="Media"></option>
+												<option th:value="Alta" th:text="Alta"></option>
+											</select>
+											<small class="invalid-feedback col-md-8">Seleccione una prioridad del bien/servicio!</small>
+										</div>
+									</div>
+								</div>	
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="cantidad2">Cantidad existente:</label> 
+											<input type="number" th:field="*{cantidad}" class="form-control form-control-sm col-md-7 shadow" id="cantidad2"
+												placeholder="Ingrese la cantidad actual del bien" autocomplete="off" required> 
+											<small class="invalid-feedback col-md-8">Ingrese la cantidad actual del bien!</small>	
+										</div>
+									</div>
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="cantidadrequerida2">Cantidad requerida:</label> 
+												<input type="number" th:field="*{cantidadrequerida}" class="form-control form-control-sm col-md-7 shadow" id="cantidadrequerida2"
+												placeholder="Ingrese la cantidad requerida del bien" autocomplete="off"  required>
+											<small class="invalid-feedback col-md-8">Ingrese la cantidad requerida del bien!</small>
+										</div>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="holguradecantidad2">Faltante:</label> 
+												<input type="number" th:field="*{holguradecantidad}" class="form-control form-control-sm col-md-7 shadow" id="holguradecantidad2"
+												placeholder="Ingrese el desfaz de la cantidad requerida" autocomplete="off"  required>
+											<small class="invalid-feedback col-md-8">Ingrese el desfaz de la cantidad requerida!</small>
+										</div>
+									</div>
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="accionrealizada1">Avances (acción):</label> 
+											<input type="text" th:field="*{accionrealizada}" class="form-control form-control-sm col-md-7 shadow" id="accionrealizada1" 
+											name="accionrealizada1" placeholder="Acción tomada sobre el bien o servicio" autocomplete="off" required>
+											<small class="invalid-feedback col-md-8">Acción tomada sobre el bien o servicio!</small>
+										</div>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="idinstitucion1">Pertenencia bien/servicio:</label> 
+											<select th:field="*{idinstitucion}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" id="idinstitucion1" name="idinstitucion1" required>
+												<option selected disabled value="">Seleccionar Institución...</option>
+												<option th:each="institucion:${listainstitucion}" th:value="${institucion.idinstitucion}" th:text="${institucion.nombre}"></option>
+											</select>
+											<small class="invalid-feedback col-md-8">Seleccione una institución de pertenencia del bien/servicio!</small>
+										</div>
+									</div>
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="fechaaccion1">Fecha de acción:</label> 
+											<input type="date" th:field="*{fechaaccion}" class="form-control form-control-sm col-md-7 shadow"
+												id="fechaaccion1" name="fechaaccion1" placeholder="Fecha de acción" required>
+											<small class="invalid-feedback col-md-8">Seleccione una fecha!</small>
+										</div>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-md-2" for="archivo1">Verificable:</label>
+									<input type="hidden" th:field="*{archivo}" name="archivo3" class="form-control form-control-sm col-md-7 shadow" id="archivo3">
+									<input type="file" name="file" class="form-control-file-sm col-md-7 shadow" id="archivo1" accept="image/gif,image/jpeg,image/jpg,image/png,.pdf" lang="es">
+									<small id="smalldetalleres" class="col-md-8">Archivos en formato pdf, jpg y png</small>
+								</div>
+								<div class="form-group row">
+									<label class="col-md-2" for="observaciones1">Observaciones:</label>
+									<textarea th:field="*{observaciones}" class="form-control form-control-sm col-md-7 shadow"
+											id="observaciones1" name="observaciones1" placeholder="Ingrese observaciones sobre el SPI" required></textarea> 
+									<small class="invalid-feedback col-md-8">Ingrese Observacines ó "Sin Observaciones"!</small>
+								</div>
+								<div class="modal-footer bg-info">
+									<button type="button" class="btn btn-primary btn-sm rounded-pill shadow" data-dismiss="modal">Cancelar</button>
+									<input type="submit" id="Guardaredit" class="btn btn-success btn-sm rounded-pill shadow" value="Guardar cambios" />
+								</div>
+							</div>
+						</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- MODAL DE VENTANA  FORMULARIO NUEVO ACTIVO -->	
+			<div class="guardaractivo">
+					<form th:action="@{/views/DataSpi/RegistroDelSpi/saveactivo}"  th:object="${Activo}" method="post"  class="needs-validation" novalidate>
+						<div class="modal fade" id="saveModalActivo" tabindex="-1" role="dialog"
+							aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-lg">
+								<div class="modal-content">
+									<div class="modal-header bg-info  text-white">
+										<img class="imagenlogo" th:src="@{/images/sdh.png}" />
+										<h5 class="modal-title" th:text="${titulo3}"
+											id="exampleModalLabel"></h5>
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<!-- FORMULARIO MODAL-->
+										
+										<div class="form-row">	
+											<div class="form-group col-md-6"><img class="imagenmodalsave" th:src="@{/images/logosecretaria.png}" />	 </div>
+										</div>
+										<div class="form-group row">
+											<label class="col-md-3" for="tipo1">Tipo de bien/servicio:</label>
+											<select th:field="*{idtipo}"class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow"  name="tipo1" id="tipo1" required >
+												<option selected disabled value="">Seleccionar tipo...</option>
+												<option th:each="tipo:${listatipo}" th:value="${tipo.idtipo}" th:text="${tipo.nombre}"></option>
+											</select>
+											<small class="invalid-feedback col-md-8">Seleccione el tipo de bien/servicio!</small> 
+										</div>
+										<div class="form-group row">
+											
+											<label class="col-md-3" for="activonuevo">Bien o Servicio:</label> 
+											<input type="text" th:field="*{nombre}" class="form-control form-control-sm col-md-7 shadow" id="activonuevo"
+												name="cactivonuevo" placeholder="Ej.Computadora, Luz eléctrica" autocomplete="off" required> 
+											<small class="invalid-feedback col-md-8">Ingrese el nombre del bien/servicio!</small> 
+										</div>
+										<div class="form-group row">
+											<label class="col-md-3" for="descripcionactivo">Descripción:</label>
+											<textarea th:field="*{descripcion}" class="form-control form-control-sm col-md-7 shadow"
+													id="descripcionactivo" name="descripcionactivo" placeholder="Ej.Computadora de escritorio" autocomplete="off" required></textarea> 
+											<small class="invalid-feedback col-md-8">Ingrese una pequeña descripción del bien o servicio!</small>
+										</div>
+										<div class="modal-footer bg-info">
+											<button type="button" class="btn btn-primary btn-sm rounded-pill shadow" data-dismiss="modal">Cancelar</button>
+											<input type="submit" id="Guardaractivo" class="btn btn-success btn-sm rounded-pill shadow" value="Guardar" />
+										</div>
+										
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+			</div>
+			<!-- MODAL DE VENTANA  FORMULARIO NUEVA INSTITUCION -->
+			<div class="guardarinstitucion">
+					<form th:action="@{/views/DataSpi/RegistroDelSpi/saveinstitucion}"  th:object="${Institucion}" method="post"  class="needs-validation" novalidate>
+						<div class="modal fade" id="saveModalInstitucion" tabindex="-1" role="dialog"
+							aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-lg">
+								<div class="modal-content">
+									<div class="modal-header bg-info  text-white">
+										<img class="imagenlogo" th:src="@{/images/sdh.png}" />
+										<h5 class="modal-title" th:text="${titulo4}"
+											id="exampleModalLabel"></h5>
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<!-- FORMULARIO MODAL-->
+										<div class="form-row">	
+											<div class="form-group col-md-6"><img class="imagenmodalsave" th:src="@{/images/logosecretaria.png}" />	</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-md-2" for="institucionnuevo">Institución:</label> 
+											<input type="text" th:field="*{nombre}" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control form-control-sm col-md-7 shadow" id="institucionnuevo"
+												name="institucionnuevo" placeholder="Ej. MIES" autocomplete="off" required> 
+											<small class="invalid-feedback col-md-8">Ingrese nombre de la Institución!</small> 
+										</div>
+										<div class="modal-footer bg-info">
+											<button type="button" class="btn btn-primary btn-sm rounded-pill shadow" data-dismiss="modal">Cancelar</button>
+											<input type="submit" id="GuardarInstitucion" class="btn btn-success btn-sm rounded-pill shadow" value="Guardar" />
+										</div>
+										
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+			</div>
+		</div>
+	</main>
+
+	<footer th:replace="plantilla/template :: footer"></footer>
+
+</body>
+</html>

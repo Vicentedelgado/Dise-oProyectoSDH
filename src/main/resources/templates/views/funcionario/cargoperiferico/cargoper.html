@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="plantilla/templatefuncionario::head">
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+
+<body class="body1">
+
+	<header th:replace="plantilla/templatefuncionario :: header"></header>
+	
+	<main class="main">
+		<div class="container">
+		    <div class="row g-2">
+				<div class="col-11">
+					<div class="mb-0">
+					  <div class="col-sm-10">
+					     <h2 th:text="${titulo}"></h2> 		
+					  </div>
+					</div>								
+				</div>
+				<div class="col-1">
+					<div class="mb-3"> 
+					  <div class="col-sm-10">
+					    <img th:src="@{/img/escritorio.ico}">		
+					  </div>
+					</div>								
+				</div>
+			</div>
+			<div id="botones" class="container" align='center'>
+				<form th:action="@{/views/funcionario/cargoperiferico/filtrar/}" method="get" id="filtrarformperiferico" class="needs-validation" novalidate>
+					<div class="row g-2">
+					  <div class="col">
+						<div class="mb-3"> 
+						  <label for="idced1" class="col-sm-10 col-form-label">Ingrese Cédula del funcionario:</label>
+						  <div class="col-sm-3">
+						   <input type="hidden" id="baseURLperiferico" th:value="@{/views/funcionario/cargoperiferico/filtrar/}">
+						   <input class="form-control form-control-sm shadow" list="datalistOptions2" id="idced1" placeholder="Buscar Funcionario..." required="required">
+							<datalist id="datalistOptions2">
+							  <option class="form-control form-control-sm shadow" th:each="funcionario:${listarfuncionario}" th:value="${funcionario.cedula}" th:text="${funcionario.nombres}+' '+${funcionario.apellidos}">
+							</datalist> 
+						   <small class="invalid-feedback col-md-8">Ingrese cédula del Funcionario!</small><br>
+						   <input type="submit" id="filtrar1" class="btn btn-primary  btn-sm rounded-pill shadow" title="Buscar periféricos a cargo" value="Buscar">		
+						  </div>
+						</div>
+					 </div>	
+					</div>
+				  </form>
+			</div>
+			<div class="container">
+			   <div class="float-start">
+					<a class="btn btn-info " th:href="@{/funcionario}" role="button">&laquo;Atras</a>
+				</div>
+			</div>
+			<div class="container"> 
+				<div class="float-end">
+					 <div class="btn" th:with="ced=${listadocedula[0]}">
+						<a class="btn bg-danger" id="pdf"
+							th:href="@{'/views/funcionario/cargoperiferico/filtrar/'+ ${ced.idusuario.cedula}+'?format=pdf'}"
+							title="Imprimir" target="_blank"> 
+							<img class="img-responsive center-box" th:src="@{/img/impresora.ico}">
+						</a>
+					</div>	 			
+				</div>
+			</div>
+																				
+		    <div class="container">
+		        <br><br>
+				<h2>Datos Funcionario</h2>
+				<br>
+				<ul class="list-group" th:with="ced=${listadocedula[0]}">
+				  <li class="list-group-item list-group-item-info"><strong th:text="'Nombre: '"></strong><span th:text="${ced.idusuario.nombres}+' '+${ced.idusuario.apellidos}"></span></li>
+				  <li class="list-group-item list-group-item-info"><strong th:text="'Cédula: '"></strong><span th:text="${ced.idusuario.cedula}"></span></li>
+				  <li class="list-group-item list-group-item-info"><strong th:text="'Cargo: '"></strong><span th:text="${ced.idusuario.cargo}"></span></li>
+				  <li class="list-group-item list-group-item-info"><strong th:text="'Lugar de Trabajo: '"></strong><span th:text="'SPI: '+${ced.idusuario.idspi.nombre}+', Zona: '+${ced.idusuario.idzona.idzona}"></span></li>
+				  <li class="list-group-item list-group-item-info"><strong th:text="'Unidad: '"></strong><span th:text="${ced.idusuario.idunidad.nombre}"></span></li>
+				  <li class="list-group-item list-group-item-info"><strong th:text="'Modalidad de trabajo: '"></strong><span th:text="${ced.idusuario.idmodalidad.nombre}"></span></li>
+				  <li class="list-group-item list-group-item-info"><strong th:text="'Teléfono: '"></strong><span th:text="${ced.idusuario.telefono}"></span></li>
+				</ul>
+				
+				<br>
+				<h2>Periféricos a Cargo</h2>
+				<br>
+				<div class="table-responsive">
+					<table id="" class="display table table-hover table-bordered" cellspacing="0" width="100%">
+						<thead class="thead bg-info text-white">
+							<tr>
+								<th>ID</th>
+								<th>Nombre del Periférico</th>
+								<th>Serie del Periférico</th>
+								<th>Marca</th>
+								<th>Modelo del Periférico</th>
+								<th>Fecha Asignación</th>
+								<th>Fecha de entrega</th>
+								<th>Estado del Periférico</th>
+								<th>Observaciones</th>
+							</tr>
+						</thead>
+						<tbody class="tbody">
+							<tr th:each="ced:${listadocedula}">
+								<td th:text="${ced.idasignacion}"></td>
+								<td th:text="${ced.idperiferico.nombreperiferico}"></td>
+								<td th:text="${ced.idperiferico.serie}"></td>
+								<td th:text="${ced.idperiferico.marca}"></td>
+								<td th:text="${ced.idperiferico.modelo}"></td>
+								<td th:text="${#dates.format(ced.fechainicio, 'dd/MM/yyyy')}"></td>
+								<td th:text="${#dates.format(ced.fechafin, 'dd/MM/yyyy')}"></td>
+								<td th:text="${ced.idperiferico.estado}"></td>
+								<td th:text="${ced.observaciones}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- SIN IMPORTANCIA -->
+			<input type="hidden" id="archivos" value="vacio_sdh.pdf">
+			<input type="hidden" id="idequipervalor" value="1">
+			<input type="hidden" id="vacio" value="vacio_sdh.pdf">
+			<input type="hidden" id="idequiper" value="vacio_sdh.pdf">
+			<input type="hidden" id="archivos1" value="vacio_sdh.pdf">
+	</div>	
+</main>
+	
+	<footer th:replace="plantilla/templatefuncionario :: footer">
+
+	</footer>
+</body>
+</html>

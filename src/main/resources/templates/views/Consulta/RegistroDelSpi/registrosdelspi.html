@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="plantilla/templateconsulta :: head">
+<meta charset="UTF-8">
+<title>Registro</title>
+</head>
+<body class="body1">
+	<header th:replace="plantilla/templateconsulta :: header"></header>
+	<main class="main">
+		<div class="container">
+			<h1 th:text="${titulo}"></h1>	
+		</div>
+		<!--  BOTONES-->
+		<div id="botones" class="container">
+			<!-- Button modal -->
+			<a class="btn btn-info btn-sm rounded-pill text-white shadow" th:href="@{/dataspi_consulta}"
+				th:text="'Home consulta'" title="Regresar página principal">
+			</a>
+			<!-- Button excel --> 
+			<a id="excel" class="float-right" th:href="@{/views/Consulta/RegistroDelSpi/(format=xlsx)}" title="Generar archivo Excel"> 
+				<svg
+					width="2.3em" height="2.3em" viewBox="0 0 16 16" class="bi bi-file-earmark-spreadsheet-fill text-success" fill="currentColor">
+					<path fill-rule="evenodd" d="M2 3a2 2 0 0 1 2-2h5.293a1 1 0 0 1 .707.293L13.707 5a1 1 0 0 1 .293.707V13a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3zm7 2V2l4 4h-3a1 1 0 0 1-1-1zM3 8v1h2v2H3v1h2v2h1v-2h3v2h1v-2h3v-1h-3V9h3V8H3zm3 3V9h3v2H6z" />
+				</svg>
+			</a>
+			<!-- Button pdf -->
+			<a  id="pdf" class="float-right" th:href="@{/views/Consulta/RegistroDelSpi/(format=pdf)}" title="Exportar a Pdf e Imprimir" target="black"> 
+				<svg width="2.3em" height="2.3em" viewBox="0 0 16 16" class="bi bi-file-earmark-text-fill text-danger" fill="currentColor">
+					<path fill-rule="evenodd" d="M2 3a2 2 0 0 1 2-2h5.293a1 1 0 0 1 .707.293L13.707 5a1 1 0 0 1 .293.707V13a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3zm7 2V2l4 4h-3a1 1 0 0 1-1-1zM4.5 8a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z" />
+				</svg>
+			</a>
+		</div>
+		<br>
+		<!-- TABLA DE REGISTRO-->
+		<div class="container">
+			<div class="table-responsive">
+				<table id="" class="display nowrap table table-bordered table-hover" style="width: 100%">
+					<thead class="thead bg-info text-white">
+						<tr>
+							<th class="ocultarcolunma" scope="col">ID</th>
+							<th scope="col">DETALLE</th>
+							<th scope="col">Bien/Servicio</th>
+							<th scope="col">SPI</th>
+							<th scope="col">Zona</th>
+							<th scope="col">Pertenencia bien/servicio</th>
+							<th scope="col">Estado</th>
+							<th scope="col">Cantidad existente</th>
+							<th scope="col">Cantidad requerida</th>
+							<th scope="col">Faltante</th>
+							<th scope="col">Prioridad</th>
+							<th scope="col">Avances (acción)</th>
+							<th scope="col">Periodo</th>
+							<th scope="col">Fecha</th>
+							<th scope="col">Observaciones</th>
+						</tr>
+					</thead>
+					<tbody class="tbody">
+						<tr th:each="item:${listaregistrodelspi}">
+							<th  class="ocultarcolunma" scope="row" th:text="${item.idregistro}"></th>
+							<td>
+								<div align="center">
+									<a th:href="@{/views/Consulta/RegistroDelSpi/spidetl/} + ${item.idregistro}" title="Ver datalle" target="black">
+										<svg width="1.3em" height="1.3em" viewBox="0 0 16 16" class="bi bi-file-earmark-post-fill text-info" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										  <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zm-5-.5a.5.5 0 0 0 0 1H7a.5.5 0 0 0 0-1H4.5zm0 3a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.5-.5h-7z"/>
+										</svg>
+									</a> 		
+								</div>
+							</td>
+							<td th:text="${item.idactivo.nombre}"></td>
+							<td th:text="${item.idspi.nombre}"></td>
+							<td th:text="${item.idspi.idzona.nombre}"></td>
+							<td th:text="${item.idinstitucion.nombre}"></td>
+							<td th:text="${item.estado}"></td>
+							<td th:text="${item.cantidad}"></td>
+							<td th:text="${item.cantidadrequerida}"></td>
+							<td th:text="${item.holguradecantidad}"></td>
+							<td th:text="${item.prioridad}"></td>
+							<td th:text="${item.accionrealizada}"></td>
+							<td th:text="${item.periodo}"></td>
+							<td th:text="${#dates.format(item.fechaaccion, 'dd/MM/yyyy')}"></td>
+							<td th:text="${item.observaciones}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<img class="imagenpie" th:src="@{/images/logopie.png}" />
+		</div>	
+	</main>
+
+	<footer th:replace="plantilla/templateconsulta :: footer"></footer>
+
+</body>
+</html>

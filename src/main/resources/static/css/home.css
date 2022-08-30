@@ -1,0 +1,68 @@
+@charset "ISO-8859-1";
+
+.body1{
+	font-family: times,serif;
+	margin: 0 auto;
+	background-color:#dbdfe2;
+	/* background-image: url("/images/color3.png"); */
+	background-image: url("/images/loro1.png");
+	/* background-image: url("/images/b31.png"); */
+	background-size: cover; 
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+header{
+	position:fixed;
+	left:0;
+	right:0;
+	top:0;
+	z-index:1;
+}
+.alert{
+	text-align: center;
+    font-size: 150%;
+}
+
+.main{
+	padding-top:4rem;
+	margin-bottom: 100px;
+}
+
+.nav-item a:hover{
+	background:#5ab3c1;
+	transition:all 0.4s linear;	
+	border-radius:10px;
+}
+.container{
+	width:100%;
+	max-width:1300px;
+	margin: 0 auto;
+}
+.imagenlogo{
+	width: 73px;
+}
+.imagenhome{
+	margin-left:20px;
+}
+
+.card-header{
+	background-color:#6cd4ff;
+}
+
+.card-body{
+	background-color:#d9d9fa;
+}
+
+.card{
+	margin-top: 100px;
+    	
+}
+
+input{
+	margin-left:8%;
+}
+
+.needs-validation a{
+	margin-left:34%;
+}

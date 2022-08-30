@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/template :: head">
+<meta charset="UTF-8">
+<title>Recurso Humano</title>
+</head>
+<body class="body1">
+	<header th:replace="plantilla/template :: header"></header>
+	<main class="main">
+		<div class="container">
+			<h1 th:text="${titulo}"></h1>
+		</div>
+		<!--  BOTONES-->
+		<div id="botones" class="container" th:with="elegirspi=${listaspirrhh[0]}">
+		<input type="hidden" id="idzona13" th:value="${elegirspi.idzona.idzona}">
+		<input type="hidden" id="idspi13" th:value="${elegirspi.idspi.idspi}">
+		<form th:action="@{/views/DataSpi/RRHH/listaporspi/}" method="get" id="filtrarform" class="needs-validation" novalidate>
+				<div class="form-row">
+					<div class="form-group col-md-2">
+						<div class="form-group row">
+							<label class="col-md-3" for="idzonafiltrar">Zona:</label> 
+							<select class="custom-select custom-select-sm form-control form-control-sm col-md-8 shadow" required="required" th:value="${zona.idzona}" name="idzonafiltrar" id="idzonafiltrar">
+								<option selected disabled value="" > Seleccionar zona...</option>
+								<option th:each="zona:${listazona}" th:value="${zona.idzona}" th:text="${zona.nombre}"></option>
+							</select>
+							<small class="invalid-feedback col-md-8">Seleccionar una zona!</small>
+						</div>
+					</div>
+					<div class="form-group col-md-3">
+						<div class="form-group row">
+							<label class="col-md-3" for="idspifiltrar">SPI:</label> 
+							<select class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" name="idspifiltrar" id="idspifiltrar" required>
+								<option selected disabled value="" >Seleccionar SPI...</option>
+							</select>
+							<small id="invalidfiltrar" class="invalid-feedback col-md-10">No puede estar vacío Seleccionar un SPI!</small>
+						</div>			
+					</div>
+					<div class="form-group col-md-3">
+						<div class="form-group row">
+							<input type="hidden" id="baseURL" th:value="@{/views/DataSpi/RRHH/listaporspi/}">
+							<input type="submit" id="filtrar" class="btn btn-info  btn-sm rounded-pill shadow"  title="Filtra información de un SPI" th:value="filtrar">
+						</div>
+					</div>		
+				</div>
+			</form>
+			<hr id="hr2" class="hr2">
+			<!-- Button modal -->
+			<a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-info btn-sm rounded-pill text-white shadow" data-toggle="modal" data-target="#saveModalRRHHporSpi"
+				th:text="'Nuevo registro'" title="Crear nuevo registro de un funcionario"></a>
+			<!-- Button excel --> 
+			<a id="excel" class="float-right" th:href="@{'/views/DataSpi/RRHH/listaporspi/'+ ${elegirspi.idspi.idspi} + '/?format=xlsx'}" title="Generar archivo Excel"> 
+				<svg
+					width="2.3em" height="2.3em" viewBox="0 0 16 16" class="bi bi-file-earmark-spreadsheet-fill text-success" fill="currentColor">
+					<path fill-rule="evenodd" d="M2 3a2 2 0 0 1 2-2h5.293a1 1 0 0 1 .707.293L13.707 5a1 1 0 0 1 .293.707V13a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3zm7 2V2l4 4h-3a1 1 0 0 1-1-1zM3 8v1h2v2H3v1h2v2h1v-2h3v2h1v-2h3v-1h-3V9h3V8H3zm3 3V9h3v2H6z" />
+				</svg>
+			</a>
+			<!-- Button pdf -->
+			<a  id="pdf" class="float-right" th:href="@{'/views/DataSpi/RRHH/listaporspi/'+ ${elegirspi.idspi.idspi} + '/?format=pdf'}" title="Exportar a Pdf e Imprimir" target="black"> 
+				<svg width="2.3em" height="2.3em" viewBox="0 0 16 16" class="bi bi-file-earmark-text-fill text-danger" fill="currentColor">
+					<path fill-rule="evenodd" d="M2 3a2 2 0 0 1 2-2h5.293a1 1 0 0 1 .707.293L13.707 5a1 1 0 0 1 .293.707V13a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3zm7 2V2l4 4h-3a1 1 0 0 1-1-1zM4.5 8a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z" />
+				</svg>
+			</a>		
+		</div>
+		<br>
+		<!-- TABLAS RRHH-->
+		<div class="container">	
+			<div class="accordion" id="accordionExample">
+				<div class="card" >
+					<div class="card-header" id="headingOne">
+						<h2 class="mb-0">
+							<button class="btn btn-link btn-block text-center" type="button" th:text="${titulo1}" data-toggle="collapse" data-target="#collapseOne"
+								aria-expanded="true" aria-controls="collapseOne">
+							</button>
+						</h2>
+					</div>
+					<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+						<div class="card-body bg-secondary">
+							<div class="table-responsive">
+								<table id="" class="display nowrap table table-bordered table-striped table-hover" style="width: 100%">
+									<thead class="thead bg-info text-white">
+										<tr>
+											<th class="ocultarcolunma" scope="col">ID</th>
+											<th scope="col"sec:authorize="hasRole('ROLE_ADMIN')" >EDITAR</th>
+											<th scope="col">Nombres</th>
+											<th scope="col">Apellidos</th>
+											<th scope="col">Cédula</th>
+											<th scope="col">Cargo</th>
+											<th scope="col">Estado</th>
+											<th scope="col">Modalidad de trabajo</th>
+											<th scope="col">Unidad</th>
+											<th scope="col">Número telefónico</th>
+											<th scope="col">Email</th>
+											<th scope="col">Dirección de domicilio</th>
+										</tr>
+									</thead>
+									<tbody class="tbody">
+										<tr th:each="item:${listaspirrhh}">
+											<th class="ocultarcolunma" scope="row" th:text="${item.idusuario}"></th>
+											<td sec:authorize="hasRole('ROLE_ADMIN')">
+												<div align="center">
+													<a th:href="@{edit/(idusuario=${item.idusuario})}" class="editModal3 shadow" title="Editar" target="black">
+														<svg width="1.3em" height="1.3em" viewBox="0 0 16 16"class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+															<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+															<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+														</svg>
+													</a>
+												</div>
+											</td >
+											<td th:text="${item.nombres}"></td>
+											<td th:text="${item.apellidos}"></td>
+											<td th:text="${item.cedula}"></td>
+											<td th:text="${item.cargo}"></td>
+											<td th:text="${item.estado}"></td>
+											<td th:text="${item.idmodalidad.nombre}"></td>
+											<td th:text="${item.idunidad.nombre}"></td>
+											<td th:text="${item.telefono}"></td>
+											<td th:text="${item.email}"></td>
+											<td th:text="${item.direccion}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<img class="imagenpie" th:src="@{/images/logopie.png}" />
+		</div>
+		
+		<div class="container">
+			<!-- MODAL DE VENTANA  FORMULARIO GUARDAR -->
+		<form th:action="@{/views/DataSpi/RRHH/listaporspi/save}" th:object="${rrhh}" method="post" class="needs-validation" novalidate>
+				<div class="modal fade" id="saveModalRRHHporSpi" tabindex="-1" role="dialog"
+					aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-xl">
+						<div class="modal-content">
+							<div class="modal-header bg-info  text-white">
+								<img class="imagenlogo" th:src="@{/images/sdh.png}" />
+								<h5 class="modal-title" th:text="${titulo2}"
+									id="exampleModalLabel"></h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<!-- FORMULARIO MODAL-->
+								 <div class="form-row">
+								 	<div class="form-group col-md-6">
+										<div class="form-group row">
+											<input type="hidden" th:field="*{idzona}" class="form-control form-control-sm col-md-7 shadow" id="idzona14" name="idzona14">
+											<input type="hidden" th:field="*{idspi}" class="form-control form-control-sm col-md-7 shadow" id="idspi14" name="idspi14" >
+											<label class="col-md-4 font-weight-bold" for="estado">Estado:</label> 
+											<select th:field="*{estado}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 bg-info text-white shadow" id="estado" name="estado" required>
+												<option selected disabled value="">Seleccionar estado...</option>
+												<option th:value="Activo" th:text="Activo"></option>
+												<option th:value="Inactivo" th:text="Inactivo"></option>
+											</select>
+											<small class="invalid-feedback col-md-8">Seleccionar un estado!</small>  
+										</div>
+								 	</div>
+								 	<div class="form-group col-md-6"><img class="imagenmodalsave" th:src="@{/images/logosecretaria.png}" />	 </div>
+								 </div>							 
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="nombres">Nombres:</label> 
+											<input type="text" th:field="*{nombres}" class="form-control form-control-sm col-md-7 shadow"
+												id="nombres" name="nombres" placeholder="Ingrese nombres completos del funcionario" 
+												 autocomplete="off" required>
+											<small class="invalid-feedback col-md-8">Ingrese Nombres del funcionario!</small>
+										</div>
+									</div>
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="apellidos">Apellidos:</label> 
+											<input type="text" th:field="*{apellidos}" class="form-control form-control-sm col-md-7 shadow"
+												id="apellidos" placeholder="Ingrese apellidos completos del funcionario" autocomplete="off" required>
+											<small class="invalid-feedback col-md-8">Ingrese Apellidos del Funcionario!</small>
+											
+										</div>
+									</div>
+								</div>
+								
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="cedula">Cédula:</label> 
+											<input type="text" maxlength="13" th:field="*{cedula}" pattern="^[0|1|2]+[0-9]+[0-5]\d{7,9}$" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;"  class="form-control form-control-sm col-md-7 shadow"
+												id="cedula" placeholder="Ingrese número de cédula" autocomplete="off" required>
+											<small class="valid-feedback col-md-8">Cédula válida!</small>	
+											<small id="salida"class="invalid-feedback col-md-8">Ingrese número de cédula!</small>	
+										</div>
+									</div>
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="cargo">Cargo que ocupa:</label> 
+											<input type="text" name="cargo" th:field="*{cargo}" class="form-control form-control-sm col-md-7 shadow"
+												id="cargo" placeholder="Ingrese el email del funcionario" autocomplete="off" required>
+											<small class="invalid-feedback col-md-8">Ingrese Cargo del funcionario!</small>		
+										</div>
+									</div>
+								</div>
+								
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="idmodalidad">Modalidad de trabajo:</label> 
+											<select th:field="*{idmodalidad}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" id="idmodalidad" required>
+													<option selected disabled value="">Seleccionar modalidad...</option>
+													<option th:each="modalidad:${listamodalidad}" th:value="${modalidad.idmodalidad}" th:text="${modalidad.nombre}"></option>
+											</select>
+											<small class="invalid-feedback col-md-8">Seleccionar una modalidad!</small>
+										</div>
+									</div>
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="idunidad">Unidad:</label> 
+											<select th:field="*{idunidad}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" id="idunidad" required>
+													<option selected disabled value="">Seleccionar unidad...</option>
+													<option th:each="unidad:${listaunidad}" th:value="${unidad.idunidad}" th:text="${unidad.nombre}"></option>
+											</select>
+											<small class="invalid-feedback col-md-8">Seleccionar cargo!</small>	
+										</div>
+									</div>
+								</div>
+								
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="telefono">Número telefónico:</label> 
+												<input type="text" th:field="*{telefono}" class="form-control form-control-sm col-md-7 shadow"
+												id="telefono" placeholder="Ingrese número telefónico del funcionario" autocomplete="off" required>
+											<small class="valid-feedback col-md-8">Válido!</small>
+											<small class="invalid-feedback col-md-8">Ingrese número telefónico!</small>	
+										</div>
+									</div>
+									<div class="form-group col-md-6">
+										<div class="form-group row">
+											<label class="col-md-4" for="email">Email:</label> 
+											<input type="email" name="email" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" th:field="*{email}" class="form-control form-control-sm col-md-7 shadow"
+												id="email" placeholder="Ingrese el email del funcionario" autocomplete="off" required>
+											<small class="valid-feedback col-md-8">Email válido!</small>
+											<small class="invalid-feedback col-md-8">Ingrese un correo electrónico!</small>	
+										</div>
+									</div>
+								</div>	
+								<div class="form-group row">
+									<label class="col-md-2" for="direccion">Dirección de domicilio:</label> 
+									<textarea th:field="*{direccion}" class="form-control form-control-sm col-lg-7 shadow"
+										id="direccion" placeholder="Ingrese la dirección de domicilio del funcionario"
+										required></textarea>
+									<small class="invalid-feedback col-md-8">Ingrese dirección del funcionario!</small>
+								</div>							
+								<div class="modal-footer bg-info">
+									<button type="button" class="btn btn-primary btn-sm rounded-pill shadow" data-dismiss="modal">Cancelar</button>
+									<input type="submit" id="Guardar" class="btn btn-success btn-sm rounded-pill shadow" value="Guardar" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		</form>	
+			<!-- MODAL DE VENTANA  FORMULARIO EDITAR -->
+			<div class="editar">
+			<form th:action="@{/views/DataSpi/RRHH/listaporspi/save}" th:object="${rrhh}" method="post" class="needs-validation" novalidate>
+					<div class="modal fade" id="editarModal3" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-xl">
+							<div class="modal-content">
+								<div class="modal-header bg-info  text-white">
+									<img class="imagenlogo" th:src="@{/images/sdh.png}" />
+									<h5 class="modal-title" th:text="${titulo3}"
+										id="exampleModalLabel"></h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+								<!-- FORMULARIO MODAL-->
+									 <div class="form-row">
+									 	<div class="form-group col-md-6">
+											<div class="form-group row">
+												<input type="hidden" th:field="*{idusuario}" class="form-control form-control-sm col-md-7 shadow" id="idusuario" name="idusuario" >
+												<input type="hidden" th:field="*{idzona}" class="form-control form-control-sm col-md-7 shadow" id="idzona11" name="idzona11">
+												<input type="hidden" th:field="*{idspi}" class="form-control form-control-sm col-md-7 shadow" id="idspi11" name="idspi11">
+												<label class="col-md-4 font-weight-bold" for="estado1">Estado:</label> 
+												<select th:field="*{estado}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 bg-info text-white shadow" id="estado1" name="estado1" required>
+													<option selected disabled value="">Seleccionar estado...</option>
+													<option th:value="Activo" th:text="Activo"></option>
+													<option th:value="Inactivo" th:text="Inactivo"></option>
+												</select>
+												<small class="invalid-feedback col-md-8">Seleccionar un estado!</small>
+											</div>
+									 	</div>
+									 	<div class="form-group col-md-6"><img class="imagenmodalsave" th:src="@{/images/logosecretaria.png}" />	 </div>
+									</div>							 
+									<div class="form-row">
+										<div class="form-group col-md-6">
+											<div class="form-group row">
+												<label class="col-md-4" for="nombres1">Nombres:</label> 
+												<input type="text" th:field="*{nombres}" class="form-control form-control-sm col-md-7 shadow"
+													id="nombres1" name="nombres" placeholder="Ingrese nombres completos del funcionario" autocomplete="off" required>
+												<small class="invalid-feedback col-md-8">Ingrese Nombres del funcionario!</small>
+											</div>
+										</div>
+										<div class="form-group col-md-6">
+											<div class="form-group row">
+												<label class="col-md-4" for="apellidos1">Apellidos:</label> 
+												<input type="text" th:field="*{apellidos}" class="form-control form-control-sm col-md-7 shadow"
+													id="apellidos1" placeholder="Ingrese apellidos completos del funcionario"autocomplete="off" required>
+												<small class="invalid-feedback col-md-8">Ingrese Apellidos del Funcionario!</small>
+												
+											</div>
+										</div>
+									</div>
+									
+									<div class="form-row">
+										<div class="form-group col-md-6">
+											<div class="form-group row">
+												<label class="col-md-4" for="cedula1">Cédula:</label> 
+												<input type="text" maxlength="13" th:field="*{cedula}" pattern="^[0|1|2]+[0-9]+[0-5]\d{7,9}$" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;"  class="form-control form-control-sm col-md-7 shadow"
+													id="cedula1" placeholder="Ingrese número de cédula" autocomplete="off" required>
+												<small class="valid-feedback col-md-8">Cédula válida!</small>	
+												<small id="salida"class="invalid-feedback col-md-8">Ingrese número de cédula!</small>	
+											</div>
+										</div>
+										<div class="form-group col-md-6">
+											<div class="form-group row">
+												<label class="col-md-4" for="cargo1">Cargo que ocupa:</label> 
+											    <input type="text" name="cargo1" th:field="*{cargo}" class="form-control form-control-sm col-md-7 shadow"
+												id="cargo1" placeholder="Ingrese el email del funcionario" autocomplete="off" required>
+												<small class="invalid-feedback col-md-8">Ingrese Cargo del funcionario!</small>		
+											</div>
+										</div>
+									</div>
+									
+									<div class="form-row">
+										<div class="form-group col-md-6">
+											<div class="form-group row">
+												<label class="col-md-4" for="idmodalidad1">Modalidad de trabajo:</label> 
+												<select th:field="*{idmodalidad}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" id="idmodalidad1" required>
+														<option selected disabled value="">Seleccionar modalidad...</option>
+														<option th:each="modalidad:${listamodalidad}" th:value="${modalidad.idmodalidad}" th:text="${modalidad.nombre}"></option>
+												</select>
+												<small class="invalid-feedback col-md-8">Seleccionar una modalidad!</small>
+											</div>
+										</div>
+										<div class="form-group col-md-6">
+											<div class="form-group row">
+												<label class="col-md-4" for="idunidad1">Unidad:</label> 
+												<select th:field="*{idunidad}" class="custom-select custom-select-sm form-control form-control-sm col-md-7 shadow" id="idunidad1" required>
+														<option selected disabled value="">Seleccionar unidad...</option>
+														<option th:each="unidad:${listaunidad}" th:value="${unidad.idunidad}" th:text="${unidad.nombre}"></option>
+												</select>
+												<small class="invalid-feedback col-md-8">Seleccionar cargo!</small>
+												
+											</div>
+										</div>
+									</div>
+									
+									<div class="form-row">
+										<div class="form-group col-md-6">
+											<div class="form-group row">
+												<label class="col-md-4" for="telefono1">Número telefónico:</label> 
+													<input type="text" th:field="*{telefono}" class="form-control form-control-sm col-md-7 shadow"
+													id="telefono1" placeholder="Ingrese número telefónico del funcionario" autocomplete="off" required>
+												<small class="valid-feedback col-md-8">Válido!</small>
+												<small class="invalid-feedback col-md-8">Ingrese número telefónico!</small>	
+											</div>
+										</div>
+										<div class="form-group col-md-6">
+											<div class="form-group row">
+												<label class="col-md-4" for="email1">Email:</label> 
+												<input type="email" name="email1" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" th:field="*{email}" class="form-control form-control-sm col-md-7 shadow"
+													id="email1" placeholder="Ingrese el email del funcionario" autocomplete="off" required>
+												<small class="valid-feedback col-md-8">Email válido!</small>
+												<small class="invalid-feedback col-md-8">Ingrese un correo electrónico!</small>	
+											</div>
+										</div>
+									</div>	
+									<div class="form-group row">
+										<label class="col-md-2" for="direccion1">Dirección de domicilio:</label> 
+										<textarea th:field="*{direccion}" class="form-control form-control-sm col-lg-7 shadow"
+											id="direccion1" placeholder="Ingrese la dirección de domicilio del funcionario"
+											required></textarea>
+										<small class="invalid-feedback col-md-8">Ingrese dirección del funcionario!</small>
+									</div>
+									<div class="modal-footer bg-info">
+										<button type="button" class="btn btn-primary btn-sm rounded-pill shadow" data-dismiss="modal">Cancelar</button>
+										<input type="submit" id="Guardaredit" class="btn btn-success btn-sm rounded-pill shadow" value="Guardar cambios" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			</form>
+			</div>
+		</div>
+	</main>
+	<footer th:replace="plantilla/template :: footer"></footer>
+
+</body>
+</html>

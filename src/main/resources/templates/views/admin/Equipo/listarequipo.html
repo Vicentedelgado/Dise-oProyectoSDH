@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="plantilla/templateadmin::head">
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+
+<body class="body1">
+<header th:replace="plantilla/templateadmin :: header"></header>
+<main class="main">
+	<div class="container">			
+			<div class="row g-2">
+				<div class="col-11">
+					<div class="mb-0">
+					  <div class="col-sm-10">
+					     <h2 th:text="${titulo}"></h2> 		
+					  </div>
+					</div>								
+				</div>
+				<div class="col-1">
+					<div class="mb-3"> 
+					  <div class="col-sm-10">
+					    <img th:src="@{/img/equi1.ico}">		
+					  </div>
+					</div>								
+				</div>
+			</div>
+			<div id="botones" class="container">
+			 <div class="row">
+				<div class="col-sm-2 ">
+		   				 <br>
+		     			 <a class="btn btn-outline-info" th:href="@{/views/admin/Equipo/create}" role="button"
+		     			    title="Añadir un nuevo equipo a la lista">Añadir Equipo
+							<img class="img-responsive center-box" th:src="@{/img/equi1.ico}">
+						 </a>
+		   			 </div>
+		   			 <div class="col-sm-3 ">
+		   				 <br>
+		      			 <a id="excel" class="btn btn-outline-success" th:href="@{/views/admin/Equipo/(format=xlsx)}" 
+		      			 title="Generar archivo Excel">Descargar Reporte Gobal
+							<img class="img-responsive center-box" th:src="@{/img/equi1.ico}">
+						</a>
+		   			 </div>
+				</div>			
+			</div><br>
+		   <div class="table-responsive">
+		      <table id="" class="display table table-hover table-bordered" cellspacing="0" width="100%">
+					<thead class="thead bg-info text-white">
+						<tr>
+							<th>ID Equipo</th>
+							<th>Nombre del Equipo</th>
+							<th>Tipo</th>
+							<th>Serie</th>
+							<th>Marca</th>
+							<th>Modelo</th>
+							<th>Estado</th>
+							<th>Editar</th>
+							<th>Nuevo Informe</th>
+						</tr>
+					</thead>
+					<tbody class="tbody">
+						<tr th:each="equipo:${listadoequipo}">
+							<td scope="row">
+								<a class= "btn btn-info btn-xs"
+									th:href="@{/views/admin/Equipo/detalle/}+${equipo.idequipo}"
+									th:text="${equipo.idequipo}" title="Ver los detalles del equipo" target="black">
+								</a>
+							</td>
+							<td th:text="${equipo.nombreequipo}"></td>
+							<td th:text="${equipo.tipo}"></td>
+							<td th:text="${equipo.serie}"></td>
+							<td th:text="${equipo.marca}"></td>
+							<td th:text="${equipo.modelo}"></td>
+							<td th:text="${equipo.estado}"></td>
+							<td>
+								<a class="btn btn-success btn-sm"
+									th:href="@{/views/admin/Equipo/edit/} + ${equipo.idequipo}"
+									th:text="'Editar'" title="Edita el registro de equipo">
+								</a>
+							</td>
+							<td>
+								<a class="btn btn-success btn-sm"
+									th:href="@{/views/admin/Informeequipo/create/} + ${equipo.idequipo} "
+									role="button" title="Generar un informe del estado del equipo">Añadir Informe
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>	   
+		   </div>	
+	</div>		
+</main>
+
+	<footer th:replace="plantilla/templateadmin :: footer">
+</footer>
+
+</body>
+</html>

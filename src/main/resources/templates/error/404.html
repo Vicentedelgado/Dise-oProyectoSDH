@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="plantilla/templateerror :: head">
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body class="body1">
+	<header th:replace="plantilla/templateerror :: header"></header>
+	<main class="main">
+	<div class="container">
+		
+		<br> <br>
+
+		<div class="row">
+			<div class="col-8">
+				<h1>Secretaría de Derechos Humanos</h1>
+				<hr class="hr2">
+				
+			</div>
+		</div>
+		<div class="panel bg-info text-center">
+			<div class="panel-heading">
+				<br>
+				<h3 class="panel-title text-danger"><span th:text="${error}"></span>-<span th:text="${status}"></span></h3>
+			</div>
+			<div class="panel-body">
+				<svg width="12em" height="12em" viewBox="0 0 16 16" class="bi bi-x-circle text-danger " fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+				  <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+				  <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+				</svg>
+				<br><br>
+				<h3>¡La página solicitada no existe!</h3>
+				<br>
+				<button class="btn btn-success" onclick="regresar()">&laquo;Regresar</button>
+				<br><br>
+			</div>
+		</div>
+	</div>
+	</main>
+	<footer th:replace="plantilla/templateerror :: footer"></footer>
+	<script>
+		function regresar(){
+			window.history.back();
+		}
+	</script>
+</body>
+</html>
