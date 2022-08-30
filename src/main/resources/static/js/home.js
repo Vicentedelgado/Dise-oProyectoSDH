@@ -5,7 +5,7 @@
 //funcion select dinámico página home
 $('#spiporzona').change(
     function() {
-        $.getJSON("http://localhost:9898/Elegirspi", {
+        $.getJSON("https://spidatasdh.herokuapp.com/Elegirspi", {
         /*$.getJSON("http://192.168.61.28:8080/spidata_sdh/Elegirspi", {*/
             idzona : $(this).val(),
             ajax : 'true'

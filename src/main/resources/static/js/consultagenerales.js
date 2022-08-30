@@ -20,7 +20,7 @@ $(function() {
 //función select dinámico página rrhh 2 modal edit
 $('#idzona1').change(
       function() {
-          $.getJSON("//localhost:9898/views/Consulta/RRHH/Elegirspi", {
+          $.getJSON("https://spidatasdh.herokuapp.com/views/Consulta/RRHH/Elegirspi", {
           /*$.getJSON("//192.168.61.28:8080/views/Consulta/RRHH/Elegirspi", {*/
               idzona : $(this).val(),
               ajax : 'true'

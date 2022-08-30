@@ -22,7 +22,7 @@ $(function() {
 //función select dinámico página formulario
 $('#spiporzonaformulario').change(
         function() {
-            $.getJSON("http://localhost:9898/views/DataSpi/Formulario/Elegirspi", {
+            $.getJSON("https://spidatasdh.herokuapp.com/views/DataSpi/Formulario/Elegirspi", {
            /* $.getJSON("http://192.168.61.28:8080/views/DataSpi/Formulario/Elegirspi", {*/
                 idzona : $(this).val(),
                 ajax : 'true'
@@ -50,7 +50,7 @@ $(document).ready(function(){
 //función select dinámico página formulario por tipo
 $('#filtrarportipo').change(
         function() {
-            $.getJSON("http://localhost:9898/views/DataSpi/RegistroDelSpi/Elegiractivo", {
+            $.getJSON("https://spidatasdh.herokuapp.com/views/DataSpi/RegistroDelSpi/Elegiractivo", {
             /*$.getJSON("http://192.168.61.28:8080/views/DataSpi/RegistroDelSpi/Elegiractivo", {*/
                 idtipo : $(this).val(),
                 ajax : 'true'

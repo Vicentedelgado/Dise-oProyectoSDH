@@ -20,7 +20,7 @@ $(function() {
 //función select dinámico página formulario
 $('#spiporzonaformulario').change(
         function() {
-            $.getJSON("http://localhost:9898/views/Consulta/Formulario/Elegirspi", {
+            $.getJSON("https://spidatasdh.herokuapp.com/views/Consulta/Formulario/Elegirspi", {
             /*$.getJSON("http://192.168.61.28:8080/views/Consulta/Formulario/Elegirspi", {*/
                 idzona : $(this).val(),
                 ajax : 'true'

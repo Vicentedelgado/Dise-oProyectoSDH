@@ -20,7 +20,7 @@ $(function() {
 //función select dinámico página registro del spi por tipo
 $('#filtrarportipo').change(
         function() {
-            $.getJSON("http://localhost:9898/views/DataSpi/RegistroDelSpi/Elegiractivo", {
+            $.getJSON("https://spidatasdh.herokuapp.com/views/DataSpi/RegistroDelSpi/Elegiractivo", {
             /*$.getJSON("http://192.168.61.28:8080/views/DataSpi/RegistroDelSpi/Elegiractivo", {*/
                 idtipo : $(this).val(),
                 ajax : 'true'
@@ -40,7 +40,7 @@ $('#filtrarportipo').change(
 //función select dinámico página rrhh 1 modal save
 $('#spiporzona').change(
         function() {
-            $.getJSON("http://localhost:9898/views/DataSpi/RegistroDelSpi/Elegirspi", {
+            $.getJSON("https://spidatasdh.herokuapp.com/views/DataSpi/RegistroDelSpi/Elegirspi", {
             /*$.getJSON("http://192.168.61.28:8080/views/DataSpi/RegistroDelSpi/Elegirspi", {*/
                 idzona : $(this).val(),
                 ajax : 'true'
@@ -63,7 +63,7 @@ $('#spiporzona').change(
 //función select dinámico página rrhh 2 modal edit
 $('#idzona1').change(
         function() {
-            $.getJSON("//localhost:9898/views/DataSpi/RRHH/Elegirspi", {
+            $.getJSON("https://spidatasdh.herokuapp.com/views/DataSpi/RRHH/Elegirspi", {
             /*$.getJSON("//192.168.61.28:8080/views/DataSpi/RRHH/Elegirspi", {*/
                 idzona : $(this).val(),
                 ajax : 'true'
@@ -82,7 +82,7 @@ $('#idzona1').change(
 //función select dinámico página rrhh filtrar 
 $('#idzonafiltrar').change(
       function() {
-          $.getJSON("//localhost:9898/views/DataSpi/RRHH/Elegirspi", {
+          $.getJSON("https://spidatasdh.herokuapp.com/views/DataSpi/RRHH/Elegirspi", {
           /*$.getJSON("//192.168.61.28:8080/views/DataSpi/RRHH/Elegirspi", {*/
               idzona : $(this).val(),
               ajax : 'true'
